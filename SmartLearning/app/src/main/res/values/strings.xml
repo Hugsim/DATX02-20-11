@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Smart Learning</string>
+    <string name="global_preferences_key">global_preferences_key</string>
+</resources>
