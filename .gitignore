@@ -2,6 +2,7 @@ GF/
 
 SmartLearning/app/jni/Android.mk
 
+
 # Created by https://www.gitignore.io/api/java,linux,macos,android,windows,androidstudio
 # Edit at https://www.gitignore.io/?templates=java,linux,macos,android,windows,androidstudio
 
@@ -285,5 +286,7 @@ fabric.properties
 ### AndroidStudio Patch ###
 
 !/gradle/wrapper/gradle-wrapper.jar
+
+!SmartLearning/app/libs/jpgf.jar
 
 # End of https://www.gitignore.io/api/java,linux,macos,android,windows,androidstudio
