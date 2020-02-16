@@ -36,9 +36,9 @@ public class NavigationFragment extends Fragment {
 
     public void onStart(){
         super.onStart();
-        BottomNavigationView bottomNavigationView = getView().findViewById(R.id.navigation);
         final Intent intentExercise = new Intent(getActivity(),ExerciseActivity.class);
 
+        BottomNavigationView bottomNavigationView = getView().findViewById(R.id.navigation);
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuItem = menu.getItem(pageIndex);
         menuItem.setChecked(true);
