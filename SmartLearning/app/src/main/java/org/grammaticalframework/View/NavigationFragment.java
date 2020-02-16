@@ -12,6 +12,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.grammaticalframework.R;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 public class NavigationFragment extends Fragment {
@@ -36,10 +37,39 @@ public class NavigationFragment extends Fragment {
     public void onStart(){
         super.onStart();
         BottomNavigationView bottomNavigationView = getView().findViewById(R.id.navigation);
+        final Intent intentExercise = new Intent(getActivity(),ExerciseActivity.class);
 
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuItem = menu.getItem(pageIndex);
         menuItem.setChecked(true);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener
+                (new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        Intent intent;
+                        switch (item.getItemId()) {
+                            case R.id.action_item1:
+                                intent = intentExercise;
+                                break;
+                            /*case R.id.action_item2:
+                                intent = intentLexicon;
+                                break;
+                            case R.id.action_item3:
+                                intent = intentLanguage;
+                                break;*/
+                            default:
+                                intent = intentExercise;
+                                break;
+                        }
+
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                                Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        getActivity().overridePendingTransition(0, 0);
+                        return true;
+                    }
+                });
 
     }
 

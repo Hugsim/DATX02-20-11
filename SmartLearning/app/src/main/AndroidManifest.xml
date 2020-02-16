@@ -20,6 +20,9 @@
         </activity>
         <activity android:name=".View.HomeActivity">
         </activity>
+        <activity android:name=".View.ExerciseActivity">
+        </activity>
+
     </application>
 
 </manifest>
