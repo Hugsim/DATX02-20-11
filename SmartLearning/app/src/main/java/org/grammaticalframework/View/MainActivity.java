@@ -1,8 +1,4 @@
-package org.grammaticalframework;
-
-import org.grammaticalframework.View.BaseActivity;
-
-import org.grammaticalframework.View.HomeActivity;
+package org.grammaticalframework.View;
 import org.grammaticalframework.ViewModel.MainViewModel;
 
 import android.content.Intent;
@@ -14,9 +10,8 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.viewModel = new MainViewModel();
-        setContentView(R.layout.activity_main);
-        //Intent intent = new Intent(this, HomeActivity.class);
-        //startActivity(intent);
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
     }
 
     @Override
