@@ -4,7 +4,7 @@ import org.grammaticalframework.SmartLearning;
 
 import androidx.lifecycle.ViewModel;
 
-public class BaseViewModel extends ViewModel {
+public abstract class BaseViewModel extends ViewModel {
 
     private final static SmartLearning model = new SmartLearning();
 
