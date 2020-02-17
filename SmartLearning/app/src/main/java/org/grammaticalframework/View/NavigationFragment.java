@@ -17,7 +17,7 @@ import androidx.fragment.app.Fragment;
 
 public class NavigationFragment extends Fragment {
 
-    private int pageIndex;
+    /*private int pageIndex;
 
     public static NavigationFragment newInstance(){
         return new NavigationFragment();
@@ -27,7 +27,6 @@ public class NavigationFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
     }
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         pageIndex = this.getArguments().getInt("index", 0);
@@ -41,9 +40,9 @@ public class NavigationFragment extends Fragment {
         BottomNavigationView bottomNavigationView = getView().findViewById(R.id.navigation);
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuItem = menu.getItem(pageIndex);
-        menuItem.setChecked(true);
+        menuItem.setChecked(true);*/
 
-        bottomNavigationView.setOnNavigationItemSelectedListener
+        /*bottomNavigationView.setOnNavigationItemSelectedListener
                 (new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -52,12 +51,12 @@ public class NavigationFragment extends Fragment {
                             case R.id.action_item1:
                                 intent = intentExercise;
                                 break;
-                            /*case R.id.action_item2:
+                            case R.id.action_item2:
                                 intent = intentLexicon;
                                 break;
                             case R.id.action_item3:
                                 intent = intentLanguage;
-                                break;*/
+                                break;
                             default:
                                 intent = intentExercise;
                                 break;
@@ -71,7 +70,7 @@ public class NavigationFragment extends Fragment {
                     }
                 });
 
-    }
+    }*/
 
 
 }

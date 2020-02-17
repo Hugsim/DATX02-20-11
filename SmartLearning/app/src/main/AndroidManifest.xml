@@ -22,6 +22,10 @@
         </activity>
         <activity android:name=".View.ExerciseActivity">
         </activity>
+        <activity android:name=".View.LexiconActivity">
+        </activity>
+        <activity android:name=".View.LanguageActivity">
+        </activity>
 
     </application>
 

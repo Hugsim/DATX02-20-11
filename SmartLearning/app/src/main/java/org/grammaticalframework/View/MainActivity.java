@@ -12,6 +12,7 @@ public class MainActivity extends BaseActivity {
         this.viewModel = new MainViewModel();
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
+        finish();
     }
 
     @Override
