@@ -27,7 +27,7 @@ public class ExerciseActivity extends BaseActivity {
 
         viewModel = new ExerciseViewModel();
         intentLexicon = new Intent(this, LexiconActivity.class);
-        intentLanguage = new Intent(this, Language.class);
+        intentLanguage = new Intent(this, LanguageActivity.class);
         bottomNavigation = findViewById(R.id.navigation);
         bottomNavigation.setOnNavigationItemSelectedListener(navListener);
     }
