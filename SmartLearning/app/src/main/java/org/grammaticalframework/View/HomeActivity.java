@@ -33,7 +33,7 @@ public class HomeActivity extends BaseActivity {
 
         intentExercise = new Intent(this,ExerciseActivity.class);
         intentLexicon = new Intent(this, LexiconActivity.class);
-        intentLanguage = new Intent(this, Language.class);
+        intentLanguage = new Intent(this, LanguageActivity.class);
         bottomNavigation = findViewById(R.id.navigation);
         bottomNavigation.setOnNavigationItemSelectedListener(navListener);
 
