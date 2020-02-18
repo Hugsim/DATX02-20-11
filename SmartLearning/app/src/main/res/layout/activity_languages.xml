@@ -2,12 +2,13 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
+    android:id="@+id/activity_languages"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".View.HomeActivity">
 
-    <FrameLayout
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".View.MainActivity"
@@ -15,12 +16,13 @@
         android:id="@+id/main_container">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/LanguagesText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="HOME"
+            android:layout_marginTop="100dp"
             android:layout_marginLeft="100dp"
-            android:layout_marginTop="100dp"/>
+            android:text="LANGUAGES" />
+
     </FrameLayout>
 
     <include
