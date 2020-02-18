@@ -5,7 +5,7 @@
     android:id="@+id/activity_exercises"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ExerciseActivity">
+    tools:context=".View.ExerciseActivity">
 
     <TextView
         android:id="@+id/textView"
@@ -46,4 +46,27 @@
         android:layout_below="@+id/vocabulary_button"
         android:layout_centerHorizontal="true"/>
 
+    <FrameLayout
+        android:id="@+id/main_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp"
+        tools:context=".View.MainActivity"
+        tools:showIn="@layout/activity_main">
+
+        <TextView
+            android:id="@+id/ExercisesText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:layout_marginLeft="100dp"
+            android:text="EXERCISES" />
+    </FrameLayout>
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        layout="@layout/fragment_navigation"/>
 </RelativeLayout>
