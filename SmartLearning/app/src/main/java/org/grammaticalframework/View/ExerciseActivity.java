@@ -6,13 +6,10 @@ import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import org.grammaticalframework.Language;
 import org.grammaticalframework.R;
 import org.grammaticalframework.ViewModel.BaseViewModel;
 import org.grammaticalframework.ViewModel.ExerciseViewModel;
-
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 
 public class ExerciseActivity extends BaseActivity {
     private ExerciseViewModel viewModel;

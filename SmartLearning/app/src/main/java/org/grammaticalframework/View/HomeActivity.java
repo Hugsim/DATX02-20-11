@@ -5,13 +5,10 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import org.grammaticalframework.Language;
 import org.grammaticalframework.R;
 import org.grammaticalframework.ViewModel.HomeViewModel;
-
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+
 
 public class HomeActivity extends BaseActivity {
     private Intent intentExercise;
