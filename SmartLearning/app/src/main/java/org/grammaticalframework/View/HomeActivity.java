@@ -26,6 +26,7 @@ public class HomeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         homeViewModel = new HomeViewModel();
+        overridePendingTransition(0, 0);
 
         intentExercise = new Intent(this,ExerciseActivity.class);
         intentLexicon = new Intent(this, LexiconActivity.class);

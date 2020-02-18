@@ -24,6 +24,7 @@ public class LexiconActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lexicon);
         viewModel = new LexiconViewModel();
+        overridePendingTransition(0, 0);
 
         intentExercise= new Intent(this, ExerciseActivity.class);
         intentHome = new Intent(this, HomeActivity.class);

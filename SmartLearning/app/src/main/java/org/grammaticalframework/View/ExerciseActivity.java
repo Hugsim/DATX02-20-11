@@ -21,6 +21,7 @@ public class ExerciseActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercises);
+        overridePendingTransition(0, 0);
 
         viewModel = new ExerciseViewModel();
         intentLexicon = new Intent(this, LexiconActivity.class);
