@@ -16,7 +16,7 @@ import androidx.annotation.NonNull;
 public class LexiconActivity extends BaseActivity {
     private LexiconViewModel viewModel;
     private Intent intentExercise;
-    private Intent intentLanguage;
+    private Intent intentHome;
     private BottomNavigationView bottomNavigation;
 
     @Override
@@ -26,7 +26,7 @@ public class LexiconActivity extends BaseActivity {
         viewModel = new LexiconViewModel();
 
         intentExercise= new Intent(this, ExerciseActivity.class);
-        intentLanguage = new Intent(this, LanguageActivity.class);
+        intentHome = new Intent(this, HomeActivity.class);
         bottomNavigation = findViewById(R.id.navigation);
         bottomNavigation.setOnNavigationItemSelectedListener(navListener);
     }
@@ -36,10 +36,10 @@ public class LexiconActivity extends BaseActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
             switch(menuItem.getItemId()){
                 case R.id.action_item1:
-                    startActivity(intentExercise);
+                    startActivity(intentHome);
                     break;
-                case R.id.action_item3:
-                    startActivity(intentLanguage);
+                case R.id.action_item2:
+                    startActivity(intentExercise);
                     break;
             }
             return  true;

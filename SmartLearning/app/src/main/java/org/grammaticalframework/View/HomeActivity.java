@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 public class HomeActivity extends BaseActivity {
     private Intent intentExercise;
     private Intent intentLexicon;
-    private Intent intentLanguage;
 
     private BottomNavigationView bottomNavigation;
     private HomeViewModel homeViewModel;
@@ -30,7 +29,6 @@ public class HomeActivity extends BaseActivity {
 
         intentExercise = new Intent(this,ExerciseActivity.class);
         intentLexicon = new Intent(this, LexiconActivity.class);
-        intentLanguage = new Intent(this, LanguageActivity.class);
         bottomNavigation = findViewById(R.id.navigation);
         bottomNavigation.setOnNavigationItemSelectedListener(navListener);
 
@@ -40,14 +38,11 @@ public class HomeActivity extends BaseActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
             switch(menuItem.getItemId()){
-                case R.id.action_item1:
+                case R.id.action_item2:
                     startActivity(intentExercise);
                     break;
-                case R.id.action_item2:
-                    startActivity(intentLexicon);
-                    break;
                 case R.id.action_item3:
-                    startActivity(intentLanguage);
+                    startActivity(intentLexicon);
                     break;
             }
             return  true;

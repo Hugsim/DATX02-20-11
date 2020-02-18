@@ -7,14 +7,20 @@
     android:layout_height="match_parent"
     tools:context=".View.HomeActivity">
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".View.MainActivity"
         tools:showIn="@layout/activity_main"
         android:id="@+id/main_container">
 
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HOME"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="100dp"/>
     </FrameLayout>
 
     <include
