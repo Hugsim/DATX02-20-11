@@ -5,6 +5,8 @@
             android:id="@+id/navigation"
             android:layout_width="match_parent"
             android:layout_height="56dp"
+        app:itemIconTint="@drawable/navigation_bar_highlight"
+        app:itemTextColor="@drawable/navigation_bar_highlight"
             android:layout_alignParentBottom="true"
             android:background="@color/Gold"
             app:theme="@style/ThemeOverlay.AppCompat.navTheme"

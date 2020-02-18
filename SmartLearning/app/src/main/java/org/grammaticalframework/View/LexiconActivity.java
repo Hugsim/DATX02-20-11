@@ -30,6 +30,7 @@ public class LexiconActivity extends BaseActivity {
         intentHome = new Intent(this, HomeActivity.class);
         bottomNavigation = findViewById(R.id.navigation);
         bottomNavigation.setOnNavigationItemSelectedListener(navListener);
+        bottomNavigation.getMenu().getItem(2).setChecked(true);
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {

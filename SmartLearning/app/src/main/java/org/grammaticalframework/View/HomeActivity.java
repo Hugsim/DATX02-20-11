@@ -32,6 +32,7 @@ public class HomeActivity extends BaseActivity {
         intentLexicon = new Intent(this, LexiconActivity.class);
         bottomNavigation = findViewById(R.id.navigation);
         bottomNavigation.setOnNavigationItemSelectedListener(navListener);
+        bottomNavigation.getMenu().getItem(0).setChecked(true);
 
     }
 
