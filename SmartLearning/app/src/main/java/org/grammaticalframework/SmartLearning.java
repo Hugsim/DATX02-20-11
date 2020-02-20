@@ -30,14 +30,14 @@ public class SmartLearning extends Application {
         new Language("bg-BG", "Bulgarian", "ParseBul"),
         new Language("ca-ES", "Catalan",   "ParseCat"),
         new Language("cmn-Hans-CN", "Chinese", "ParseChi"),
-        new Language("nl-NL", "Dutch", "AppDut"),
-        new Language("en-US", "English", "AppEng"),
-        new Language("et-EE", "Estonian","AppEst"),
-        new Language("fi-FI", "Finnish", "AppFin"),
-        new Language("it-IT", "Italian", "AppIta"),
-        new Language("es-ES", "Spanish", "AppSpa"),
-        new Language("sv-SE", "Swedish", "AppSwe"),
-        new Language("th-TH", "Thai",    "AppTha"),
+        new Language("nl-NL", "Dutch", "ParseDut"),
+        new Language("en-US", "English", "ParseEng"),
+        new Language("et-EE", "Estonian","ParseEst"),
+        new Language("fi-FI", "Finnish", "ParseFin"),
+        new Language("it-IT", "Italian", "ParseIta"),
+        new Language("es-ES", "Spanish", "ParseSpa"),
+        new Language("sv-SE", "Swedish", "ParseSwe"),
+        new Language("th-TH", "Thai",    "ParseTha"),
     };
 
     public void onCreate() {
