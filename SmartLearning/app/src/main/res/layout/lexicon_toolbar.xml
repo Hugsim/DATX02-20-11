@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/Gold"
+    android:minHeight="?attr/actionBarSize"
+    android:theme="?attr/actionBarTheme" >
+
+    <EditText
+        android:id="@+id/lexikon_searchbar"
+        android:layout_width="260dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginEnd="340dp"
+        android:layout_marginRight="340dp"
+        android:layout_gravity="center"
+        android:background="@drawable/rounded_corners"
+        android:paddingLeft="14dp"
+        android:text="@android:string/search_go"
+        android:textSize="30sp" />
+
+    <ImageView
+        android:id="@+id/profile_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+
+        android:layout_gravity="left"
+        android:foreground="@drawable/ic_library_books_black_24dp"
+        android:translationX="0dp" />
+
+
+</androidx.appcompat.widget.Toolbar>
