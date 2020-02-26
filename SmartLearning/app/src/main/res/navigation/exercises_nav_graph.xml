@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/exerciseFragment"
-        android:name="org.grammaticalframework.View.ExerciseFragment"
+        android:name="org.grammaticalframework.View.Fragments.MainExerciseFragment"
         android:label="ExerciseFragment"
         tools:layout="@layout/fragment_exercise">
         <action
@@ -18,12 +18,12 @@
     </fragment>
     <fragment
         android:id="@+id/vocabularyFragment"
-        android:name="org.grammaticalframework.View.VocabularyFragment"
+        android:name="org.grammaticalframework.View.Fragments.VocabularyFragment"
         android:label="VocabularyFragment"
         tools:layout="@layout/fragment_vocabulary"/>
     <fragment
         android:id="@+id/grammarFragment"
-        android:name="org.grammaticalframework.View.GrammarFragment"
+        android:name="org.grammaticalframework.View.Fragments.GrammarFragment"
         android:label="GrammarFragment"
         tools:layout="@layout/fragment_grammar"/>
 </navigation>

@@ -1,4 +1,4 @@
-package org.grammaticalframework.View;
+package org.grammaticalframework.View.Fragments;
 
 
 import android.os.Bundle;
