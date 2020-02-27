@@ -7,9 +7,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+
 import org.grammaticalframework.R;
 
-public class MainExerciseFragment extends BaseFragment {
+public class MainExerciseFragment extends BaseFragment implements View.OnClickListener {
+    NavController navController;
 
     public MainExerciseFragment(String tag) {
         super(tag);
@@ -22,26 +28,26 @@ public class MainExerciseFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.activity_exercises, container, false);
+        View v = inflater.inflate(R.layout.fragment_exercise, container, false);
         return v;
-
     }
-    
-    public void buttonClick(View view) {
-        int id = view.getId();
-        Toast toast;
 
-        switch (id){
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        navController = Navigation.findNavController(view);
+        view.findViewById(R.id.vocabulary_button).setOnClickListener(this);
+        view.findViewById(R.id.grammar_button).setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
             case R.id.grammar_button:
-                // Intent intent = new Intent(this, GrammarActivity.class);
-                toast = Toast.makeText(getActivity(), "Go to grammar", Toast.LENGTH_SHORT);
-                toast.show();
+                navController.navigate(R.id.action_exerciseFragment_to_grammarFragment);
                 break;
             case R.id.vocabulary_button:
-                // Intent intent = new Intent(this, WordsActivity.class);
-                toast = Toast.makeText(getActivity(), "Go to vocabulary", Toast.LENGTH_SHORT);
-                toast.show();
-                break;
+                navController.navigate(R.id.action_exerciseFragment_to_vocabularyFragment);
         }
     }
 }

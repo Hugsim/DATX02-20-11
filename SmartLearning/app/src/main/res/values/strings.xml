@@ -3,4 +3,7 @@
     <string name="global_preferences_key">global_preferences_key</string>
     <string name="grammar">Grammar</string>
     <string name="vocabulary">Vocabulary</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
