@@ -8,15 +8,15 @@ import org.grammaticalframework.View.Fragments.MainLexiconFragment;
 
 public class FragmentFactory {
 
-    public static BaseFragment createMainExerciseFragment(){ return new Exercise_nav_graph_Fragment("exerciseFragment"); }
+    public static BaseFragment createMainExerciseFragment(){ return new Exercise_nav_graph_Fragment(); }
 
     public static BaseFragment createMainLexiconFragment(){
-        return new MainLexiconFragment("lexiconFragment");
+        return new MainLexiconFragment();
     }
 
     public static BaseFragment createMainHomeFragment(){
-        return new MainHomeFragment("homeFragment");
+        return new MainHomeFragment();
     }
 
-    public static BaseFragment createLexiconDetailsFragment() {return new LexiconDetailsFragment("lexiconDetailsFragment"); }
+    public static BaseFragment createLexiconDetailsFragment() {return new LexiconDetailsFragment(); }
 }

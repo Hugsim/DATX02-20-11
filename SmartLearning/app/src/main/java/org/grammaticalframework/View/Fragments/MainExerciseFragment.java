@@ -17,10 +17,6 @@ import org.grammaticalframework.R;
 public class MainExerciseFragment extends BaseFragment implements View.OnClickListener {
     NavController navController;
 
-    public MainExerciseFragment(String tag) {
-        super(tag);
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

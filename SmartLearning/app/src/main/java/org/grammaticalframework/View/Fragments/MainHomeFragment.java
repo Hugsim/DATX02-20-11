@@ -9,10 +9,6 @@ import org.grammaticalframework.R;
 
 public class MainHomeFragment extends BaseFragment {
 
-    public MainHomeFragment(String tag) {
-        super(tag);
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

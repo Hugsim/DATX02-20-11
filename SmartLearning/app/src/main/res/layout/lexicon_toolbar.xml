@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/Gold"
+    android:focusableInTouchMode="true"
     android:minHeight="?attr/actionBarSize"
-    android:theme="?attr/actionBarTheme" >
+    android:theme="?attr/actionBarTheme">
 
     <EditText
         android:id="@+id/lexicon_searchbar"
@@ -18,6 +19,7 @@
         android:background="@drawable/rounded_corners"
         android:ellipsize="end"
         android:hint="@android:string/search_go"
+        android:imeOptions="actionSearch"
         android:inputType="text"
         android:paddingStart="14dp"
         android:paddingEnd="14dp"

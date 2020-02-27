@@ -34,6 +34,7 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         homeViewModel = new HomeViewModel();
         overridePendingTransition(0, 0);
+        mainLexiconFragment.setFragmentTag("lexiconFragment");
         addAllFragments(R.id.container, mainLexiconFragment);
         addAllFragments(R.id.container, mainHomeFragment);
 

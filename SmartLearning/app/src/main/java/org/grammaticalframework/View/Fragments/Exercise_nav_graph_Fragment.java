@@ -10,10 +10,6 @@ import org.grammaticalframework.R;
 
 public class Exercise_nav_graph_Fragment extends BaseFragment {
 
-    public Exercise_nav_graph_Fragment(String tag) {
-        super(tag);
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

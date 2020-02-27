@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment;
 public class BaseFragment extends Fragment {
     private String fragmentTag;
 
-    public BaseFragment(String tag) {
+    public void setFragmentTag(String tag) {
         fragmentTag = tag;
     }
 

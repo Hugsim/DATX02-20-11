@@ -19,10 +19,6 @@ public class LexiconDetailsFragment extends BaseFragment {
 
     private ImageView backButton;
 
-    public LexiconDetailsFragment(String tag) {
-        super(tag);
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); }
