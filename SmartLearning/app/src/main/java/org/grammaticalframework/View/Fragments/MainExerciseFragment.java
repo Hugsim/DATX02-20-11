@@ -40,10 +40,10 @@ public class MainExerciseFragment extends BaseFragment implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.grammar_button:
-                navController.navigate(R.id.action_exerciseFragment_to_grammarFragment);
+                navController.navigate(R.id.action_mainExerciseFragment_to_grammarFragment);
                 break;
             case R.id.vocabulary_button:
-                navController.navigate(R.id.action_exerciseFragment_to_vocabularyFragment);
+                navController.navigate(R.id.action_mainExerciseFragment_to_vocabularyFragment);
         }
     }
 }
