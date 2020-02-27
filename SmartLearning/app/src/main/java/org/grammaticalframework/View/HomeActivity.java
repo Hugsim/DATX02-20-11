@@ -9,6 +9,7 @@ import org.grammaticalframework.View.Fragments.BaseFragment;
 import org.grammaticalframework.ViewModel.HomeViewModel;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -32,7 +33,8 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         homeViewModel = new HomeViewModel();
         overridePendingTransition(0, 0);
-        addAllFragments(R.id.container,mainHomeFragment);
+        addAllFragments(R.id.container, mainLexiconFragment);
+        addAllFragments(R.id.container, mainHomeFragment);
 
         bottomNavigation = findViewById(R.id.navigation);
         bottomNavigation.setOnNavigationItemSelectedListener(navListener);
@@ -60,13 +62,13 @@ public class HomeActivity extends BaseActivity {
 
     private void changeToFragment(BaseFragment fragment){
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.container,fragment);
+        transaction.replace(R.id.container, fragment).addToBackStack(null);
         transaction.commit();
     }
 
-    private void addAllFragments(int id,BaseFragment fragment){
+    private void addAllFragments(int id, BaseFragment fragment){
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(id,fragment);
+        transaction.replace(id, fragment, fragment.getFragmentTag()).addToBackStack(null);
         transaction.commit();
     }
 }

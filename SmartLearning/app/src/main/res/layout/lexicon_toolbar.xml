@@ -9,27 +9,52 @@
     android:theme="?attr/actionBarTheme" >
 
     <EditText
-        android:id="@+id/lexikon_searchbar"
-        android:layout_width="260dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="12dp"
-        android:layout_marginEnd="340dp"
-        android:layout_marginRight="340dp"
-        android:layout_gravity="center"
+        android:id="@+id/lexicon_searchbar"
+        android:layout_width="200dp"
+        android:layout_height="34dp"
+        android:layout_gravity="left"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/rounded_corners"
-        android:paddingLeft="14dp"
-        android:text="@android:string/search_go"
-        android:textSize="30sp" />
+        android:ellipsize="end"
+        android:hint="@android:string/search_go"
+        android:inputType="text"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textColorHint="@color/cardview_shadow_start_color"
+        android:textSize="20sp"
+        android:translationX="-8dp" />
+
 
     <ImageView
-        android:id="@+id/profile_button"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:id="@+id/lexicon_second_language"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="right"
+        android:layout_margin="8dp"
+        app:srcCompat="@drawable/engflag"
+        tools:layout_editor_absoluteX="95dp"
+        tools:layout_editor_absoluteY="197dp" />
 
-        android:layout_gravity="left"
-        android:foreground="@drawable/ic_library_books_black_24dp"
-        android:translationX="0dp" />
+    <ImageView
+        android:id="@+id/lexicon_translation_direction"
+        android:layout_width="36dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        app:srcCompat="@drawable/arrows_forward"
+        tools:layout_editor_absoluteX="151dp"
+        tools:layout_editor_absoluteY="160dp" />
 
+    <ImageView
+        android:id="@+id/lexicon_first_language"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="right"
+        android:layout_margin="8dp"
+        app:srcCompat="@drawable/sweflag"
+        tools:layout_editor_absoluteX="95dp"
+        tools:layout_editor_absoluteY="197dp" />
 
 </androidx.appcompat.widget.Toolbar>

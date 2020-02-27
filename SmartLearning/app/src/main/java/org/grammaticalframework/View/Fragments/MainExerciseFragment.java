@@ -10,6 +10,11 @@ import android.widget.Toast;
 import org.grammaticalframework.R;
 
 public class MainExerciseFragment extends BaseFragment {
+
+    public MainExerciseFragment(String tag) {
+        super(tag);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
