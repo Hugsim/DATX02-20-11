@@ -35,12 +35,12 @@
         android:id="@+id/grammar_button"
         android:layout_width="250dp"
         android:layout_height="60dp"
+        android:layout_below="@+id/vocabulary_button"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="32dp"
         android:background="@drawable/buttons"
         android:text="@string/grammar"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        android:layout_below="@+id/vocabulary_button"
-        android:layout_centerHorizontal="true"/>
+        android:textSize="20sp" />
 </RelativeLayout>
