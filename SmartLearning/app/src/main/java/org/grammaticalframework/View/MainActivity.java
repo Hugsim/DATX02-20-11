@@ -1,8 +1,10 @@
 package org.grammaticalframework.View;
 import org.grammaticalframework.SmartLearning;
 import org.grammaticalframework.ViewModel.MainViewModel;
+import org.grammaticalframework.pgf.Bracket;
 import org.grammaticalframework.pgf.Concr;
 import org.grammaticalframework.pgf.Expr;
+import org.grammaticalframework.pgf.ExprApplication;
 import org.grammaticalframework.pgf.MorphoAnalysis;
 
 import android.content.Intent;
@@ -24,10 +26,37 @@ public class MainActivity extends BaseActivity {
         SmartLearning mSmartLearning = (SmartLearning) getApplicationContext();
         eng = mSmartLearning.getSoruceConcr();
         swe = mSmartLearning.getTargetConcr();
+
+        Expr e = Expr.readExpr("PhrUtt NoPConj (UttS (UseCl (TTAnt TPast ASimul) PPos (PredVP (UsePron we_Pron) (AdvVP (UseV eat_2_V) a_la_carte_Adv)))) NoVoc");
+        removeFirstVerb(e);
+        Object[] bs = swe.bracketedLinearize(e);
+        //printChildren(bs[0]);
+
         wordTranslator("nail");
 
         startActivity(intent);
         finish();
+    }
+
+    private void printChildren(Object bs) {
+        if(bs instanceof Bracket){
+            if (((Bracket) bs).children != null){
+                Log.d(TAG, "CATEGORY:::::::::::: " + ((Bracket) bs).cat);
+                for(Object child : ((Bracket) bs).children){
+                    printChildren(child);
+                }
+            }
+        }else if(bs instanceof String){
+            Log.d(TAG, (String) bs);
+        }
+    }
+
+    private void removeFirstVerb(Expr e) {
+        ExprApplication app = e.unApp();
+        Log.d(TAG, app.getFunction());
+        for(Expr arg : app.getArguments()){
+            Log.d(TAG, arg.toString());
+        }
     }
 
     @Override
