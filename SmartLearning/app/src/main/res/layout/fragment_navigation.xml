@@ -8,6 +8,6 @@
         app:itemIconTint="@drawable/navigation_bar_highlight"
         app:itemTextColor="@drawable/navigation_bar_highlight"
             android:layout_alignParentBottom="true"
-            android:background="@color/Gold"
+            android:background="@color/colorPrimaryDark"
             app:theme="@style/ThemeOverlay.AppCompat.navTheme"
             app:menu="@menu/navigation"/>

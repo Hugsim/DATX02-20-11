@@ -1,8 +1,8 @@
 package org.grammaticalframework.View;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import org.grammaticalframework.R;
@@ -11,7 +11,6 @@ import org.grammaticalframework.ViewModel.HomeViewModel;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 
 public class HomeActivity extends BaseActivity {
@@ -19,11 +18,14 @@ public class HomeActivity extends BaseActivity {
     private final BaseFragment mainExerciseFragment = FragmentFactory.createMainExerciseFragment();
     private final BaseFragment mainLexiconFragment = FragmentFactory.createMainLexiconFragment();
     private final BaseFragment mainHomeFragment = FragmentFactory.createMainHomeFragment();
+    private final BaseFragment grammarFragment = FragmentFactory.createGrammarFragment();
+    private final BaseFragment vocabularyFragment = FragmentFactory.createVocabularyFragment();
 
     private BottomNavigationView bottomNavigation;
     private HomeViewModel homeViewModel;
+    FragmentSwapper fs = new FragmentSwapper(fragmentManager);
 
-    public HomeViewModel getViewModel(){
+    public HomeViewModel getViewModel() {
         return homeViewModel;
     }
 
@@ -33,7 +35,7 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         homeViewModel = new HomeViewModel();
         overridePendingTransition(0, 0);
-        addAllFragments(R.id.container,mainHomeFragment);
+        addAllFragments(R.id.container, mainHomeFragment);
 
         bottomNavigation = findViewById(R.id.navigation);
         bottomNavigation.setOnNavigationItemSelectedListener(navListener);
@@ -60,14 +62,22 @@ public class HomeActivity extends BaseActivity {
     };
 
     private void changeToFragment(BaseFragment fragment){
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.container,fragment);
-        transaction.commit();
+        fs.changeToFragment(fragment);
     }
 
     private void addAllFragments(int id,BaseFragment fragment){
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(id,fragment);
-        transaction.commit();
+        fs.initFragments(id, fragment);
+    }
+
+    public void onBackPressed()
+    {
+        fs.onBackPressed();
+    }
+
+    public void goToVocabularyView(View view){
+        fs.changeToFragment(vocabularyFragment);
+    }
+    public void goToGrammarView(View view){
+        changeToFragment(grammarFragment);
     }
 }

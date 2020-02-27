@@ -14,7 +14,7 @@ import org.grammaticalframework.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class GrammarFragment extends Fragment {
+public class GrammarFragment extends BaseFragment {
 
 
     public GrammarFragment() {
