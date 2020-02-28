@@ -29,39 +29,10 @@ public class MainActivity extends BaseActivity {
         eng = mSmartLearning.getSoruceConcr();
         swe = mSmartLearning.getTargetConcr();
 
-        Expr e = Expr.readExpr("PhrUtt NoPConj (UttS (UseCl (TTAnt TPast ASimul) PPos (PredVP (UsePron we_Pron) (AdvVP (UseV eat_2_V) a_la_carte_Adv)))) NoVoc");
-        Object[] bs = eng.bracketedLinearize(e);
-        printChildren(bs[0]);
-
         //wordTranslator("nail");
 
         startActivity(intent);
         finish();
-    }
-
-    private void printChildren(Object bs) {
-        if(bs instanceof Bracket){
-            if(((Bracket) bs).cat.equals("V"))
-                inflect((String)((Bracket) bs).children[0]);
-            if (((Bracket) bs).children != null){
-                //Log.d(TAG, "CATEGORY:::::::::::: " + ((Bracket) bs).cat);
-                for(Object child : ((Bracket) bs).children){
-                    printChildren(child);
-                }
-            }
-        }else if(bs instanceof String){
-            //Log.d(TAG, (String) bs);
-        }
-    }
-
-    private void inflect(String word) {
-        for(MorphoAnalysis an : eng.lookupMorpho(word)){
-            Expr e = Expr.readExpr(an.getLemma());
-            for(Map.Entry<String,String> entry  : swe.tabularLinearize(e).entrySet()) {
-                if(entry.getKey().contains("Pass"))
-                    Log.d(TAG, entry.getKey() + ": " + entry.getValue());
-            }
-        }
     }
 
     @Override

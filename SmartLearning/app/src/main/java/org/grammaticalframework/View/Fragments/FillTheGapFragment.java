@@ -10,8 +10,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import org.grammaticalframework.R;
+import org.grammaticalframework.ViewModel.FillTheGapViewModel;
 
 public class FillTheGapFragment extends Fragment{
     Button button1;
@@ -20,6 +22,8 @@ public class FillTheGapFragment extends Fragment{
     Button button4;
     Button button5;
     TextView sentence;
+
+    FillTheGapViewModel model;
 
     public FillTheGapFragment () {
         // Required empty public constructor
@@ -31,8 +35,6 @@ public class FillTheGapFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-
 
         View v = inflater.inflate(R.layout.fragment_exercise_fill_the_gap, container, false);
         return v;
@@ -47,5 +49,7 @@ public class FillTheGapFragment extends Fragment{
         button4 = getView().findViewById(R.id.button4);
         button5 = getView().findViewById(R.id.button5);
         sentence = getView().findViewById(R.id.exerciseSentence);
+
+        model = new ViewModelProvider(requireActivity()).get(FillTheGapViewModel.class);
     }
 }
