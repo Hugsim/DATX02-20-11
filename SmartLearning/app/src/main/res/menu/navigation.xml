@@ -4,15 +4,15 @@
     android:layout_width="match_parent"
     tools:showIn="@layout/activity_main">
     <item
-        android:id="@+id/action_item1"
-        android:icon="@drawable/ic_language_black_24dp"
-        android:title="Home"/>
+        android:id="@+id/mainHomeFragment"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="Home" />
     <item
-        android:id="@+id/action_item2"
+        android:id="@+id/mainExerciseFragment"
         android:icon="@drawable/ic_school_black_24dp"
         android:title="Exercises"/>
     <item
-        android:id="@+id/action_item3"
+        android:id="@+id/lexiconFragment"
         android:icon="@drawable/ic_library_books_black_24dp"
         android:title="Lexicon"/>
 </menu>

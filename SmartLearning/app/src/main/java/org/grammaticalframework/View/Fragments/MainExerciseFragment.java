@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,7 +11,6 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import org.grammaticalframework.R;
-import org.grammaticalframework.View.HomeActivity;
 
 public class MainExerciseFragment extends BaseFragment implements View.OnClickListener {
     NavController navController;
@@ -41,12 +38,10 @@ public class MainExerciseFragment extends BaseFragment implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.grammar_button:
-                //navController.navigate(R.id.action_exerciseFragment_to_grammarFragment);
-                ((HomeActivity)getActivity()).goToGrammarView(v);
+                navController.navigate(R.id.action_mainExerciseFragment_to_grammarFragment);
                 break;
             case R.id.vocabulary_button:
-                //ontroller.navigate(R.id.action_exerciseFragment_to_vocabularyFragment);
-                ((HomeActivity)getActivity()).goToVocabularyView(v);
+                navController.navigate(R.id.action_mainExerciseFragment_to_vocabularyFragment);
         }
     }
 }
