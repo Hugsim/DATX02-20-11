@@ -13,7 +13,10 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import org.grammaticalframework.R;
+import org.grammaticalframework.View.MainActivity;
 import org.grammaticalframework.ViewModel.FillTheGapViewModel;
+
+import java.util.ArrayList;
 
 public class FillTheGapFragment extends Fragment{
     Button button1;
@@ -43,13 +46,19 @@ public class FillTheGapFragment extends Fragment{
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        button1 = getView().findViewById(R.id.button1);
-        button2 = getView().findViewById(R.id.button2);
-        button3 = getView().findViewById(R.id.button3);
-        button4 = getView().findViewById(R.id.button4);
-        button5 = getView().findViewById(R.id.button5);
+
+        ArrayList<Button> buttons = new ArrayList<>();
+        buttons.add(button1 = getView().findViewById(R.id.button1));
+        buttons.add(button2 = getView().findViewById(R.id.button2));
+        buttons.add(button3 = getView().findViewById(R.id.button3));
+        buttons.add(button4 = getView().findViewById(R.id.button4));
+        buttons.add(button5 = getView().findViewById(R.id.button5));
         sentence = getView().findViewById(R.id.exerciseSentence);
 
         model = new ViewModelProvider(requireActivity()).get(FillTheGapViewModel.class);
+        ArrayList<String> inflections = model.getInflections();
+        for(int i = 0; i < buttons.size() && i < inflections.size(); i++) {
+            buttons.get(i).setText(inflections.get(i));
+        }
     }
 }

@@ -31,7 +31,7 @@ public class HomeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        homeViewModel = new HomeViewModel();
+        homeViewModel = new HomeViewModel(); //TODO: Change this to ViewModelProvider???
         overridePendingTransition(0, 0);
         addAllFragments(R.id.container,mainHomeFragment);
 
