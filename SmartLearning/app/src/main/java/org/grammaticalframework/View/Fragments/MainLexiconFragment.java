@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.grammaticalframework.R;
+import org.grammaticalframework.SmartLearning;
 import org.grammaticalframework.View.FragmentFactory;
 import org.grammaticalframework.ViewModel.LexiconViewModel;
 import org.grammaticalframework.ViewModel.LexiconWord;
@@ -31,11 +32,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainLexiconFragment extends BaseFragment {
-
     private LexiconViewModel lexiconVM;
     private List<LexiconWord> lexiconWordList;
     private final BaseFragment lexiconDetailsFragment = FragmentFactory.createLexiconDetailsFragment();
     private EditText search_bar;
+    private String searchString;
+    private RecyclerView rvLexicon;
+    private LexiconWordAdapter wordAdapter;
+    private int listSize;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,8 +49,9 @@ public class MainLexiconFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.fragment_lexicon, container, false);
+        SmartLearning sl = (SmartLearning) getActivity().getApplicationContext();
+        lexiconVM = new LexiconViewModel(sl);
         search_bar = fragmentView.findViewById(R.id.lexicon_searchbar);
-
         search_bar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
@@ -54,16 +59,18 @@ public class MainLexiconFragment extends BaseFragment {
                     search_bar.clearFocus();
                     hideKeyboard(textView);
                 }
+                searchString = search_bar.getText().toString();
+                System.out.println(search_bar.getText().toString());
+                clearRecyclerView();
+                wordAdapter.notifyItemRangeRemoved(0,listSize);
+                updateRecycler(searchString);
+                wordAdapter.notifyDataSetChanged();
                 return false;
             }
         });
-
-        RecyclerView rvLexicon = (RecyclerView) fragmentView.findViewById(R.id.lexicon_recyclerview);
-
-        lexiconWordList = testPopulateWords(6);
-
-        LexiconWordAdapter wordAdapter = new LexiconWordAdapter(lexiconWordList, lexiconDetailsFragment);
-
+        rvLexicon = (RecyclerView) fragmentView.findViewById(R.id.lexicon_recyclerview);
+        updateRecycler("fish");
+        wordAdapter = new LexiconWordAdapter(lexiconWordList, lexiconDetailsFragment);
         rvLexicon.setAdapter(wordAdapter);
         rvLexicon.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -71,17 +78,20 @@ public class MainLexiconFragment extends BaseFragment {
 
     }
 
-    private List<LexiconWord> testPopulateWords(int amount) {
-        List<LexiconWord> wordList = new ArrayList<>();
-        for (int i = 0; i < amount; i++) {
-            wordList.add(new LexiconWord("Word " + (i + 1), "Explanation"));
-        }
-
-        return wordList;
-    }
-
     private void hideKeyboard(View view){
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
+
+    private void updateRecycler(String searchString){
+        lexiconVM.wordTranslator(searchString);
+        lexiconWordList = lexiconVM.getTranslatedWords();
+    }
+
+    private void clearRecyclerView(){
+        int size = lexiconVM.getTranslatedWords().size();
+        lexiconVM.getTranslatedWords().clear();
+        listSize = size;
+    }
 }
+
