@@ -43,20 +43,7 @@ public class FillTheGapViewModel extends AndroidViewModel {
 
         Object[] bs = swe.bracketedLinearize(e);
         printChildren(bs[0], bs[0]);
-
-        //---------------------- Trying stuff in vain
-        ExprApplication e2 = e.unApp();
-        e2.getArguments();
-        e2.getFunction();
-
-        Expr e3 = Expr.readExpr("mkPhr (mkImp sleep_V)");
-        String linearized = swe.linearize(e3);
-        Log.d(TAG, linearized);
-        /*Expr verb = traverseExprApplicationFindVerb(e2, new ArrayList<String>());
-        if(verb != null)
-            Log.d(TAG, verb.toString());
-        */
-        // ---------------------------------------
+        
         String swedishLinearization = swe.linearize(e);
         for(String word : swedishLinearization.split(" ")){
             sentence.add(word);
@@ -84,40 +71,6 @@ public class FillTheGapViewModel extends AndroidViewModel {
         }
     }
 
-    public Expr traverseExprApplicationFindVerb(ExprApplication e, ArrayList<String> parentFuns){
-        for (Expr expr : e.getArguments()){
-            if(swe.bracketedLinearize(expr) == null)
-                continue;
-            Object b[] = swe.bracketedLinearize(expr);
-            Object bs;
-            if(b.length > 0){
-                bs = b[0];
-            } else{
-                bs = (Object) b;
-            }
-            if(bs instanceof Bracket){
-                if(((Bracket) bs).cat.equals("V")) {
-                    String pFuns = "";
-                    for (String fun : parentFuns){
-                        pFuns += fun;
-                    }
-                    return Expr.readExpr(pFuns + ((Bracket) bs).fun);
-                } else {
-                    parentFuns.add(((Bracket) bs).fun);
-                    return traverseExprApplicationFindVerb(expr.unApp(), parentFuns);
-                }
-            }
-        }
-        return null;
-        /*if(e.getArguments().length > 0){
-            for (Expr expr : e.getArguments()){
-                if(expr.unApp() != null){
-                    return traverseExprApplicationFindVerb(expr.unApp(), parentFuns.add());
-                }
-            }
-        }
-        return null;*/
-    }
 
     public ArrayList<String> getSentence() {
         return sentence;
