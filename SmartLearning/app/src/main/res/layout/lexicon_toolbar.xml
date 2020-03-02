@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+    android:focusableInTouchMode="true"
+    android:minHeight="?attr/actionBarSize"
+    android:theme="?attr/actionBarTheme">
+
+    <EditText
+        android:id="@+id/lexicon_searchbar"
+        android:layout_width="200dp"
+        android:layout_height="34dp"
+        android:layout_gravity="left"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/rounded_corners"
+        android:ellipsize="end"
+        android:hint="@android:string/search_go"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textColorHint="@color/cardview_shadow_start_color"
+        android:textSize="20sp"
+        android:translationX="-8dp" />
+
+
+    <ImageView
+        android:id="@+id/lexicon_second_language"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="right"
+        android:layout_margin="8dp"
+        app:srcCompat="@drawable/engflag"
+        tools:layout_editor_absoluteX="95dp"
+        tools:layout_editor_absoluteY="197dp" />
+
+    <ImageView
+        android:id="@+id/lexicon_translation_direction"
+        android:layout_width="36dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        app:srcCompat="@drawable/arrows_forward"
+        tools:layout_editor_absoluteX="151dp"
+        tools:layout_editor_absoluteY="160dp" />
+
+    <ImageView
+        android:id="@+id/lexicon_first_language"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="right"
+        android:layout_margin="8dp"
+        app:srcCompat="@drawable/sweflag"
+        tools:layout_editor_absoluteX="95dp"
+        tools:layout_editor_absoluteY="197dp" />
+
+</androidx.appcompat.widget.Toolbar>
