@@ -12,5 +12,4 @@
         <!-- Color of text and icon when SELECTED -->
         <item name="colorPrimary">@color/colorPrimary</item>
     </style>
-
 </resources>

@@ -1,6 +1,8 @@
 package org.grammaticalframework.View.Fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,5 +49,35 @@ public class FillTheGapFragment extends Fragment{
         button4 = getView().findViewById(R.id.button4);
         button5 = getView().findViewById(R.id.button5);
         sentence = getView().findViewById(R.id.exerciseSentence);
+<<<<<<< Updated upstream
+=======
+
+        model = new ViewModelProvider(requireActivity()).get(FillTheGapViewModel.class);
+        ArrayList<String> inflections = model.getInflections();
+        for(int i = 0; i < buttons.size() && i < inflections.size(); i++) {
+            String word = inflections.get(i);
+            buttons.get(i).setText(word);
+            buttons.get(i).setOnClickListener(v -> {
+                Toast toast;
+                if(model.checkCorrectAnswer(word)){
+                    toast = Toast.makeText(getActivity(), "Correct answer!", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    View toastCorrectView = toast.getView();
+                    toastCorrectView.setBackgroundColor(Color.rgb(138,227,113));
+                }else{
+                    toast = Toast.makeText(getActivity(), "Wrong answer!", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0 );
+                    View toastCorrectView = toast.getView();
+                    toastCorrectView.setBackgroundColor(Color.rgb(227,113,113));
+                }
+                toast.show();
+
+            });
+        }
+
+        sentence.setText(model.getSentence());
+
+
+>>>>>>> Stashed changes
     }
 }
