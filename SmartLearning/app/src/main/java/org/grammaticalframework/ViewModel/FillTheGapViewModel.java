@@ -25,9 +25,9 @@ public class FillTheGapViewModel extends AndroidViewModel {
     Concr eng;
     Concr swe;
 
-    private ArrayList<String> reductedWords = new ArrayList<>();
     private ArrayList<String> sentence = new ArrayList<>();
     private ArrayList<String> inflections = new ArrayList<>();
+    private String redactedWord;
 
     public FillTheGapViewModel(Application application){
         super(application);
@@ -43,7 +43,7 @@ public class FillTheGapViewModel extends AndroidViewModel {
 
         Object[] bs = swe.bracketedLinearize(e);
         printChildren(bs[0], bs[0]);
-        
+
         String swedishLinearization = swe.linearize(e);
         for(String word : swedishLinearization.split(" ")){
             sentence.add(word);
@@ -55,25 +55,32 @@ public class FillTheGapViewModel extends AndroidViewModel {
                 int indexInflection = inflections.indexOf(word);
                 inflections.set(0, word);
                 inflections.set(indexInflection, temp);
+                redactedWord = word;
             }
         }
 
         //Redact word(s)
-        for(String word : reductedWords) {
-            if(!sentence.contains(word))
-                break;
-            int toRemove = sentence.indexOf(word);
+
+        if(sentence.contains(redactedWord)) {
+            int toRemove = sentence.indexOf(redactedWord);
             String redacted = "";
-            for(char c : word.toCharArray()) {
+            for (char c : redactedWord.toCharArray()) {
                 redacted += "_";
+                sentence.set(toRemove, redacted);
             }
-            sentence.set(toRemove, redacted);
         }
+
     }
 
 
-    public ArrayList<String> getSentence() {
-        return sentence;
+    public String getSentence() {
+        StringBuilder sb = new StringBuilder();
+        for(String word : sentence) {
+            sb.append(word);
+            sb.append(" ");
+        }
+        sb.deleteCharAt(sb.length()-1);
+        return sb.toString();
     }
 
     public ArrayList<String> getInflections() {
@@ -83,6 +90,14 @@ public class FillTheGapViewModel extends AndroidViewModel {
         }
         Collections.shuffle(notAllInflections);
         return notAllInflections;
+    }
+
+    public boolean checkCorrectAnswer(String answer){
+        if(answer.equals(redactedWord)){
+            return true;
+        } else{
+            return false;
+        }
     }
 
     private void printChildren(Object bs, Object fullBs) {

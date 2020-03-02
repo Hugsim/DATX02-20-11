@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -58,7 +59,22 @@ public class FillTheGapFragment extends Fragment{
         model = new ViewModelProvider(requireActivity()).get(FillTheGapViewModel.class);
         ArrayList<String> inflections = model.getInflections();
         for(int i = 0; i < buttons.size() && i < inflections.size(); i++) {
-            buttons.get(i).setText(inflections.get(i));
+            String word = inflections.get(i);
+            buttons.get(i).setText(word);
+            buttons.get(i).setOnClickListener(v -> {
+                Toast toast;
+                if(model.checkCorrectAnswer(word)){
+                    toast = Toast.makeText(getActivity(), "Correct answer!", Toast.LENGTH_SHORT);
+                }else{
+                    toast = Toast.makeText(getActivity(), "Wrong answer!", Toast.LENGTH_SHORT);
+                }
+                toast.show();
+
+            });
         }
+
+        sentence.setText(model.getSentence());
+
+
     }
 }
