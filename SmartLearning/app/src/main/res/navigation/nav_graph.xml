@@ -33,7 +33,7 @@
         tools:layout="@layout/fragment_main_home" />
     <fragment
         android:id="@+id/lexiconFragment"
-        android:name="org.grammaticalframework.View.Fragments.LexiconFragment"
+        android:name="org.grammaticalframework.View.Fragments.MainLexiconFragment"
         android:label="fragment_lexicon"
         tools:layout="@layout/fragment_lexicon" />
 </navigation>
