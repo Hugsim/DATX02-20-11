@@ -36,5 +36,4 @@
         app:layout_constraintTop_toBottomOf="@+id/lexicon_toolbar"
         tools:itemCount="0"
         tools:listitem="@layout/lexicon_recycleritem" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

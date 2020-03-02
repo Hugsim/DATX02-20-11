@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/Gold"
+    android:background="@color/colorPrimary"
     android:focusableInTouchMode="true"
     android:minHeight="?attr/actionBarSize"
     android:theme="?attr/actionBarTheme">
