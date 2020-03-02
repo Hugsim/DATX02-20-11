@@ -51,6 +51,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/exerciseSentence"
         android:layout_width="171dp"
         android:layout_height="45dp"
         android:layout_marginStart="120dp"

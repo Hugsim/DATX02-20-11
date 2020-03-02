@@ -14,6 +14,14 @@
         android:name="org.grammaticalframework.View.Fragments.GrammarFragment"
         android:label="GrammarFragment"
         tools:layout="@layout/fragment_grammar"/>
+        <action
+            android:id="@+id/action_grammarFragment_to_fillTheGapFragment"
+            app:destination="@+id/fillTheGapFragment" />
+    <fragment
+        android:id="@+id/fillTheGapFragment"
+        android:name="org.grammaticalframework.View.Fragments.FillTheGapFragment"
+        android:label="fillTheGapFragment"
+        tools:layout="@layout/fragment_exercise_fill_the_gap" />
     <fragment
         android:id="@+id/mainExerciseFragment"
         android:name="org.grammaticalframework.View.Fragments.MainExerciseFragment"
