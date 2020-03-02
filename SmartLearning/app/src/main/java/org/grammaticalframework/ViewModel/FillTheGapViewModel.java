@@ -14,6 +14,7 @@ import org.grammaticalframework.pgf.MorphoAnalysis;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 import java.util.stream.IntStream;
 
@@ -47,10 +48,14 @@ public class FillTheGapViewModel extends AndroidViewModel {
         ExprApplication e2 = e.unApp();
         e2.getArguments();
         e2.getFunction();
-        Expr verb = traverseExprApplicationFindVerb(e2, new ArrayList<String>());
+
+        Expr e3 = Expr.readExpr("mkPhr (mkImp sleep_V)");
+        String linearized = swe.linearize(e3);
+        Log.d(TAG, linearized);
+        /*Expr verb = traverseExprApplicationFindVerb(e2, new ArrayList<String>());
         if(verb != null)
             Log.d(TAG, verb.toString());
-
+        */
         // ---------------------------------------
         String swedishLinearization = swe.linearize(e);
         for(String word : swedishLinearization.split(" ")){
@@ -123,6 +128,7 @@ public class FillTheGapViewModel extends AndroidViewModel {
         for(int i = 0; i < 5 && i < inflections.size(); i++){
             notAllInflections.add(inflections.get(i));
         }
+        Collections.shuffle(notAllInflections);
         return notAllInflections;
     }
 
@@ -147,7 +153,7 @@ public class FillTheGapViewModel extends AndroidViewModel {
         for(MorphoAnalysis an : swe.lookupMorpho(word)){
             Expr e = Expr.readExpr(an.getLemma());
             for(Map.Entry<String,String> entry  : swe.tabularLinearize(e).entrySet()) {
-                if(entry.getKey().contains("Pass")){
+                if(entry.getKey().contains("Act")){
                     inflections.add(entry.getValue()); //Add inflections
                 }
             }
