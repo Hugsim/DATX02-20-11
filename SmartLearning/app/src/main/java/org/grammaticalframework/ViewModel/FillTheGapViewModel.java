@@ -35,7 +35,7 @@ public class FillTheGapViewModel extends AndroidViewModel {
         Log.d(TAG, "INSIDE OF FILLTHEGAPVIEWMODEL");
 
         SmartLearning mSmartLearning = (SmartLearning) getApplication().getApplicationContext();
-        eng = mSmartLearning.getSoruceConcr();
+        eng = mSmartLearning.getSourceConcr();
         swe = mSmartLearning.getTargetConcr();
 
         Expr e = Expr.readExpr("PhrUtt NoPConj (UttS (UseCl (TTAnt TPast ASimul) PPos (PredVP (UsePron we_Pron) (AdvVP (UseV eat_2_V) a_la_carte_Adv)))) NoVoc");
