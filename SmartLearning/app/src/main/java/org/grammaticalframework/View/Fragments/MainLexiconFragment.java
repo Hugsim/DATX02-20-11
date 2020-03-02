@@ -15,7 +15,7 @@ public class MainLexiconFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.activity_lexicon, container, false);
+        View v = inflater.inflate(R.layout.fragment_lexicon, container, false);
         return v;
 
     }

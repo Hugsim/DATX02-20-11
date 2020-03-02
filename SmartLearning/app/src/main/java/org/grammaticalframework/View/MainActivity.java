@@ -1,17 +1,18 @@
 package org.grammaticalframework.View;
+import org.grammaticalframework.R;
 import org.grammaticalframework.SmartLearning;
 import org.grammaticalframework.ViewModel.MainViewModel;
-import org.grammaticalframework.pgf.Bracket;
 import org.grammaticalframework.pgf.Concr;
 import org.grammaticalframework.pgf.Expr;
-import org.grammaticalframework.pgf.ExprApplication;
 import org.grammaticalframework.pgf.MorphoAnalysis;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import java.util.Map;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends BaseActivity {
     private MainViewModel viewModel;
@@ -22,20 +23,21 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         this.viewModel = new MainViewModel();
-        Intent intent = new Intent(this, HomeActivity.class);
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+
+        NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
         SmartLearning mSmartLearning = (SmartLearning) getApplicationContext();
         eng = mSmartLearning.getSoruceConcr();
         swe = mSmartLearning.getTargetConcr();
-
-        //wordTranslator("nail");
-
-        startActivity(intent);
-        finish();
+        wordTranslator("nail");
     }
 
-    @Override
     public MainViewModel getViewModel() {
         return viewModel;
     }
@@ -46,7 +48,7 @@ public class MainActivity extends BaseActivity {
             //Log.d(TAG, an.getLemma());
             //Log.d(TAG, swe.linearize(e));
             for (String s : swe.linearizeAll(e)) {
-                    Log.d(TAG, s);
+                Log.d(TAG, s);
             }
         }
     }

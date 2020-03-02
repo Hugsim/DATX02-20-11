@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimary">#4B332E</color>
+    <color name="colorPrimaryDark">#281E1C</color>
     <color name="colorAccent">#D81B60</color>
 
     <color name="green">#32CD32</color>
     <color name="transparent">@android:color/transparent</color>
     <color name="black">#000000</color>
+    <color name="grey">#EEE2E0</color>
     <color name="white">#ffffff</color>
-    <color name="Gold">#d4af37</color>
-    <color name="Blue">#283afc</color>
+    <color name="gold">#d4af37</color>
+    <color name="blue">#283afc</color>
+    <color name="brown">#AB260B</color>
 </resources>
