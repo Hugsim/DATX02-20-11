@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import org.grammaticalframework.R;
 
 public class MainHomeFragment extends BaseFragment {
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

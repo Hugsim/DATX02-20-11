@@ -73,7 +73,7 @@ public class SmartLearning extends Application {
         return sourceLoader.getLanguage();
     }
 
-    public Concr getSoruceConcr() {
+    public Concr getSourceConcr() {
         try{
             sourceLoader.join();
             return sourceLoader.concr;

@@ -11,18 +11,11 @@ import android.view.ViewGroup;
 
 import org.grammaticalframework.R;
 
+public class LexiconFragment extends Fragment{
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class LexiconFragment extends Fragment {
+    public LexiconFragment(){
 
-
-    public LexiconFragment() {
-        // Required empty public constructor
     }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

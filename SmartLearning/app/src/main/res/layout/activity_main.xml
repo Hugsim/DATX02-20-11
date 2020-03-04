@@ -27,6 +27,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:itemBackground="@color/white"
+        app:itemIconTint="@drawable/navigation_bar_highlight"
+        app:itemTextColor="@drawable/navigation_bar_highlight"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimaryDark"
         app:menu="@menu/navigation"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
