@@ -5,7 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -20,6 +23,7 @@ import org.grammaticalframework.ViewModel.LexiconWordAdapter;
 public class LexiconDetailsFragment extends BaseFragment {
 
     private ImageView backButton;
+    private String translatedWord;
     private NavController navController;
 
     @Override
@@ -39,5 +43,17 @@ public class LexiconDetailsFragment extends BaseFragment {
 
         return fragmentView;
 
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        if(getArguments() != null){
+            LexiconDetailsFragmentArgs args = LexiconDetailsFragmentArgs.fromBundle(getArguments());
+            translatedWord = args.getMessage();
+            TextView word = view.findViewById(R.id.lexicon_details_word);
+            word.setText(translatedWord);
+        }
     }
 }

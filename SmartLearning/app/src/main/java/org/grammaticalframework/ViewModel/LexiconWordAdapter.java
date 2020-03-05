@@ -16,6 +16,7 @@ import com.google.android.material.snackbar.Snackbar;
 import org.grammaticalframework.R;
 import org.grammaticalframework.View.Fragments.BaseFragment;
 import org.grammaticalframework.View.Fragments.LexiconDetailsFragment;
+import org.grammaticalframework.View.Fragments.MainLexiconFragmentDirections;
 
 import java.util.List;
 
@@ -45,11 +46,11 @@ public class LexiconWordAdapter extends RecyclerView.Adapter<LexiconWordAdapter.
     public void onBindViewHolder(LexiconWordAdapter.WordItemViewHolder viewHolder, int position) {
         LexiconWord word = lexiconWordList.get(position);
 
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                navController.navigate(R.id.action_lexiconFragment_to_lexiconDetailsFragment);
-            }
+        MainLexiconFragmentDirections.ActionLexiconFragmentToLexiconDetailsFragment action = MainLexiconFragmentDirections.actionLexiconFragmentToLexiconDetailsFragment();
+        action.setMessage(word.getWord());
+
+        viewHolder.itemView.setOnClickListener((v) -> {
+            navController.navigate(action);
         });
         viewHolder.wordTextView.setText(word.getWord());
         viewHolder.explanationTextView.setText(word.getExplanation());
