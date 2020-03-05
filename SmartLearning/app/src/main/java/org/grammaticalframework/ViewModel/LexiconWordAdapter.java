@@ -52,13 +52,6 @@ public class LexiconWordAdapter extends RecyclerView.Adapter<LexiconWordAdapter.
         viewHolder.itemView.setOnClickListener((v) -> {
             navController.navigate(action);
         });
-/*
-        viewHolder.itemView.setOnClickListener((v) -> {
-            AppCompatActivity activity = (AppCompatActivity) viewHolder.itemView.getContext();
-            activity.getSupportFragmentManager().beginTransaction().replace(R.id.container, ldFragment).addToBackStack(null).commit();
-        });
-
- */
         viewHolder.wordTextView.setText(word.getWord());
         viewHolder.explanationTextView.setText(word.getExplanation());
     }
