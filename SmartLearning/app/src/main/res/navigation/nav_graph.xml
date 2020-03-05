@@ -52,5 +52,10 @@
         android:id="@+id/lexiconDetailsFragment"
         android:name="org.grammaticalframework.View.Fragments.LexiconDetailsFragment"
         android:label="fragment_lexicon_details"
-        tools:layout="@layout/fragment_lexicon_details" />
+        tools:layout="@layout/fragment_lexicon_details" >
+        <argument
+            android:name="message"
+            app:argType="string"
+            android:defaultValue="default" />
+    </fragment>
 </navigation>
