@@ -6,13 +6,16 @@
     <item
         android:id="@+id/mainHomeFragment"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="Home" />
+        android:title="Home"
+        android:menuCategory="secondary"/>
     <item
         android:id="@+id/mainExerciseFragment"
         android:icon="@drawable/ic_school_black_24dp"
-        android:title="Exercises"/>
+        android:title="Exercises"
+        android:menuCategory="secondary"/>
     <item
         android:id="@+id/lexiconFragment"
         android:icon="@drawable/ic_library_books_black_24dp"
-        android:title="Lexicon"/>
+        android:title="Lexicon"
+        android:menuCategory="secondary"/>
 </menu>

@@ -36,8 +36,6 @@ public class LexiconViewModel extends AndroidViewModel {
         }
         for (MorphoAnalysis an : eng.lookupMorpho(word)) {
             Expr e = Expr.readExpr(an.getLemma());
-            //Log.d(TAG, an.getLemma());
-            //Log.d(TAG, swe.linearize(e));
             for (String s : swe.linearizeAll(e)) {
                 if (!translatedWords.contains(s)){
                 translatedWords.add(s);

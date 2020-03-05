@@ -1,10 +1,6 @@
 package org.grammaticalframework.View;
 import org.grammaticalframework.R;
-import org.grammaticalframework.SmartLearning;
 import org.grammaticalframework.ViewModel.MainViewModel;
-import org.grammaticalframework.pgf.Concr;
-import org.grammaticalframework.pgf.Expr;
-import org.grammaticalframework.pgf.MorphoAnalysis;
 import android.os.Bundle;
 import android.util.Log;
 

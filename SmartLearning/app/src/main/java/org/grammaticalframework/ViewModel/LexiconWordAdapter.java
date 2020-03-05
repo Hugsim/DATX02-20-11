@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -22,10 +23,12 @@ public class LexiconWordAdapter extends RecyclerView.Adapter<LexiconWordAdapter.
 
     private List<LexiconWord> lexiconWordList;
     private BaseFragment ldFragment;
+    private NavController navController;
 
-    public LexiconWordAdapter(List<LexiconWord> word_list, BaseFragment ldFragment) {
+    public LexiconWordAdapter(List<LexiconWord> word_list, BaseFragment ldFragment, NavController navController) {
         lexiconWordList = word_list;
         this.ldFragment = ldFragment;
+        this.navController = navController;
     }
 
     @Override
@@ -42,11 +45,12 @@ public class LexiconWordAdapter extends RecyclerView.Adapter<LexiconWordAdapter.
     public void onBindViewHolder(LexiconWordAdapter.WordItemViewHolder viewHolder, int position) {
         LexiconWord word = lexiconWordList.get(position);
 
-        viewHolder.itemView.setOnClickListener((v) -> {
-            AppCompatActivity activity = (AppCompatActivity) viewHolder.itemView.getContext();
-            activity.getSupportFragmentManager().beginTransaction().replace(R.id.container, ldFragment).addToBackStack(null).commit();
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navController.navigate(R.id.action_lexiconFragment_to_lexiconDetailsFragment);
+            }
         });
-
         viewHolder.wordTextView.setText(word.getWord());
         viewHolder.explanationTextView.setText(word.getExplanation());
     }

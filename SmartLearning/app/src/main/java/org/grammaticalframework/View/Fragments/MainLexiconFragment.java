@@ -15,6 +15,8 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -68,9 +70,11 @@ public class MainLexiconFragment extends BaseFragment {
                 return false;
             }
         });
+
+        NavController navController = Navigation.findNavController(getActivity().findViewById(R.id.nav_host_fragment));
         rvLexicon = (RecyclerView) fragmentView.findViewById(R.id.lexicon_recyclerview);
         updateRecycler("fish");
-        wordAdapter = new LexiconWordAdapter(lexiconWordList, lexiconDetailsFragment);
+        wordAdapter = new LexiconWordAdapter(lexiconWordList, lexiconDetailsFragment, navController);
         rvLexicon.setAdapter(wordAdapter);
         rvLexicon.setLayoutManager(new LinearLayoutManager(getActivity()));
 
