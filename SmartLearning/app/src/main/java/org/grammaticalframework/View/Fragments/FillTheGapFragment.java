@@ -47,7 +47,6 @@ public class FillTheGapFragment extends Fragment{
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         ArrayList<Button> buttons = new ArrayList<>();
         buttons.add(button1 = getView().findViewById(R.id.button1));
         buttons.add(button2 = getView().findViewById(R.id.button2));

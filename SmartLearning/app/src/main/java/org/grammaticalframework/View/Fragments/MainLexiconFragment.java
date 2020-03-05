@@ -62,6 +62,7 @@ public class MainLexiconFragment extends BaseFragment {
                     hideKeyboard(textView);
                 }
                 searchString = search_bar.getText().toString();
+                LexiconWordAdapter.setSavedString(searchString);
                 System.out.println(search_bar.getText().toString());
                 clearRecyclerView();
                 wordAdapter.notifyItemRangeRemoved(0,listSize);
@@ -73,7 +74,12 @@ public class MainLexiconFragment extends BaseFragment {
 
         NavController navController = Navigation.findNavController(getActivity().findViewById(R.id.nav_host_fragment));
         rvLexicon = (RecyclerView) fragmentView.findViewById(R.id.lexicon_recyclerview);
-        updateRecycler("fish");
+        if (LexiconWordAdapter.getSavedString() == null){
+            updateRecycler("fish");
+        }
+        else {
+            updateRecycler(LexiconWordAdapter.getSavedString());
+        }
         wordAdapter = new LexiconWordAdapter(lexiconWordList, lexiconDetailsFragment, navController);
         rvLexicon.setAdapter(wordAdapter);
         rvLexicon.setLayoutManager(new LinearLayoutManager(getActivity()));
