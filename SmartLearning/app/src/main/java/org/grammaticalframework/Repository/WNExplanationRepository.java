@@ -23,6 +23,10 @@ public class WNExplanationRepository {
 
     }
 
+    public void insertAll (List<WNExplanation> wneList){
+        new InsertWordNetExplanationsAsyncTask(WNExplanationDao).execute(wneList);
+    }
+
     public LiveData<List<WNExplanation>> getAllWordNetExplanations(){
         return allWordNetExplanations;
     }
@@ -36,6 +40,19 @@ public class WNExplanationRepository {
         @Override
         protected Void doInBackground(WNExplanation... WNExplanations) {
             WNExplanationDao.insert(WNExplanations[0]);
+            return null;
+        }
+    }
+    private static class InsertWordNetExplanationsAsyncTask extends AsyncTask<List<WNExplanation>, Void, Void>{
+        private WNExplanationDao WNExplanationDao;
+
+        private InsertWordNetExplanationsAsyncTask (WNExplanationDao WNExplanationDao){
+            this.WNExplanationDao = WNExplanationDao;
+        }
+
+        @Override
+        protected Void doInBackground(List<WNExplanation>... lists) {
+            WNExplanationDao.insertAll(lists[0]);
             return null;
         }
     }

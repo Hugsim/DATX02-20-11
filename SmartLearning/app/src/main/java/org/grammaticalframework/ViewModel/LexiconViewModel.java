@@ -3,6 +3,8 @@ package org.grammaticalframework.ViewModel;
 import android.app.Application;
 import android.util.Log;
 
+import org.grammaticalframework.Repository.WNExplanation;
+import org.grammaticalframework.Repository.WNExplanationRepository;
 import org.grammaticalframework.SmartLearning;
 import org.grammaticalframework.pgf.Concr;
 import org.grammaticalframework.pgf.Expr;
@@ -13,6 +15,8 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
@@ -22,8 +26,15 @@ public class LexiconViewModel extends AndroidViewModel {
     SmartLearning sl = (SmartLearning) getApplication().getApplicationContext();
     private Concr eng = sl.getSourceConcr();
     private Concr swe = sl.getTargetConcr();
+
+    public LiveData<List<WNExplanation>> wnExplanationLiveData;
+
     public LexiconViewModel(@NonNull Application application) {
         super(application);
+
+        WNExplanationRepository wnExplanationRepository = new WNExplanationRepository(application);
+        wnExplanationLiveData = wnExplanationRepository.getAllWordNetExplanations();
+
     }
 
     public List<LexiconWord> getTranslatedWords(){

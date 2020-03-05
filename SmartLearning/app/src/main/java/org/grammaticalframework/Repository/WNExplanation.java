@@ -7,19 +7,13 @@ import androidx.room.PrimaryKey;
 public class WNExplanation {
 
     @PrimaryKey(autoGenerate = true)
-
     private int id;
-
-    private int word;
-
+    private String function;
     private String explanation;
 
-    private int priority;
-
-    public WNExplanation(int word, String explanation, int priority) {
-        this.word = word;
+    public WNExplanation(String function, String explanation) {
+        this.function = function;
         this.explanation = explanation;
-        this.priority = priority;
     }
 
     public void setId(int id) {
@@ -30,12 +24,8 @@ public class WNExplanation {
         return id;
     }
 
-    public int getPriority(){
-        return priority;
-    }
-
-    public int getWord() {
-        return word;
+    public String getFunction() {
+        return function;
     }
 
     public String getExplanation() {

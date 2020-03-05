@@ -1,5 +1,6 @@
 package org.grammaticalframework.View;
 import org.grammaticalframework.R;
+import org.grammaticalframework.Repository.WNExplanationRepository;
 import org.grammaticalframework.SmartLearning;
 import org.grammaticalframework.ViewModel.MainViewModel;
 import org.grammaticalframework.pgf.Concr;
@@ -28,6 +29,7 @@ public class MainActivity extends BaseActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
+
     }
     public MainViewModel getViewModel() {
         return viewModel;

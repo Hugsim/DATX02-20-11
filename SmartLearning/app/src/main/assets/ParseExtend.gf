@@ -85,7 +85,7 @@ fun ComparAdv : Pol -> CAdv -> Adv -> Comp -> Adv ;
 
     AdnCAdv : Pol -> CAdv -> AdN ;
 
-    -- the word `enough` has a special syntax in English
+    -- the function `enough` has a special syntax in English
     -- when it is used with adjectives, 
     -- i.e. `smart enough to find the solution`.
 fun EnoughAP  : AP -> Ant -> Pol -> VP -> AP ;
