@@ -35,9 +35,6 @@ public class LexiconDetailsFragment extends BaseFragment {
 
         backButton.setOnClickListener((v) -> {
             navController.navigate(R.id.action_lexiconDetailsFragment_to_lexiconFragment);
-            /*AppCompatActivity activity = (AppCompatActivity) fragmentView.getContext();
-            Fragment lexiconFragment = getFragmentManager().findFragmentByTag("lexiconFragment");
-            activity.getSupportFragmentManager().beginTransaction().replace(R.id.container, lexiconFragment).addToBackStack(null).commit();*/
         });
 
         return fragmentView;

@@ -51,13 +51,6 @@ public class LexiconWordAdapter extends RecyclerView.Adapter<LexiconWordAdapter.
                 navController.navigate(R.id.action_lexiconFragment_to_lexiconDetailsFragment);
             }
         });
-/*
-        viewHolder.itemView.setOnClickListener((v) -> {
-            AppCompatActivity activity = (AppCompatActivity) viewHolder.itemView.getContext();
-            activity.getSupportFragmentManager().beginTransaction().replace(R.id.container, ldFragment).addToBackStack(null).commit();
-        });
-
- */
         viewHolder.wordTextView.setText(word.getWord());
         viewHolder.explanationTextView.setText(word.getExplanation());
     }
