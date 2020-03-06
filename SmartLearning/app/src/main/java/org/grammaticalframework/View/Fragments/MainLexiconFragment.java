@@ -2,6 +2,7 @@ package org.grammaticalframework.View.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +32,7 @@ import org.grammaticalframework.ViewModel.LexiconWordAdapter;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainLexiconFragment extends BaseFragment {
@@ -51,8 +53,8 @@ public class MainLexiconFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.fragment_lexicon, container, false);
-        SmartLearning sl = (SmartLearning) getActivity().getApplicationContext();
-        lexiconVM = new LexiconViewModel(sl);
+        lexiconVM = new ViewModelProvider(requireActivity()).get(LexiconViewModel.class);
+        lexiconWordList = lexiconVM.getTranslatedWords();
         search_bar = fragmentView.findViewById(R.id.lexicon_searchbar);
         search_bar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -73,13 +75,12 @@ public class MainLexiconFragment extends BaseFragment {
 
         NavController navController = Navigation.findNavController(getActivity().findViewById(R.id.nav_host_fragment));
         rvLexicon = (RecyclerView) fragmentView.findViewById(R.id.lexicon_recyclerview);
-        updateRecycler("fish");
+
         wordAdapter = new LexiconWordAdapter(lexiconWordList, lexiconDetailsFragment, navController);
         rvLexicon.setAdapter(wordAdapter);
         rvLexicon.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         return fragmentView;
-
     }
 
     private void hideKeyboard(View view){
