@@ -25,6 +25,15 @@ public class LexiconWordAdapter extends RecyclerView.Adapter<LexiconWordAdapter.
     private List<LexiconWord> lexiconWordList;
     private BaseFragment ldFragment;
     private NavController navController;
+    static private String savedString;
+
+    static public void setSavedString(String string){
+        savedString = string;
+    }
+
+    static public String getSavedString(){
+        return  savedString;
+    }
 
     public LexiconWordAdapter(List<LexiconWord> word_list, BaseFragment ldFragment, NavController navController) {
         lexiconWordList = word_list;
