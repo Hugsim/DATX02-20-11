@@ -127,6 +127,10 @@ public class SmartLearning extends Application {
         return targetLoader.getLanguage();
     }
 
+    public PGF getGrammar() {
+        return grammarLoader.getGrammar();
+    }
+
     public void setTargetLanguage(Language language) {
         setPrefLang(TARGET_LANG_KEY, language);
 

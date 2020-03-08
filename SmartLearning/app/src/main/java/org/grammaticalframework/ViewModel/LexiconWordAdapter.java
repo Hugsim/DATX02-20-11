@@ -53,16 +53,19 @@ public class LexiconWordAdapter extends RecyclerView.Adapter<LexiconWordAdapter.
 
     @Override
     public void onBindViewHolder(LexiconWordAdapter.WordItemViewHolder viewHolder, int position) {
-        LexiconWord word = lexiconWordList.get(position);
+        // Tar bort ordklassen från ordet
+        LexiconWord lexiconWord = lexiconWordList.get(position);
+        String[] words = lexiconWord.getWord().split(" ");
+        String word = words[1];
 
         MainLexiconFragmentDirections.ActionLexiconFragmentToLexiconDetailsFragment action = MainLexiconFragmentDirections.actionLexiconFragmentToLexiconDetailsFragment();
-        action.setMessage(word.getWord());
+        action.setMessage(word);
 
         viewHolder.itemView.setOnClickListener((v) -> {
             navController.navigate(action);
         });
-        viewHolder.wordTextView.setText(word.getWord());
-        viewHolder.explanationTextView.setText(word.getExplanation());
+        viewHolder.wordTextView.setText(lexiconWord.getWord());
+        viewHolder.explanationTextView.setText(lexiconWord.getExplanation());
     }
 
     @Override

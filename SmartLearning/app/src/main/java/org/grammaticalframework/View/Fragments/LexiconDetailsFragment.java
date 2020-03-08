@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +21,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.grammaticalframework.R;
+import org.grammaticalframework.ViewModel.LexiconDetailsAdapter;
+import org.grammaticalframework.ViewModel.LexiconDetailsViewModel;
+import org.grammaticalframework.ViewModel.LexiconViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class LexiconDetailsFragment extends BaseFragment {
@@ -26,6 +34,12 @@ public class LexiconDetailsFragment extends BaseFragment {
     private ImageView backButton;
     private String translatedWord;
     private NavController navController;
+    private LexiconDetailsViewModel model;
+    private WebView webView;
+    private List<String> inflections;
+    private RecyclerView recycler;
+    private LexiconDetailsAdapter mAdapter;
+    private static final String TAG = LexiconDetailsFragment.class.getSimpleName();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,6 +56,14 @@ public class LexiconDetailsFragment extends BaseFragment {
             navController.navigate(R.id.action_lexiconDetailsFragment_to_lexiconFragment);
         });
 
+        model = new ViewModelProvider(requireActivity()).get(LexiconDetailsViewModel.class);
+
+        inflections = model.getInflections();
+        recycler = (RecyclerView) fragmentView.findViewById(R.id.lexicon_details_recyclerview);
+        mAdapter = new LexiconDetailsAdapter(inflections);
+        recycler.setAdapter(mAdapter);
+        recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         return fragmentView;
 
     }
@@ -53,8 +75,9 @@ public class LexiconDetailsFragment extends BaseFragment {
         if(getArguments() != null){
             LexiconDetailsFragmentArgs args = LexiconDetailsFragmentArgs.fromBundle(getArguments());
             translatedWord = args.getMessage();
-            TextView word = view.findViewById(R.id.lexicon_details_word);
-            word.setText(translatedWord);
+           // TextView word = view.findViewById(R.id.lexicon_details_word);
+           // word.setText(translatedWord);
+            model.inflect(translatedWord);
         }
     }
 }

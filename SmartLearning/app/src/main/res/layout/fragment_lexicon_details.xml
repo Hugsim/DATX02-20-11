@@ -29,15 +29,10 @@
         app:layout_constraintTop_toTopOf="@+id/toolbar"
         app:srcCompat="?attr/actionModeCloseDrawable" />
 
-    <TextView
-        android:id="@+id/lexicon_details_word"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="19dp"
-        android:layout_marginLeft="19dp"
-        android:layout_marginTop="16dp"
-        android:text="Fish"
-        android:textSize="24sp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/lexicon_details_recyclerview"
+        android:layout_width="409dp"
+        android:layout_height="534dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 </androidx.constraintlayout.widget.ConstraintLayout>
