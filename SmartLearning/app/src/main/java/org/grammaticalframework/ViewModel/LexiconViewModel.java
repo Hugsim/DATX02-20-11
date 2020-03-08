@@ -14,14 +14,13 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import static androidx.constraintlayout.widget.Constraints.TAG;
-
 public class LexiconViewModel extends AndroidViewModel {
     private List<String> translatedWords = new ArrayList<>();;
     private List<LexiconWord> lexiconWords = new ArrayList<>();;
     SmartLearning sl = (SmartLearning) getApplication().getApplicationContext();
     private Concr eng = sl.getSourceConcr();
     private Concr swe = sl.getTargetConcr();
+    private static final String TAG = LexiconViewModel.class.getSimpleName();
     public LexiconViewModel(@NonNull Application application) {
         super(application);
     }
