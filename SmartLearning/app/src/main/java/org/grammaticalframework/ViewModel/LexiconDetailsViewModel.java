@@ -22,7 +22,8 @@ public class LexiconDetailsViewModel extends AndroidViewModel {
     private Concr eng;
     private Concr swe;
     private ArrayList<String> inflections;
-    SmartLearning sl;
+    private SmartLearning sl;
+    private PGF gr;
 
     public LexiconDetailsViewModel(@NonNull Application application) {
         super(application);
@@ -30,6 +31,7 @@ public class LexiconDetailsViewModel extends AndroidViewModel {
         inflections = new ArrayList<>();
         eng = sl.getSourceConcr();
         swe = sl.getTargetConcr();
+        gr = sl.getGrammar();
     }
 
     public ArrayList<String> getInflections(){
@@ -50,4 +52,12 @@ public class LexiconDetailsViewModel extends AndroidViewModel {
             }
         }
     }
+
+    public String wordClass(String lemma ){
+        String wordClass = gr.getFunctionType(lemma).getCategory(); // Ordklass
+        String inflectionFunction = "Inflection" + wordClass + " " + lemma;
+        Expr e = Expr.readExpr(inflectionFunction);
+        return eng.linearize(e);
+    }
+
 }

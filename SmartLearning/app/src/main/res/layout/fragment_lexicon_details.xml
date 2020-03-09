@@ -29,10 +29,32 @@
         app:layout_constraintTop_toTopOf="@+id/toolbar"
         app:srcCompat="?attr/actionModeCloseDrawable" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/lexicon_details_recyclerview"
-        android:layout_width="409dp"
-        android:layout_height="534dp"
+    <TextView
+        android:id="@+id/translated_word"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        android:textSize="36dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <WebView
+        android:id="@+id/web_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/translated_word" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/lexicon_details_recyclerview"
+            android:layout_width="409dp"
+            android:layout_height="534dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/web_view" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

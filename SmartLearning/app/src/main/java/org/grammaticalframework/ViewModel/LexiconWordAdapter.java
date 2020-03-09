@@ -56,16 +56,24 @@ public class LexiconWordAdapter extends RecyclerView.Adapter<LexiconWordAdapter.
         // Tar bort ordklassen från ordet
         LexiconWord lexiconWord = lexiconWordList.get(position);
         String[] words = lexiconWord.getWord().split(" ");
-        String word = words[1];
+
+        StringBuilder sb = new StringBuilder(words[1]);
+        for(int i = 2; i < words.length; i++){
+            sb.append(" ");
+            sb.append(words[i]);
+        }
+
+        String word = sb.toString();
 
         // Skickar med ordet till LexiconDetailsFragment
         MainLexiconFragmentDirections.ActionLexiconFragmentToLexiconDetailsFragment action = MainLexiconFragmentDirections.actionLexiconFragmentToLexiconDetailsFragment();
-        action.setMessage(word);
+        action.setMessage(lexiconWord.getWord());
 
         viewHolder.itemView.setOnClickListener((v) -> {
             navController.navigate(action);
         });
-        viewHolder.wordTextView.setText(lexiconWord.getWord());
+        //viewHolder.wordTextView.setText(lexiconWord.getWord());
+        viewHolder.wordTextView.setText(word);
         viewHolder.explanationTextView.setText(lexiconWord.getExplanation());
     }
 

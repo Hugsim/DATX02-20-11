@@ -11,6 +11,7 @@ import org.grammaticalframework.pgf.MorphoAnalysis;
 import org.grammaticalframework.pgf.PGF;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -46,11 +47,9 @@ public class LexiconViewModel extends AndroidViewModel {
         for (MorphoAnalysis an : eng.lookupMorpho(word)) {
             if(swe.hasLinearization(an.getLemma())){ // Om ordet kan lineariseras
                 Expr e = Expr.readExpr(an.getLemma());
-                String html = gr.getFunctionType(an.getLemma()).getCategory(); // Ordklass i html
-                String wordClass = Html.fromHtml(html).toString(); // Tar bort html
                 for (String s : swe.linearizeAll(e)) {
-                    if (!translatedWords.contains(wordClass + " " + s)){
-                        translatedWords.add(wordClass + " " + s);
+                    if (!translatedWords.contains(an.getLemma() + " " + s)){
+                        translatedWords.add(an.getLemma() + " " + s);
                     }
                 }
             }

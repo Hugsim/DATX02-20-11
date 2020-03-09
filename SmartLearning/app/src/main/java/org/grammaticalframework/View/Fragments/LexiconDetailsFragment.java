@@ -33,12 +33,14 @@ public class LexiconDetailsFragment extends BaseFragment {
 
     private ImageView backButton;
     private String translatedWord;
+    private String lemma;
     private NavController navController;
     private LexiconDetailsViewModel model;
     private WebView webView;
     private List<String> inflections;
     private RecyclerView recycler;
     private LexiconDetailsAdapter mAdapter;
+    private TextView textView1;
     private static final String TAG = LexiconDetailsFragment.class.getSimpleName();
 
     @Override
@@ -48,6 +50,9 @@ public class LexiconDetailsFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.fragment_lexicon_details, container, false);
+        textView1 = fragmentView.findViewById(R.id.translated_word);
+        webView = (WebView) fragmentView.findViewById(R.id.web_view);
+
 
         navController = Navigation.findNavController(getActivity().findViewById(R.id.nav_host_fragment));
         backButton = fragmentView.findViewById(R.id.lexicon_details_back);
@@ -74,8 +79,24 @@ public class LexiconDetailsFragment extends BaseFragment {
 
         if(getArguments() != null){
             LexiconDetailsFragmentArgs args = LexiconDetailsFragmentArgs.fromBundle(getArguments());
-            translatedWord = args.getMessage();
+            String message = args.getMessage();
+            String[] words = message.split(" ");
+            lemma = words[0];
+
+            StringBuilder sb = new StringBuilder(words[1]);
+            for(int i = 2; i < words.length; i++){
+                sb.append(" ");
+                sb.append(words[i]);
+            }
+
+            String translatedWord = sb.toString();
+
             model.inflect(translatedWord);
+            textView1.setText(translatedWord);
+
+            String html = model.wordClass(lemma);
+
+            webView.loadData(html, "text/html", "UTF-8");
         }
     }
 }
