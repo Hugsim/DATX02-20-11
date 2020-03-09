@@ -58,6 +58,7 @@ public class LexiconWordAdapter extends RecyclerView.Adapter<LexiconWordAdapter.
         String[] words = lexiconWord.getWord().split(" ");
         String word = words[1];
 
+        // Skickar med ordet till LexiconDetailsFragment
         MainLexiconFragmentDirections.ActionLexiconFragmentToLexiconDetailsFragment action = MainLexiconFragmentDirections.actionLexiconFragmentToLexiconDetailsFragment();
         action.setMessage(word);
 

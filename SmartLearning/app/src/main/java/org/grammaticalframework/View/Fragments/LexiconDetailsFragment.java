@@ -75,8 +75,6 @@ public class LexiconDetailsFragment extends BaseFragment {
         if(getArguments() != null){
             LexiconDetailsFragmentArgs args = LexiconDetailsFragmentArgs.fromBundle(getArguments());
             translatedWord = args.getMessage();
-           // TextView word = view.findViewById(R.id.lexicon_details_word);
-           // word.setText(translatedWord);
             model.inflect(translatedWord);
         }
     }

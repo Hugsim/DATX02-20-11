@@ -17,15 +17,22 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
 public class LexiconViewModel extends AndroidViewModel {
-    private List<String> translatedWords = new ArrayList<>();;
-    private List<LexiconWord> lexiconWords = new ArrayList<>();;
-    SmartLearning sl = (SmartLearning) getApplication().getApplicationContext();
-    private Concr eng = sl.getSourceConcr();
-    private Concr swe = sl.getTargetConcr();
+    private List<String> translatedWords;
+    private List<LexiconWord> lexiconWords;
+    private SmartLearning sl;
+    private Concr eng;
+    private Concr swe;
     private static final String TAG = LexiconViewModel.class.getSimpleName();
+    private PGF gr;
 
     public LexiconViewModel(@NonNull Application application) {
         super(application);
+        translatedWords = new ArrayList<>();
+        lexiconWords = new ArrayList<>();
+        sl = (SmartLearning) getApplication().getApplicationContext();
+        eng = sl.getSourceConcr();
+        swe = sl.getTargetConcr();
+        gr = sl.getGrammar();
     }
 
     public List<LexiconWord> getTranslatedWords(){
@@ -33,12 +40,11 @@ public class LexiconViewModel extends AndroidViewModel {
     }
 
     public void wordTranslator(String word){
-        PGF gr = sl.getGrammar();
         if (!translatedWords.isEmpty()){
             translatedWords.clear();
         }
         for (MorphoAnalysis an : eng.lookupMorpho(word)) {
-            if(swe.hasLinearization(an.getLemma())){
+            if(swe.hasLinearization(an.getLemma())){ // Om ordet kan lineariseras
                 Expr e = Expr.readExpr(an.getLemma());
                 String html = gr.getFunctionType(an.getLemma()).getCategory(); // Ordklass i html
                 String wordClass = Html.fromHtml(html).toString(); // Tar bort html
