@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.lifecycle.AndroidViewModel;
 
 import org.grammaticalframework.SmartLearning;
+import org.grammaticalframework.gf.GF;
 import org.grammaticalframework.pgf.Bracket;
 import org.grammaticalframework.pgf.Concr;
 import org.grammaticalframework.pgf.Expr;
@@ -15,6 +16,7 @@ import org.grammaticalframework.pgf.MorphoAnalysis;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
@@ -25,9 +27,11 @@ public class FillTheGapViewModel extends AndroidViewModel {
     Concr eng;
     Concr swe;
 
-    private ArrayList<String> sentence = new ArrayList<>();
-    private ArrayList<String> inflections = new ArrayList<>();
+    private List<String> sentence = new ArrayList<>();
+    private List<String> inflections = new ArrayList<>();
     private String redactedWord;
+
+    private GF gf;
 
     public FillTheGapViewModel(Application application){
         super(application);
@@ -35,6 +39,7 @@ public class FillTheGapViewModel extends AndroidViewModel {
         Log.d(TAG, "INSIDE OF FILLTHEGAPVIEWMODEL");
 
         SmartLearning mSmartLearning = (SmartLearning) getApplication().getApplicationContext();
+        gf = new GF(mSmartLearning);
         eng = mSmartLearning.getSourceConcr();
         swe = mSmartLearning.getTargetConcr();
 
@@ -70,21 +75,24 @@ public class FillTheGapViewModel extends AndroidViewModel {
             }
         }
 
+
     }
 
 
     public String getSentence() {
-        StringBuilder sb = new StringBuilder();
+        /*StringBuilder sb = new StringBuilder();
         for(String word : sentence) {
             sb.append(word);
             sb.append(" ");
         }
         sb.deleteCharAt(sb.length()-1);
-        return sb.toString();
+        return sb.toString();*/
+
+        return gf.translateWord("apple");
     }
 
-    public ArrayList<String> getInflections() {
-        ArrayList<String> notAllInflections = new ArrayList<>();
+    public List<String> getInflections() {
+        List<String> notAllInflections = new ArrayList<>();
         for(int i = 0; i < 5 && i < inflections.size(); i++){
             notAllInflections.add(inflections.get(i));
         }
