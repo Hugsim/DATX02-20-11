@@ -4,6 +4,7 @@ import android.util.Log
 
 import org.grammaticalframework.SmartLearning
 import org.grammaticalframework.pgf.Concr
+import org.grammaticalframework.pgf.Expr
 import org.grammaticalframework.pgf.PGF
 
 const val TAG = "Kotl/GF"
@@ -28,18 +29,28 @@ ExprProb: An expression with a probability of correct parsing
       .getExpr()
       .getProb() where a smaller value means a greater probability
 
-
-
  */
 
-class GF(sl: SmartLearning) {
-    var from: Concr = sl.sourceConcr
-    var to: Concr = sl.targetConcr
-    var grammar: PGF = sl.pgf
+class GF(val sl: SmartLearning) {
+    val from: Concr = sl.sourceConcr
+    val to: Concr = sl.targetConcr
+    val grammar: PGF = sl.pgf
 
-    fun translateWord(str: String): String {
-        var answer = to.linearize(from.parse(grammar.startCat, str).firstOrNull()?.expr)
+    fun translateWord(str: Word): Word {
+        val answer = to.linearize(from.parse(grammar.startCat, str.word).firstOrNull()?.expr)
         Log.d(TAG, "Translated \"$str\" into \"$answer\"")
-        return answer
+        return Word(answer)
+    }
+    
+    companion object {
+        @JvmStatic
+        fun parse(sentence: String, lang: Concr): Expr {
+            TODO("parse not done yet")
+        }
+
+        @JvmStatic
+        fun parseTree(expr: Expr, lang: Concr): Expr {
+            TODO("parseTree not done yet")
+        }
     }
 }

@@ -1,6 +1,7 @@
 package org.grammaticalframework.gf
 
 
-class Word(word: String) {
+class Word(val word: String) {
+
 
 }
