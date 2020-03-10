@@ -1,10 +1,21 @@
 package org.grammaticalframework.gf
 
+import android.util.Log
 import org.grammaticalframework.pgf.Concr
 import org.grammaticalframework.pgf.Expr
+import org.grammaticalframework.pgf.ExprApplication
 
-class Sentence(val expr: Expr, val lang: Concr) {
+class Sentence(val syntaxTree: Expr, val lang: Concr) {
 
     val stringRep: String
-        get() = TODO("stringRep not done yet") // GF.parseTree(expr, lang)
+        get() = GF.linearize(syntaxTree, lang)
+
+    val listPhrases: List<String>
+        get() = stringRep.split(" ")
+
+    fun getListWords(): List<Word> {
+        return TODO()
+    }
+
+
 }
