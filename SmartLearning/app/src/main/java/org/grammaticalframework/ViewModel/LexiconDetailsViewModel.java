@@ -41,7 +41,7 @@ public class LexiconDetailsViewModel extends AndroidViewModel {
     public String inflect(String word){
         Log.d(TAG, word);
         Expr e = Expr.readExpr("MkDocument (NoDefinition \"\") (Inflection" + wordClass(word) + " " + word + ") \"\"");
-        return eng.linearize(e);
+        return swe.linearize(e);
     }
 
     public String wordClass(String lemma){
