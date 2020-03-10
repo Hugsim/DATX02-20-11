@@ -44,14 +44,14 @@ class GF(val sl: SmartLearning) {
         Log.d(TAG, partOfSpeech(Word("play_1_V")))
         Log.d(TAG, generateInflectionTable(Word("apple_1_N")))
 
-        //recurse(Expr.readExpr("PhrUtt NoPConj (UttS (UseCl (TTAnt TPast ASimul) PPos (PredVP (UsePron we_Pron) (AdvVP (AdvVP (UseV eat_2_V) a_la_carte_Adv) today_2_Adv)))) NoVoc"))
+        recurse(Expr.readExpr("PhrUtt NoPConj (UttS (UseCl (TTAnt TPast ASimul) PPos (PredVP (UsePron we_Pron) (AdvVP (AdvVP (UseV eat_2_V) a_la_carte_Adv) today_2_Adv)))) NoVoc"))
 
         return answer
     }
 
     fun recurse(ea: Expr) {
         ea.unApp() ?. let {
-            Log.d("RECURSE", it.function + " - " + it.arguments.size + " - " +  linearize(Expr.readExpr(it.function), from))
+            Log.d("RECURSE", it.function + " - " + it.arguments.size)
 
             for (e in it.arguments) {
                 recurse(e)
