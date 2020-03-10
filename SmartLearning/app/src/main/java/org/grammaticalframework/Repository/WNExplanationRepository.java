@@ -9,52 +9,28 @@ import androidx.lifecycle.LiveData;
 import java.util.List;
 
 public class WNExplanationRepository {
-    private WNExplanationDao WNExplanationDao;
+    private WNExplanationDao mWNExplanationDao;
     private LiveData<List<WNExplanation>> allWordNetExplanations;
 
     public WNExplanationRepository(Application application){
         WNExplanationDatabase database = WNExplanationDatabase.getInstance(application);
-        WNExplanationDao = database.wordNetExplanationDao();
-        allWordNetExplanations = WNExplanationDao.getAllWordNetExplanations();
+        mWNExplanationDao = database.wordNetExplanationDao();
+        allWordNetExplanations = mWNExplanationDao.getAllWordNetExplanations();
     }
 
     public void insert (WNExplanation wne){
-        new InsertWordNetExplanationAsyncTask(WNExplanationDao).execute(wne);
-
+        WNExplanationDatabase.databaseWriteExecutor.execute(()-> {
+            mWNExplanationDao.insert(wne);
+        });
     }
 
     public void insertAll (List<WNExplanation> wneList){
-        new InsertWordNetExplanationsAsyncTask(WNExplanationDao).execute(wneList);
+        WNExplanationDatabase.databaseWriteExecutor.execute(()->{
+            mWNExplanationDao.insertAll(wneList);
+        });
     }
 
     public LiveData<List<WNExplanation>> getAllWordNetExplanations(){
         return allWordNetExplanations;
     }
-
-    private static class InsertWordNetExplanationAsyncTask extends AsyncTask<WNExplanation, Void, Void>{
-        private WNExplanationDao WNExplanationDao;
-
-        private InsertWordNetExplanationAsyncTask (WNExplanationDao WNExplanationDao){
-            this.WNExplanationDao = WNExplanationDao;
-        }
-        @Override
-        protected Void doInBackground(WNExplanation... WNExplanations) {
-            WNExplanationDao.insert(WNExplanations[0]);
-            return null;
-        }
-    }
-    private static class InsertWordNetExplanationsAsyncTask extends AsyncTask<List<WNExplanation>, Void, Void>{
-        private WNExplanationDao WNExplanationDao;
-
-        private InsertWordNetExplanationsAsyncTask (WNExplanationDao WNExplanationDao){
-            this.WNExplanationDao = WNExplanationDao;
-        }
-
-        @Override
-        protected Void doInBackground(List<WNExplanation>... lists) {
-            WNExplanationDao.insertAll(lists[0]);
-            return null;
-        }
-    }
-
 }

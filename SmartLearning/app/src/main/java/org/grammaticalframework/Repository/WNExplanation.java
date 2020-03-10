@@ -1,5 +1,7 @@
 package org.grammaticalframework.Repository;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -7,8 +9,14 @@ import androidx.room.PrimaryKey;
 public class WNExplanation {
 
     @PrimaryKey(autoGenerate = true)
+    @NonNull
+    @ColumnInfo(name = "id")
     private int id;
+    @ColumnInfo(name = "function")
+    @NonNull
     private String function;
+    @ColumnInfo(name = "explanation")
+    @NonNull
     private String explanation;
 
     public WNExplanation(String function, String explanation) {

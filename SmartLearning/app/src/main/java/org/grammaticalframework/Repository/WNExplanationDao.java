@@ -4,6 +4,7 @@ package org.grammaticalframework.Repository;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import java.util.List;
@@ -11,11 +12,14 @@ import java.util.List;
 @Dao
 public interface WNExplanationDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(WNExplanation wne);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<WNExplanation> wneList);
+
+    @Query("DELETE FROM wordnetexplanation_table")
+    void deleteAll();
 
     //TODO Create queries that fetches the data we need from the database.
 
