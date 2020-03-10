@@ -18,6 +18,7 @@ import org.grammaticalframework.View.MainActivity;
 import org.grammaticalframework.ViewModel.FillTheGapViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FillTheGapFragment extends Fragment{
     Button button1;
@@ -56,7 +57,7 @@ public class FillTheGapFragment extends Fragment{
         sentence = getView().findViewById(R.id.exerciseSentence);
 
         model = new ViewModelProvider(requireActivity()).get(FillTheGapViewModel.class);
-        ArrayList<String> inflections = model.getInflections();
+        List<String> inflections = model.getInflections();
         for(int i = 0; i < buttons.size() && i < inflections.size(); i++) {
             String word = inflections.get(i);
             buttons.get(i).setText(word);

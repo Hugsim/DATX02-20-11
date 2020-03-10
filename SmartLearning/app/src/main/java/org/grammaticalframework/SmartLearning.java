@@ -21,6 +21,8 @@ public class SmartLearning extends Application {
     private ConcrLoader targetLoader;
     private ConcrLoader otherLoader;
 
+    private PGF pgf;
+
     private static final String SOURCE_LANG_KEY = "source_lang";
     private static final String TARGET_LANG_KEY = "target_lang";
 
@@ -63,6 +65,10 @@ public class SmartLearning extends Application {
         }
 
         otherLoader = null;
+    }
+
+    public PGF getPgf() {
+        return pgf;
     }
 
     public List<Language> getAvailableLanguages() {
@@ -196,9 +202,6 @@ public class SmartLearning extends Application {
     }
 
     private class GrammarLoader extends Thread {
-
-        private PGF pgf;
-
         public GrammarLoader() {
             pgf = null;
         }
