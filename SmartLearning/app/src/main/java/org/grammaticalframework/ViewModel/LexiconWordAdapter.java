@@ -70,6 +70,7 @@ public class LexiconWordAdapter extends RecyclerView.Adapter<LexiconWordAdapter.
         //viewHolder.wordTextView.setText(lexiconWord.getWord());
         viewHolder.wordTextView.setText(lexiconWord.getWord());
         viewHolder.explanationTextView.setText(lexiconWord.getExplanation());
+        viewHolder.tagTextView.setText(lexiconWord.getTag());
     }
 
     @Override
@@ -81,12 +82,14 @@ public class LexiconWordAdapter extends RecyclerView.Adapter<LexiconWordAdapter.
 
         public TextView wordTextView;
         public TextView explanationTextView;
+        public TextView tagTextView;
 
         public WordItemViewHolder(View itemView) {
             super(itemView);
 
             wordTextView = itemView.findViewById(R.id.lexicon_item_name);
             explanationTextView = itemView.findViewById(R.id.lexicon_item_explanation);
+            tagTextView = itemView.findViewById(R.id.lexicon_tag);
         }
     }
 }

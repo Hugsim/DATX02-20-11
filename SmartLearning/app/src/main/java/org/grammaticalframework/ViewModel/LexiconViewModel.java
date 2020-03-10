@@ -5,6 +5,8 @@ import android.text.Html;
 import android.util.Log;
 
 import org.grammaticalframework.SmartLearning;
+import org.grammaticalframework.gf.GF;
+import org.grammaticalframework.gf.Word;
 import org.grammaticalframework.pgf.Concr;
 import org.grammaticalframework.pgf.Expr;
 import org.grammaticalframework.pgf.MorphoAnalysis;
@@ -25,6 +27,8 @@ public class LexiconViewModel extends AndroidViewModel {
     private Concr swe;
     private static final String TAG = LexiconViewModel.class.getSimpleName();
     private List<String> lemmas;
+    private GF gfClass;
+    private PGF gr;
 
     public LexiconViewModel(@NonNull Application application) {
         super(application);
@@ -34,6 +38,8 @@ public class LexiconViewModel extends AndroidViewModel {
         eng = sl.getSourceConcr();
         swe = sl.getTargetConcr();
         lemmas = new ArrayList<>();
+        gfClass = new GF(sl);
+        gr = sl.getGrammar();
     }
 
     public List<LexiconWord> getTranslatedWords(){
@@ -54,7 +60,7 @@ public class LexiconViewModel extends AndroidViewModel {
                 for (String s : swe.linearizeAll(e)) {
                     if (!translatedWords.contains(s)) {
                         translatedWords.add(s);
-                        lexiconWords.add(new LexiconWord(an.getLemma(), s, "explanation"));
+                        lexiconWords.add(new LexiconWord(an.getLemma(), s, "explanation", getWordClassTag(an.getLemma())));
                     }
                 }
                 lemmas.add(an.getLemma());
@@ -70,4 +76,13 @@ public class LexiconViewModel extends AndroidViewModel {
     }
 
  */
+
+    public String getWordClassTag(String word){
+        Expr e = Expr.readExpr("MkTag (Inflection"  + wordClass(word) +")");
+        return eng.linearize(e);
+    }
+
+    public String wordClass(String lemma){
+        return gr.getFunctionType(lemma).getCategory();
+    }
 }
