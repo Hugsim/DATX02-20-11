@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -88,6 +89,7 @@ public class MainLexiconFragment extends BaseFragment {
         wordAdapter = new LexiconWordAdapter(lexiconWordList, lexiconDetailsFragment, navController);
         rvLexicon.setAdapter(wordAdapter);
         rvLexicon.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rvLexicon.addItemDecoration(new DividerItemDecoration((rvLexicon.getContext()), DividerItemDecoration.VERTICAL));
 
         return fragmentView;
     }
@@ -100,12 +102,14 @@ public class MainLexiconFragment extends BaseFragment {
     private void updateRecycler(String searchString){
         lexiconVM.wordTranslator(searchString);
         lexiconWordList = lexiconVM.getTranslatedWords();
+        rvLexicon.addItemDecoration(new DividerItemDecoration((rvLexicon.getContext()), DividerItemDecoration.VERTICAL));
     }
 
     private void clearRecyclerView(){
         int size = lexiconVM.getTranslatedWords().size();
         lexiconVM.getTranslatedWords().clear();
         listSize = size;
+
     }
 }
 

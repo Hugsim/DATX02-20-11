@@ -83,8 +83,12 @@ public class LexiconDetailsFragment extends BaseFragment {
             //model.inflect(translatedWord);
             textView1.setText(translatedWord);
 
+<<<<<<< HEAD
             String html = model.inflect(lemma);
 
+=======
+            String html = model.wordClass(lemma);
+>>>>>>> c5f469bff5aad952ca29bd20ae2ba4414ccf40f3
             webView.loadData(html, "text/html", "UTF-8");
         }
     }
