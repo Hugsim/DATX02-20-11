@@ -12,41 +12,55 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = WNExplanation.class, version = 1)
+@Database(entities = {WNExplanation.class}, version = 1, exportSchema = false)
 public abstract class WNExplanationDatabase extends RoomDatabase {
 
     private static final String TAG = WNExplanationDatabase.class.getSimpleName();
-    private  static WNExplanationDatabase instance;
-
+    private  static WNExplanationDatabase INSTANCE;
     public abstract WNExplanationDao wordNetExplanationDao();
+    private static final int NUMBER_OF_THREADS = 4;
+    static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
-    public static synchronized WNExplanationDatabase getInstance(Context context){
+    public static synchronized WNExplanationDatabase getInstance(final Context context){
         //TODO: something is not working, not sure what.
-        if (instance == null){
-            Log.d("Henrik", "kommer till createDB");
-            instance = Room.databaseBuilder(context.getApplicationContext(),
-                    WNExplanationDatabase.class, "wordNetExplanation_database.db")
-                    .addCallback(new RoomDatabase.Callback(){
-                        @Override
-                        public void onCreate(@NonNull SupportSQLiteDatabase db) {
-                            super.onCreate(db);
-                            Log.d("Henrik", "kommer till onCreate");
-
-                            Executors.newSingleThreadScheduledExecutor().execute(new Runnable() {
-                                @Override
-                                public void run() {
-                                    // insert data using DAO
-                                    getInstance(context).wordNetExplanationDao().insertAll(getInstance(context).parseCsv(context));
-                                }
-                            });
-                        }
-                    })
-                    .build();
+        if(INSTANCE == null){
+            synchronized (WNExplanationDatabase.class){
+                if (INSTANCE == null){
+                    System.out.println("Hej");
+                    Log.d("Henrik", "kommer till createDB1");
+                    INSTANCE = Room
+                            .databaseBuilder(context.getApplicationContext(),
+                                    WNExplanationDatabase.class, "wordNetExplanation_database.db")
+                            .addCallback(callback)
+                            .build();
+                }
+            }
         }
-        return instance;
+        Log.d("Henrik", "kommer till createDB4");
+        return INSTANCE;
     }
+
+    private static RoomDatabase.Callback callback = new RoomDatabase.Callback(){
+        @Override
+        public void onCreate(@NonNull SupportSQLiteDatabase db) {
+            super.onCreate(db);
+            // insert data using DAO
+            Log.d("Henrik", "kommer till createDB3");
+
+            databaseWriteExecutor.execute(()->{
+                WNExplanationDao dao = INSTANCE.wordNetExplanationDao();
+                dao.deleteAll();
+
+                WNExplanation wne = new WNExplanation("AFK", "Henrik is nice");
+                dao.insert(wne);
+            });
+
+            //INSTANCE.wordNetExplanationDao().insertAll(INSTANCE.parseCsv());
+        }
+    };
 
     public static List<WNExplanation> parseCsv(Context context) {
         Log.d("Henrik", "kommer till parseCSV");
