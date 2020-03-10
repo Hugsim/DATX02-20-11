@@ -33,8 +33,9 @@ public abstract class WNExplanationDatabase extends RoomDatabase {
                     Log.d("Henrik", "kommer till createDB1");
                     INSTANCE = Room
                             .databaseBuilder(context.getApplicationContext(),
-                                    WNExplanationDatabase.class, "wordNetExplanation_database.db")
-                            .addCallback(callback)
+                                    WNExplanationDatabase.class, "WordNet.db")
+                            .createFromAsset("WordNet.db")
+                            //.addCallback(callback)
                             .build();
                 }
             }

@@ -3,12 +3,15 @@ package org.grammaticalframework.Repository;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
 public class WNExplanationRepository {
+
+    final static String TAG = WNExplanationRepository.class.getSimpleName();
     private WNExplanationDao mWNExplanationDao;
     private LiveData<List<WNExplanation>> allWordNetExplanations;
 
@@ -16,10 +19,12 @@ public class WNExplanationRepository {
         WNExplanationDatabase database = WNExplanationDatabase.getInstance(application);
         mWNExplanationDao = database.wordNetExplanationDao();
         allWordNetExplanations = mWNExplanationDao.getAllWordNetExplanations();
+        WNExplanation e = mWNExplanationDao.getWNExplanation("a_bomb_N").getValue();
     }
 
     public void insert (WNExplanation wne){
         WNExplanationDatabase.databaseWriteExecutor.execute(()-> {
+            Log.d(TAG, "REPO_INSERT");
             mWNExplanationDao.insert(wne);
         });
     }

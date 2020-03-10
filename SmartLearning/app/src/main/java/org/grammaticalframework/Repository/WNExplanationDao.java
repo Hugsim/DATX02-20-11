@@ -18,7 +18,7 @@ public interface WNExplanationDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<WNExplanation> wneList);
 
-    @Query("DELETE FROM wordnetexplanation_table")
+    @Query("DELETE FROM WordNetExplanation_table")
     void deleteAll();
 
     //TODO Create queries that fetches the data we need from the database.

@@ -35,6 +35,7 @@ public class LexiconViewModel extends AndroidViewModel {
         WNExplanationRepository wnExplanationRepository = new WNExplanationRepository(application);
         wnExplanationLiveData = wnExplanationRepository.getAllWordNetExplanations();
 
+
     }
 
     public List<LexiconWord> getTranslatedWords(){
