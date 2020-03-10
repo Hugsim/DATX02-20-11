@@ -29,13 +29,9 @@ public abstract class WNExplanationDatabase extends RoomDatabase {
         if(INSTANCE == null){
             synchronized (WNExplanationDatabase.class){
                 if (INSTANCE == null){
-                    System.out.println("Hej");
-                    Log.d("Henrik", "kommer till createDB1");
                     INSTANCE = Room
                             .databaseBuilder(context.getApplicationContext(),
                                     WNExplanationDatabase.class, "wordnet.db")
-                            .createFromAsset("wordnet.db")
-                            //.addCallback(callback)
                             .build();
                     //Populate db with the explanations
                     databaseWriteExecutor.execute(() -> INSTANCE.wordNetExplanationDao().insertAll(parseCsv(context)));
@@ -43,26 +39,8 @@ public abstract class WNExplanationDatabase extends RoomDatabase {
             }
         }
 
-        Log.d("Henrik", "kommer till createDB4");
         return INSTANCE;
     }
-
-    private static RoomDatabase.Callback callback = new RoomDatabase.Callback(){
-        @Override
-        public void onCreate(@NonNull SupportSQLiteDatabase db) {
-            Log.d("Henrik", "kommer till createDB3");
-            super.onCreate(db);
-            // insert data using DAO
-
-            databaseWriteExecutor.execute(()->{
-                WNExplanationDao dao = INSTANCE.wordNetExplanationDao();
-                WNExplanation wne = new WNExplanation("AFK", "Henrik is nice");
-                dao.insert(wne);
-            });
-
-            //INSTANCE.wordNetExplanationDao().insertAll(INSTANCE.parseCsv());
-        }
-    };
 
     public static List<WNExplanation> parseCsv(Context context) {
         Log.d("Henrik", "kommer till parseCSV");
