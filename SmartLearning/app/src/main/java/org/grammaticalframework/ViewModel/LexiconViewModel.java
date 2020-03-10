@@ -63,22 +63,6 @@ public class LexiconViewModel extends AndroidViewModel {
 
     }
 /*
-        for (MorphoAnalysis an : eng.lookupMorpho(word)) {
-            if(swe.hasLinearization(an.getLemma())){ // Om ordet kan lineariseras
-                Expr e = Expr.readExpr(an.getLemma());
-                String s = swe.linearize(e);
-                if (!translatedWords.contains(s)){
-                    translatedWords.add(s);
-                    lexiconWords.add(new LexiconWord(an.getLemma(), s, "explanation"));
-                    lemmas.add(an.getLemma());
-                }
-            }
-        }
-        //stringToLexicon();
-    }
-
- */
-/*
     public void stringToLexicon(){
         for (String string: translatedWords){
             lexiconWords.add(new LexiconWord(string,"explanation"));

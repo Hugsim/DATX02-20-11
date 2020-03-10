@@ -61,13 +61,15 @@ public class LexiconDetailsFragment extends BaseFragment {
         });
 
         model = new ViewModelProvider(requireActivity()).get(LexiconDetailsViewModel.class);
-
+/*
         inflections = model.getInflections();
         recycler = (RecyclerView) fragmentView.findViewById(R.id.lexicon_details_recyclerview);
         mAdapter = new LexiconDetailsAdapter(inflections);
         recycler.setAdapter(mAdapter);
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+
+ */
         return fragmentView;
 
     }
@@ -82,13 +84,8 @@ public class LexiconDetailsFragment extends BaseFragment {
             lemma = args.getMessage2();
             //model.inflect(translatedWord);
             textView1.setText(translatedWord);
-
-<<<<<<< HEAD
             String html = model.inflect(lemma);
 
-=======
-            String html = model.wordClass(lemma);
->>>>>>> c5f469bff5aad952ca29bd20ae2ba4414ccf40f3
             webView.loadData(html, "text/html", "UTF-8");
         }
     }
