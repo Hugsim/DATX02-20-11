@@ -38,13 +38,7 @@ public class WNExplanationRepository {
         return allWordNetExplanations;
     }
 
-    public String getWNExplanation(String function){
-
-        AtomicReference<String> asdf = new AtomicReference<>();
-        WNExplanationDatabase.databaseWriteExecutor.execute(() -> {
-            asdf.set(mWNExplanationDao.getWNExplanation(function).getExplanation());
-        });
-        asdf.g
-        return asdf.get();
+    public LiveData<List<WNExplanation>> getWNExplanations(List<String> functions){
+        return mWNExplanationDao.getAllWordNetExplanations(functions);
     }
 }

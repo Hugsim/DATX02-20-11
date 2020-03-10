@@ -37,7 +37,7 @@ import java.util.Objects;
 
 public class MainLexiconFragment extends BaseFragment {
     private LexiconViewModel lexiconVM;
-    private List<LexiconWord> lexiconWordList;
+    private ArrayList<LexiconWord> lexiconWordList;
     private final BaseFragment lexiconDetailsFragment = FragmentFactory.createLexiconDetailsFragment();
     private EditText search_bar;
     private String searchString;
@@ -74,6 +74,17 @@ public class MainLexiconFragment extends BaseFragment {
                 wordAdapter.notifyItemRangeRemoved(0,listSize);
                 updateRecycler(searchString);
                 wordAdapter.notifyDataSetChanged();
+                //TODO: maybe perhaps we should not do this because of duplicate code
+                lexiconVM.getWnExplanationLiveData().observe(getViewLifecycleOwner(), wnExplanations -> {
+                    for(WNExplanation explanation : wnExplanations){
+                        for(LexiconWord lw : lexiconWordList){
+                            if(lw.getFunction().equals(explanation.getFunction())){
+                                lw.setExplanation(explanation.getExplanation());
+                                wordAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    }
+                });
                 return false;
             }
         });
@@ -82,6 +93,18 @@ public class MainLexiconFragment extends BaseFragment {
         wordAdapter = new LexiconWordAdapter(lexiconWordList, lexiconDetailsFragment);
         rvLexicon.setAdapter(wordAdapter);
         rvLexicon.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        //TODO: maybe perhaps we should not do this
+        lexiconVM.getWnExplanationLiveData().observe(getViewLifecycleOwner(), wnExplanations -> {
+            for(WNExplanation explanation : wnExplanations){
+                for(LexiconWord lw : lexiconWordList){
+                    if(lw.getFunction().equals(explanation.getFunction())){
+                        lw.setExplanation(explanation.getExplanation());
+                        wordAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        });
 
         return fragmentView;
 

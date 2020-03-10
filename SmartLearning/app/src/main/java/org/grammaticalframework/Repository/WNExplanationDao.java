@@ -28,4 +28,8 @@ public interface WNExplanationDao {
 
     @Query("SELECT * FROM WordNetExplanation_table WHERE function = :fname")
     WNExplanation getWNExplanation(String fname);
+
+    @Query("SELECT * FROM WordNetExplanation_table WHERE function IN (:functions)")
+    LiveData<List<WNExplanation>> getAllWordNetExplanations(List<String> functions);
+
 }

@@ -23,27 +23,26 @@ public class LexiconViewModel extends AndroidViewModel {
 
     final static String TAG = LexiconViewModel.class.getSimpleName();
 
-    private List<String> translatedWords = new ArrayList<>();
-    private List<LexiconWord> lexiconWords = new ArrayList<>();
+    private ArrayList<String> translatedWords = new ArrayList<>();
+    private ArrayList<LexiconWord> lexiconWords = new ArrayList<>();
     SmartLearning sl = (SmartLearning) getApplication().getApplicationContext();
     private Concr eng = sl.getSourceConcr();
     private Concr swe = sl.getTargetConcr();
 
-    public LiveData<List<WNExplanation>> wnExplanationLiveData;
+
+    //Livedata containing the explanations for the functions searched for
+    private LiveData<List<WNExplanation>> wnExplanationLiveData;
+    //The functions that we are going to find in wordnet
+    private List<String> functions = new ArrayList<>();
 
     WNExplanationRepository wnExplanationRepository;
 
     public LexiconViewModel(@NonNull Application application) {
         super(application);
-
         wnExplanationRepository = new WNExplanationRepository(application);
-        wnExplanationLiveData = wnExplanationRepository.getAllWordNetExplanations();
-        if (wnExplanationLiveData.getValue() != null){
-            Log.d(TAG, wnExplanationLiveData.getValue().toString());
-        }
     }
 
-    public List<LexiconWord> getTranslatedWords(){
+    public ArrayList<LexiconWord> getTranslatedWords(){
         return lexiconWords;
     }
 
@@ -51,20 +50,27 @@ public class LexiconViewModel extends AndroidViewModel {
         if (!translatedWords.isEmpty()){
             translatedWords.clear();
         }
+        if (!functions.isEmpty()){
+            functions.clear();
+        }
         for (MorphoAnalysis an : eng.lookupMorpho(word)) {
             Expr e = Expr.readExpr(an.getLemma());
-            String explanation = wnExplanationRepository.getWNExplanation(e.unApp().getFunction());
-            explanation = explanation == null ? "" : explanation;
+            String function = e.unApp().getFunction();
             //Log.d(TAG, an.getLemma());
             //Log.d(TAG, swe.linearize(e));
             for (String s : swe.linearizeAll(e)) {
                 if (!translatedWords.contains(s)){
+                    functions.add(function);
                     translatedWords.add(s);
-                    lexiconWords.add(new LexiconWord(s, explanation));
+                    lexiconWords.add(new LexiconWord(s, "", function));
                 }
                 Log.d(TAG, s);
             }
         }
+        wnExplanationLiveData = wnExplanationRepository.getWNExplanations(functions);
     }
 
+    public LiveData<List<WNExplanation>> getWnExplanationLiveData() {
+        return wnExplanationLiveData;
+    }
 }
