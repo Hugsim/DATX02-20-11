@@ -3,10 +3,13 @@ package org.grammaticalframework.ViewModel;
 public class LexiconWord {
     private String word;
     private String explanation;
+    private String function;
 
-    public LexiconWord(String word, String explanation) {
+
+    public LexiconWord(String word, String explanation, String function) {
         this.word = word;
         this.explanation = explanation;
+        this.function = function;
     }
 
     public String getWord() {
@@ -16,4 +19,8 @@ public class LexiconWord {
     public String getExplanation() {
         return explanation;
     }
+
+    public void setExplanation(String explanation) { this.explanation = explanation; }
+
+    public String getFunction() { return function; }
 }
