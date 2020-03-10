@@ -23,7 +23,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.grammaticalframework.R;
 import org.grammaticalframework.ViewModel.LexiconDetailsAdapter;
 import org.grammaticalframework.ViewModel.LexiconDetailsViewModel;
-import org.grammaticalframework.ViewModel.LexiconViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,10 +80,10 @@ public class LexiconDetailsFragment extends BaseFragment {
             LexiconDetailsFragmentArgs args = LexiconDetailsFragmentArgs.fromBundle(getArguments());
             translatedWord = args.getMessage();
             lemma = args.getMessage2();
-            model.inflect(translatedWord);
+            //model.inflect(translatedWord);
             textView1.setText(translatedWord);
 
-            String html = model.wordClass(lemma);
+            String html = model.inflect(lemma);
 
             webView.loadData(html, "text/html", "UTF-8");
         }

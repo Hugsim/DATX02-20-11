@@ -38,6 +38,7 @@ public class LexiconDetailsViewModel extends AndroidViewModel {
         return inflections;
     }
 
+    /*
     public void inflect(String word) {
         if (!inflections.isEmpty()){
             inflections.clear();
@@ -47,16 +48,28 @@ public class LexiconDetailsViewModel extends AndroidViewModel {
             for(Map.Entry<String,String> entry  : swe.tabularLinearize(e).entrySet()) {
                 if (!inflections.contains(entry.getValue())){
                     inflections.add(entry.getValue()); //Add inflections
-                    Log.d(TAG, entry.getValue());
+                    Log.d(TAG, entry.getKey() + ": " + entry.getValue());
                 }
             }
         }
     }
+                      
+     */
+
+    public String inflect(String word){
+        Log.d(TAG, word);
+        Expr e = Expr.readExpr("MkDocument (NoDefinition \"\") (Inflection" + wordClass(word) + " " + word + ") \"\"");
+        return swe.linearize(e);
+    }
 
     public String wordClass(String lemma){
+        return gr.getFunctionType(lemma).getCategory();
+        /*
         String wordClass = gr.getFunctionType(lemma).getCategory(); // Ordklass
         String inflectionFunction = "Inflection" + wordClass + " " + lemma;
         Expr e = Expr.readExpr(inflectionFunction);
         return eng.linearize(e);
+
+         */
     }
 }
