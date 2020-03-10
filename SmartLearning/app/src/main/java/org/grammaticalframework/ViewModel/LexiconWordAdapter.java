@@ -1,6 +1,7 @@
 package org.grammaticalframework.ViewModel;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ public class LexiconWordAdapter extends RecyclerView.Adapter<LexiconWordAdapter.
     private BaseFragment ldFragment;
     private NavController navController;
     static private String savedString;
+    private static final String TAG = LexiconWordAdapter.class.getSimpleName();
 
     static public void setSavedString(String string){
         savedString = string;
@@ -53,27 +55,20 @@ public class LexiconWordAdapter extends RecyclerView.Adapter<LexiconWordAdapter.
 
     @Override
     public void onBindViewHolder(LexiconWordAdapter.WordItemViewHolder viewHolder, int position) {
-        // Tar bort ordklassen från ordet
+
         LexiconWord lexiconWord = lexiconWordList.get(position);
-        String[] words = lexiconWord.getWord().split(" ");
 
-        StringBuilder sb = new StringBuilder(words[1]);
-        for(int i = 2; i < words.length; i++){
-            sb.append(" ");
-            sb.append(words[i]);
-        }
-
-        String word = sb.toString();
-
-        // Skickar med ordet till LexiconDetailsFragment
+        // Skickar med ordet (lemma + translatedWord) till LexiconDetailsFragment
         MainLexiconFragmentDirections.ActionLexiconFragmentToLexiconDetailsFragment action = MainLexiconFragmentDirections.actionLexiconFragmentToLexiconDetailsFragment();
         action.setMessage(lexiconWord.getWord());
+        action.setMessage2(lexiconWord.getLemma());
+
 
         viewHolder.itemView.setOnClickListener((v) -> {
             navController.navigate(action);
         });
         //viewHolder.wordTextView.setText(lexiconWord.getWord());
-        viewHolder.wordTextView.setText(word);
+        viewHolder.wordTextView.setText(lexiconWord.getWord());
         viewHolder.explanationTextView.setText(lexiconWord.getExplanation());
     }
 

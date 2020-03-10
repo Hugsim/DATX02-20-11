@@ -53,11 +53,10 @@ public class LexiconDetailsViewModel extends AndroidViewModel {
         }
     }
 
-    public String wordClass(String lemma ){
+    public String wordClass(String lemma){
         String wordClass = gr.getFunctionType(lemma).getCategory(); // Ordklass
         String inflectionFunction = "Inflection" + wordClass + " " + lemma;
         Expr e = Expr.readExpr(inflectionFunction);
         return eng.linearize(e);
     }
-
 }

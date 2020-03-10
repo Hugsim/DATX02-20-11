@@ -79,18 +79,8 @@ public class LexiconDetailsFragment extends BaseFragment {
 
         if(getArguments() != null){
             LexiconDetailsFragmentArgs args = LexiconDetailsFragmentArgs.fromBundle(getArguments());
-            String message = args.getMessage();
-            String[] words = message.split(" ");
-            lemma = words[0];
-
-            StringBuilder sb = new StringBuilder(words[1]);
-            for(int i = 2; i < words.length; i++){
-                sb.append(" ");
-                sb.append(words[i]);
-            }
-
-            String translatedWord = sb.toString();
-
+            translatedWord = args.getMessage();
+            lemma = args.getMessage2();
             model.inflect(translatedWord);
             textView1.setText(translatedWord);
 

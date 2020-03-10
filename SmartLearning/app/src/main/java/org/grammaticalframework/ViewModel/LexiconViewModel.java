@@ -24,7 +24,7 @@ public class LexiconViewModel extends AndroidViewModel {
     private Concr eng;
     private Concr swe;
     private static final String TAG = LexiconViewModel.class.getSimpleName();
-    private PGF gr;
+    private List<String> lemmas;
 
     public LexiconViewModel(@NonNull Application application) {
         super(application);
@@ -33,7 +33,7 @@ public class LexiconViewModel extends AndroidViewModel {
         sl = (SmartLearning) getApplication().getApplicationContext();
         eng = sl.getSourceConcr();
         swe = sl.getTargetConcr();
-        gr = sl.getGrammar();
+        lemmas = new ArrayList<>();
     }
 
     public List<LexiconWord> getTranslatedWords(){
@@ -41,25 +41,33 @@ public class LexiconViewModel extends AndroidViewModel {
     }
 
     public void wordTranslator(String word){
+        if (!lexiconWords.isEmpty()){
+            lexiconWords.clear();
+        }
         if (!translatedWords.isEmpty()){
             translatedWords.clear();
         }
+
         for (MorphoAnalysis an : eng.lookupMorpho(word)) {
             if(swe.hasLinearization(an.getLemma())){ // Om ordet kan lineariseras
                 Expr e = Expr.readExpr(an.getLemma());
                 for (String s : swe.linearizeAll(e)) {
-                    if (!translatedWords.contains(an.getLemma() + " " + s)){
-                        translatedWords.add(an.getLemma() + " " + s);
+                    if (!translatedWords.contains(s)){
+                        translatedWords.add(s);
+                        lexiconWords.add(new LexiconWord(an.getLemma(), s, "explanation"));
                     }
                 }
+                lemmas.add(an.getLemma());
             }
         }
-        stringToLexicon();
+        //stringToLexicon();
     }
-
+/*
     public void stringToLexicon(){
         for (String string: translatedWords){
             lexiconWords.add(new LexiconWord(string,"explanation"));
         }
     }
+
+ */
 }

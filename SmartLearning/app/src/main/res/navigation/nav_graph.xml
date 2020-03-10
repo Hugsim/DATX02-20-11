@@ -54,11 +54,17 @@
         android:label="fragment_lexicon_details"
         tools:layout="@layout/fragment_lexicon_details" >
         <argument
+            android:id="@+id/first_message"
             android:name="message"
             app:argType="string"
             android:defaultValue="default" />
         <action
             android:id="@+id/action_lexiconDetailsFragment_to_lexiconFragment"
             app:destination="@id/lexiconFragment"/>
-        </fragment>
+        <argument
+            android:id="@+id/second_message"
+            android:name="message2"
+            app:argType="string"
+            android:defaultValue="default" />
+    </fragment>
 </navigation>
