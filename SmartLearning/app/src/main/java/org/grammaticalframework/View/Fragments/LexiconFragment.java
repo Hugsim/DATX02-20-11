@@ -21,7 +21,6 @@ import java.util.List;
 
 public class LexiconFragment extends Fragment{
 
-    LexiconViewModel model;
 
     public LexiconFragment(){
 
@@ -29,14 +28,7 @@ public class LexiconFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        model = new ViewModelProvider(requireActivity()).get(LexiconViewModel.class);
-        final Observer<List<WNExplanation>> wneObserver = new Observer<List<WNExplanation>>() {
-            @Override
-            public void onChanged(List<WNExplanation> wnExplanations) {
-                Log.d("Henrik", Integer.toString(wnExplanations.size()));
-            }
-        };
-        model.wnExplanationLiveData.observe(getViewLifecycleOwner(), wneObserver);
+
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_lexicon, container, false);

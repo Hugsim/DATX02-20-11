@@ -18,9 +18,11 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
-import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class LexiconViewModel extends AndroidViewModel {
+
+    final static String TAG = LexiconViewModel.class.getSimpleName();
+
     private List<String> translatedWords = new ArrayList<>();
     private List<LexiconWord> lexiconWords = new ArrayList<>();
     SmartLearning sl = (SmartLearning) getApplication().getApplicationContext();
@@ -29,13 +31,16 @@ public class LexiconViewModel extends AndroidViewModel {
 
     public LiveData<List<WNExplanation>> wnExplanationLiveData;
 
+    WNExplanationRepository wnExplanationRepository;
+
     public LexiconViewModel(@NonNull Application application) {
         super(application);
 
-        WNExplanationRepository wnExplanationRepository = new WNExplanationRepository(application);
+        wnExplanationRepository = new WNExplanationRepository(application);
         wnExplanationLiveData = wnExplanationRepository.getAllWordNetExplanations();
-
-
+        if (wnExplanationLiveData.getValue() != null){
+            Log.d(TAG, wnExplanationLiveData.getValue().toString());
+        }
     }
 
     public List<LexiconWord> getTranslatedWords(){
@@ -48,21 +53,17 @@ public class LexiconViewModel extends AndroidViewModel {
         }
         for (MorphoAnalysis an : eng.lookupMorpho(word)) {
             Expr e = Expr.readExpr(an.getLemma());
+            String explanation = wnExplanationRepository.getWNExplanation(e.unApp().getFunction());
+            explanation = explanation == null ? "" : explanation;
             //Log.d(TAG, an.getLemma());
             //Log.d(TAG, swe.linearize(e));
             for (String s : swe.linearizeAll(e)) {
                 if (!translatedWords.contains(s)){
-                translatedWords.add(s);
+                    translatedWords.add(s);
+                    lexiconWords.add(new LexiconWord(s, explanation));
                 }
                 Log.d(TAG, s);
             }
-        }
-        stringToLexicon();
-    }
-
-    public void stringToLexicon(){
-        for (String string: translatedWords){
-            lexiconWords.add(new LexiconWord(string,"explanation"));
         }
     }
 

@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {WNExplanation.class}, version = 1, exportSchema = false)
+@Database(entities = {WNExplanation.class}, version = 1, exportSchema = true)
 public abstract class WNExplanationDatabase extends RoomDatabase {
 
     private static final String TAG = WNExplanationDatabase.class.getSimpleName();
@@ -33,13 +33,16 @@ public abstract class WNExplanationDatabase extends RoomDatabase {
                     Log.d("Henrik", "kommer till createDB1");
                     INSTANCE = Room
                             .databaseBuilder(context.getApplicationContext(),
-                                    WNExplanationDatabase.class, "WordNet.db")
-                            .createFromAsset("WordNet.db")
+                                    WNExplanationDatabase.class, "wordnet.db")
+                            .createFromAsset("wordnet.db")
                             //.addCallback(callback)
                             .build();
+                    //Populate db with the explanations
+                    databaseWriteExecutor.execute(() -> INSTANCE.wordNetExplanationDao().insertAll(parseCsv(context)));
                 }
             }
         }
+
         Log.d("Henrik", "kommer till createDB4");
         return INSTANCE;
     }
@@ -47,14 +50,12 @@ public abstract class WNExplanationDatabase extends RoomDatabase {
     private static RoomDatabase.Callback callback = new RoomDatabase.Callback(){
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
+            Log.d("Henrik", "kommer till createDB3");
             super.onCreate(db);
             // insert data using DAO
-            Log.d("Henrik", "kommer till createDB3");
 
             databaseWriteExecutor.execute(()->{
                 WNExplanationDao dao = INSTANCE.wordNetExplanationDao();
-                dao.deleteAll();
-
                 WNExplanation wne = new WNExplanation("AFK", "Henrik is nice");
                 dao.insert(wne);
             });
@@ -68,11 +69,12 @@ public abstract class WNExplanationDatabase extends RoomDatabase {
 
         LinkedList<WNExplanation> wneList = new LinkedList<>();
         try {
-            CSVReader csvReader = new CSVReader(new InputStreamReader(context.getAssets().open("WordNet.csv")));
+            CSVReader csvReader = new CSVReader(new InputStreamReader(context.getAssets().open("WordNet.csv")),';', ' ', 1);
             String[] nextLine;
 
             while ((nextLine = csvReader.readNext()) != null) {
-                Log.d(TAG, nextLine.toString());
+                if(nextLine.length < 2)
+                    continue;
                 wneList.add(new WNExplanation(nextLine[0], nextLine[1]));
             }
         }catch (Exception e){

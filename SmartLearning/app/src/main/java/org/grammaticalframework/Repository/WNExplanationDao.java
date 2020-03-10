@@ -26,6 +26,6 @@ public interface WNExplanationDao {
     @Query("SELECT * FROM WordNetExplanation_table")
     LiveData<List<WNExplanation>> getAllWordNetExplanations();
 
-    @Query("SELECT * FROM WordNetExplanation_table WHERE function=:fname")
-    LiveData<WNExplanation> getWNExplanation(String fname);
+    @Query("SELECT * FROM WordNetExplanation_table WHERE function = :fname")
+    WNExplanation getWNExplanation(String fname);
 }

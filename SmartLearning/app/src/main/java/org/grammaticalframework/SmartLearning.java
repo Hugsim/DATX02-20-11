@@ -2,6 +2,7 @@ package org.grammaticalframework;
 
 import java.io.*;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import android.app.Application;
@@ -9,6 +10,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import org.grammaticalframework.Repository.CSVReader;
+import org.grammaticalframework.Repository.WNExplanation;
+import org.grammaticalframework.Repository.WNExplanationDatabase;
 import org.grammaticalframework.pgf.Concr;
 import org.grammaticalframework.pgf.PGF;
 
@@ -63,6 +67,29 @@ public class SmartLearning extends Application {
         }
 
         otherLoader = null;
+
+        //init db
+        //WNExplanationDatabase.getInstance(getApplicationContext()).wordNetExplanationDao().insertAll(parseCsv(getApplicationContext()));
+
+    }
+
+    public static List<WNExplanation> parseCsv(Context context) {
+        Log.d("Henrik", "kommer till parseCSV");
+
+        LinkedList<WNExplanation> wneList = new LinkedList<>();
+        try {
+            CSVReader csvReader = new CSVReader(new InputStreamReader(context.getAssets().open("WordNet.csv")));
+            String[] nextLine;
+
+            while ((nextLine = csvReader.readNext()) != null) {
+                Log.d(TAG, nextLine.toString());
+                wneList.add(new WNExplanation(nextLine[0], nextLine[1]));
+            }
+        }catch (Exception e){
+            Log.d(TAG, e.getMessage());
+        }
+        Log.d("Henrik", "kommer till skicka tillbaka listan, listans size: " + wneList.size());
+        return wneList;
     }
 
     public List<Language> getAvailableLanguages() {
