@@ -25,7 +25,6 @@ public abstract class WNExplanationDatabase extends RoomDatabase {
     static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
     public static synchronized WNExplanationDatabase getInstance(final Context context){
-        //TODO: something is not working, not sure what.
         if(INSTANCE == null){
             synchronized (WNExplanationDatabase.class){
                 if (INSTANCE == null){
@@ -38,13 +37,10 @@ public abstract class WNExplanationDatabase extends RoomDatabase {
                 }
             }
         }
-
         return INSTANCE;
     }
 
     public static List<WNExplanation> parseCsv(Context context) {
-        Log.d("Henrik", "kommer till parseCSV");
-
         LinkedList<WNExplanation> wneList = new LinkedList<>();
         try {
             CSVReader csvReader = new CSVReader(new InputStreamReader(context.getAssets().open("WordNet.csv")),';', ' ', 1);
@@ -58,7 +54,6 @@ public abstract class WNExplanationDatabase extends RoomDatabase {
         }catch (Exception e){
             Log.d(TAG, e.getMessage());
         }
-        Log.d("Henrik", "kommer till skicka tillbaka listan, listans size: " + wneList.size());
         return wneList;
     }
 

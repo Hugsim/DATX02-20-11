@@ -10,8 +10,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class WNExplanationRepository {
-
-    final static String TAG = WNExplanationRepository.class.getSimpleName();
+    
     private WNExplanationDao mWNExplanationDao;
     private LiveData<List<WNExplanation>> allWordNetExplanations;
 
@@ -23,7 +22,6 @@ public class WNExplanationRepository {
 
     public void insert (WNExplanation wne){
         WNExplanationDatabase.databaseWriteExecutor.execute(()-> {
-            Log.d(TAG, "REPO_INSERT");
             mWNExplanationDao.insert(wne);
         });
     }
