@@ -92,12 +92,12 @@ class GF(val sl: SmartLearning) {
         }
 
         @JvmStatic
-        fun safeCreateWord(word: String, lang: Concr): Word {
-            Log.d(TAG, "Creating word $word")
-            if (lang.hasLinearization(word)) {
-                return Word(word)
+        fun safeCreateWord(lemma: String, lang: Concr): Word {
+            Log.d(TAG, "Creating word $lemma")
+            if (lang.hasLinearization(lemma)) {
+                return Word(lemma)
             } else {
-                return makeMostLikelyWord(word, lang)
+                return makeMostLikelyWord(lemma, lang)
             }
         }
     }
