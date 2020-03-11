@@ -37,6 +37,7 @@ public class SmartLearning extends Application {
         new Language("it-IT", "Italian", "ParseIta"),
         new Language("es-ES", "Spanish", "ParseSpa"),
         new Language("sv-SE", "Swedish", "ParseSwe"),
+        new Language("pt-PT", "Portuguese", "ParsePor"),
         new Language("th-TH", "Thai",    "ParseTha"),
     };
 
@@ -125,6 +126,16 @@ public class SmartLearning extends Application {
 
     public Language getTargetLanguage() {
         return targetLoader.getLanguage();
+    }
+
+    public int getLanguageIndex(Language language) {
+        for (int i = 0; i < languages.length; i++) {
+            if (language.equals(languages[i])) {
+                return i;
+            }
+        }
+
+        return 0;
     }
 
     public void setTargetLanguage(Language language) {

@@ -8,7 +8,7 @@
     android:background="#FFFFFF">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/lexicon_details_toolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
@@ -16,18 +16,19 @@
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
-        android:id="@+id/lexicon_details_back"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="7dp"
-        android:layout_marginLeft="7dp"
-        android:layout_marginTop="7dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/toolbar"
-        app:srcCompat="?attr/actionModeCloseDrawable" />
+        <ImageButton
+            android:id="@+id/lexicon_details_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:tint="@color/colorLight"
+            app:srcCompat="?attr/actionModeCloseDrawable"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="16dp" />
+
+    </androidx.appcompat.widget.Toolbar>
 
     <TextView
         android:id="@+id/lexicon_details_word"
@@ -39,5 +40,5 @@
         android:text="Fish"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/lexicon_details_toolbar" />
 </androidx.constraintlayout.widget.ConstraintLayout>
