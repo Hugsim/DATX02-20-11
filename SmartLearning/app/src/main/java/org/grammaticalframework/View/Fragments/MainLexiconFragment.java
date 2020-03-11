@@ -1,16 +1,13 @@
 package org.grammaticalframework.View.Fragments;
 
 import android.content.Context;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -23,12 +20,10 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,12 +31,10 @@ import com.google.android.material.appbar.AppBarLayout;
 
 import org.grammaticalframework.Language;
 import org.grammaticalframework.R;
-import org.grammaticalframework.SmartLearning;
 import org.grammaticalframework.View.FragmentFactory;
 import org.grammaticalframework.ViewModel.LexiconViewModel;
 import org.grammaticalframework.ViewModel.LexiconWord;
 import org.grammaticalframework.ViewModel.LexiconWordAdapter;
-
 import java.util.List;
 
 public class MainLexiconFragment extends BaseFragment implements AppBarLayout.OnOffsetChangedListener {
@@ -84,6 +77,7 @@ public class MainLexiconFragment extends BaseFragment implements AppBarLayout.On
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.fragment_lexicon, container, false);
 
+        lexiconWordList = lexiconVM.getTranslatedWords();
         search_bar = fragmentView.findViewById(R.id.lexicon_searchbar);
         fromLanguageSpinner = fragmentView.findViewById(R.id.lexicon_from_language);
         toLanguageSpinner = fragmentView.findViewById(R.id.lexicon_to_language);
@@ -206,13 +200,21 @@ public class MainLexiconFragment extends BaseFragment implements AppBarLayout.On
         // Initiate recycler view, set adapter
         NavController navController = Navigation.findNavController(getActivity().findViewById(R.id.nav_host_fragment));
         rvLexicon = (RecyclerView) fragmentView.findViewById(R.id.lexicon_recyclerview);
-        updateRecycler("fish");
+        /*
+        if (LexiconWordAdapter.getSavedString() == null){
+            updateRecycler("fish");
+        }
+        else {
+            updateRecycler(LexiconWordAdapter.getSavedString());
+        }
+
+         */
         wordAdapter = new LexiconWordAdapter(lexiconWordList, lexiconDetailsFragment, navController);
         rvLexicon.setAdapter(wordAdapter);
         rvLexicon.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rvLexicon.addItemDecoration(new DividerItemDecoration((rvLexicon.getContext()), DividerItemDecoration.VERTICAL));
 
         return fragmentView;
-
     }
 
     private void hideKeyboard(View view){
@@ -223,12 +225,14 @@ public class MainLexiconFragment extends BaseFragment implements AppBarLayout.On
     private void updateRecycler(String searchString){
         lexiconVM.wordTranslator(searchString);
         lexiconWordList = lexiconVM.getTranslatedWords();
+        rvLexicon.addItemDecoration(new DividerItemDecoration((rvLexicon.getContext()), DividerItemDecoration.VERTICAL));
     }
 
     private void clearRecyclerView(){
         int size = lexiconVM.getTranslatedWords().size();
         lexiconVM.getTranslatedWords().clear();
         listSize = size;
+
     }
 
     /*

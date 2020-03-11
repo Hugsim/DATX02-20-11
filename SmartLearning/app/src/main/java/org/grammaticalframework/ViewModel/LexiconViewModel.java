@@ -1,10 +1,11 @@
 package org.grammaticalframework.ViewModel;
 
 import android.app.Application;
-import android.util.Log;
 
 import org.grammaticalframework.Language;
 import org.grammaticalframework.SmartLearning;
+import org.grammaticalframework.gf.GF;
+import org.grammaticalframework.gf.Word;
 import org.grammaticalframework.pgf.Concr;
 import org.grammaticalframework.pgf.Expr;
 import org.grammaticalframework.pgf.MorphoAnalysis;
@@ -15,48 +16,51 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import static androidx.constraintlayout.widget.Constraints.TAG;
-
 public class LexiconViewModel extends AndroidViewModel {
     private List<String> translatedWords;
     private List<LexiconWord> lexiconWords;
     private SmartLearning sl;
-    private Concr fromLanguage;
-    private Concr toLanguage;
+    private Concr sourceLanguage;
+    private Concr targetLanguage;
+
+    private static final String TAG = LexiconViewModel.class.getSimpleName();
+    private List<String> lemmas;
+    private GF gfClass;
 
     public LexiconViewModel(@NonNull Application application) {
         super(application);
-
         translatedWords = new ArrayList<>();
         lexiconWords = new ArrayList<>();
         sl = (SmartLearning) getApplication().getApplicationContext();
-        fromLanguage = sl.getSourceConcr();
-        toLanguage = sl.getTargetConcr();
+        sourceLanguage = sl.getSourceConcr();
+        targetLanguage = sl.getTargetConcr();
+        lemmas = new ArrayList<>();
+        gfClass = new GF(sl);
     }
 
     public List<LexiconWord> getTranslatedWords(){
         return lexiconWords;
     }
 
-   public void wordTranslator(String word){
-        if (!translatedWords.isEmpty()){
+    public void wordTranslator(String word) {
+        if (!lexiconWords.isEmpty()) {
+            lexiconWords.clear();
+        }
+        if (!translatedWords.isEmpty()) {
             translatedWords.clear();
         }
-        for (MorphoAnalysis an : fromLanguage.lookupMorpho(word)) {
-            Expr e = Expr.readExpr(an.getLemma());
-            for (String s : toLanguage.linearizeAll(e)) {
-                if (!translatedWords.contains(s)){
-                translatedWords.add(s);
-                }
-                Log.d(TAG, s);
-            }
-        }
-        stringToLexicon();
-    }
 
-    private void stringToLexicon(){
-        for (String string: translatedWords){
-            lexiconWords.add(new LexiconWord(string,"explanation"));
+        for (MorphoAnalysis an : sourceLanguage.lookupMorpho(word)) {
+            if (targetLanguage.hasLinearization(an.getLemma())) { // Om ordet kan lineariseras
+                Expr e = Expr.readExpr(an.getLemma());
+                for (String s : targetLanguage.linearizeAll(e)) {
+                    if (!translatedWords.contains(s)) {
+                        translatedWords.add(s);
+                        lexiconWords.add(new LexiconWord(an.getLemma(), s, "explanation", gfClass.partOfSpeech(new Word(an.getLemma()))));
+                    }
+                }
+                lemmas.add(an.getLemma());
+            }
         }
     }
 
@@ -67,11 +71,11 @@ public class LexiconViewModel extends AndroidViewModel {
     }
 
     private void updateSourceLanguage() {
-        fromLanguage = sl.getSourceConcr();
+        sourceLanguage = sl.getSourceConcr();
     }
 
     private void updateTargetLanguage() {
-        toLanguage = sl.getTargetConcr();
+        targetLanguage = sl.getTargetConcr();
     }
 
     public List<Language> getAvailableLanguages() {
