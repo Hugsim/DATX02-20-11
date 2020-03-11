@@ -81,6 +81,7 @@ public class FillTheGapViewModel extends AndroidViewModel {
 
 
     public String getSentence() {
+        /*
         StringBuilder sb = new StringBuilder();
         for(String word : sentence) {
             sb.append(word);
@@ -88,6 +89,9 @@ public class FillTheGapViewModel extends AndroidViewModel {
         }
         sb.deleteCharAt(sb.length()-1);
         return sb.toString();
+        */
+
+        return gf.translateWord("apple");
     }
 
     public List<String> getInflections() {

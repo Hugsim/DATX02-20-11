@@ -6,7 +6,6 @@ import org.grammaticalframework.SmartLearning
 import org.grammaticalframework.pgf.Concr
 import org.grammaticalframework.pgf.Expr
 import org.grammaticalframework.pgf.PGF
-import java.lang.IllegalArgumentException
 
 const val TAG = "Kotl/GF"
 
@@ -33,12 +32,12 @@ ExprProb: An expression with a probability of correct parsing
  */
 
 class GF(val sl: SmartLearning) {
-    val from: Concr = sl.sourceConcr!!
-    val to: Concr = sl.targetConcr!!
-    val grammar: PGF = sl.pgf!!
+    val fromLang: Concr = sl.sourceConcr!! // Implicitly creates getFromLang
+    val toLang: Concr = sl.targetConcr!!   // Implicitly creates getToLang
+    val grammar: PGF = sl.pgf!!            // Implicitly creates getGrammar
 
     fun translateWord(str: String): String {
-        val answer = linearize(parse(str, from), to)
+        val answer = linearize(parse(str, fromLang), toLang)
         Log.d(TAG, "Translated \"${str}\" into \"$answer\"")
 
         Log.d(TAG, partOfSpeech(Word("play_1_V")))
@@ -64,16 +63,16 @@ class GF(val sl: SmartLearning) {
     }
 
     fun partOfSpeech(word: Word): String {
-        return linearize(Expr.readExpr("MkTag (Inflection${typeOf(word)} ${word.function})"), to)
+        return linearize(Expr.readExpr("MkTag (Inflection${typeOf(word)} ${word.function})"), toLang)
     }
 
     fun generateInflectionTable(word: Word): String {
-        return linearize(Expr.readExpr("MkDocument (NoDefinition \"\") (Inflection${typeOf(word)} ${word.function}) \"\""), to)
+        return linearize(Expr.readExpr("MkDocument (NoDefinition \"\") (Inflection${typeOf(word)} ${word.function}) \"\""), toLang)
     }
 
     fun translateSentence(sentence: String): Sentence {
         Log.d(TAG, "Translated $sentence")
-        return Sentence(parse(sentence, from), from)
+        return Sentence(parse(sentence, fromLang), fromLang)
     }
     
     companion object {
@@ -90,6 +89,16 @@ class GF(val sl: SmartLearning) {
         @JvmStatic
         fun makeMostLikelyWord(word: String, lang: Concr): Word {
             return Word(lang.lookupMorpho(word).first()?.lemma ?: "")
+        }
+
+        @JvmStatic
+        fun safeCreateWord(word: String, lang: Concr): Word {
+            Log.d(TAG, "Creating word $word")
+            if (lang.hasLinearization(word)) {
+                return Word(word)
+            } else {
+                return makeMostLikelyWord(word, lang)
+            }
         }
     }
 }
