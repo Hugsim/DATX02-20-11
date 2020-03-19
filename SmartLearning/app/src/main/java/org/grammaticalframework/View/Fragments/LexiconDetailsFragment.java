@@ -15,7 +15,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import org.grammaticalframework.R;
-import org.grammaticalframework.ViewModel.LexiconDetailsViewModel;
+import org.grammaticalframework.ViewModel.LexiconViewModel;
 
 
 public class LexiconDetailsFragment extends BaseFragment {
@@ -24,7 +24,7 @@ public class LexiconDetailsFragment extends BaseFragment {
     private String translatedWord;
     private String lemma;
     private NavController navController;
-    private LexiconDetailsViewModel model;
+    private LexiconViewModel model;
     private WebView webView;
     private TextView textView1;
     private static final String TAG = LexiconDetailsFragment.class.getSimpleName();
@@ -39,15 +39,14 @@ public class LexiconDetailsFragment extends BaseFragment {
         textView1 = fragmentView.findViewById(R.id.translated_word);
         webView = (WebView) fragmentView.findViewById(R.id.web_view);
 
-
         navController = Navigation.findNavController(getActivity().findViewById(R.id.nav_host_fragment));
         backButton = fragmentView.findViewById(R.id.lexicon_details_back);
 
         backButton.setOnClickListener((v) -> {
-            navController.navigate(R.id.action_lexiconDetailsFragment_to_lexiconFragment);
+            navController.popBackStack();
         });
 
-        model = new ViewModelProvider(requireActivity()).get(LexiconDetailsViewModel.class);
+        model = new ViewModelProvider(this).get(LexiconViewModel.class);
         return fragmentView;
 
     }

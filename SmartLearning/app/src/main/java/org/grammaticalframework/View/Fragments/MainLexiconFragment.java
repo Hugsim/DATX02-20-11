@@ -1,11 +1,13 @@
 package org.grammaticalframework.View.Fragments;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -67,12 +70,15 @@ public class MainLexiconFragment extends BaseFragment implements AppBarLayout.On
     private float switchOffsetY;
     private boolean updateVM;
 
+    private static final String TAG = MainLexiconFragment.class.getSimpleName();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         lexiconVM = new ViewModelProvider(this).get(LexiconViewModel.class);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.fragment_lexicon, container, false);
@@ -200,15 +206,6 @@ public class MainLexiconFragment extends BaseFragment implements AppBarLayout.On
         // Initiate recycler view, set adapter
         NavController navController = Navigation.findNavController(getActivity().findViewById(R.id.nav_host_fragment));
         rvLexicon = (RecyclerView) fragmentView.findViewById(R.id.lexicon_recyclerview);
-        /*
-        if (LexiconWordAdapter.getSavedString() == null){
-            updateRecycler("fish");
-        }
-        else {
-            updateRecycler(LexiconWordAdapter.getSavedString());
-        }
-
-         */
         wordAdapter = new LexiconWordAdapter(lexiconWordList, lexiconDetailsFragment, navController);
         rvLexicon.setAdapter(wordAdapter);
         rvLexicon.setLayoutManager(new LinearLayoutManager(getActivity()));

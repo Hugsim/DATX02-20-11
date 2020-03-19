@@ -9,6 +9,7 @@ import org.grammaticalframework.gf.Word;
 import org.grammaticalframework.pgf.Concr;
 import org.grammaticalframework.pgf.Expr;
 import org.grammaticalframework.pgf.MorphoAnalysis;
+import org.grammaticalframework.pgf.PGF;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +25,8 @@ public class LexiconViewModel extends AndroidViewModel {
     private Concr targetLanguage;
 
     private static final String TAG = LexiconViewModel.class.getSimpleName();
-    private List<String> lemmas;
     private GF gfClass;
+    private PGF gr;
 
     public LexiconViewModel(@NonNull Application application) {
         super(application);
@@ -34,8 +35,8 @@ public class LexiconViewModel extends AndroidViewModel {
         sl = (SmartLearning) getApplication().getApplicationContext();
         sourceLanguage = sl.getSourceConcr();
         targetLanguage = sl.getTargetConcr();
-        lemmas = new ArrayList<>();
         gfClass = new GF(sl);
+        gr = sl.getGrammar();
     }
 
     public List<LexiconWord> getTranslatedWords(){
@@ -51,17 +52,32 @@ public class LexiconViewModel extends AndroidViewModel {
         }
 
         for (MorphoAnalysis an : sourceLanguage.lookupMorpho(word)) {
-            if (targetLanguage.hasLinearization(an.getLemma())) { // Om ordet kan lineariseras
+            if (targetLanguage.hasLinearization(an.getLemma())) {
                 Expr e = Expr.readExpr(an.getLemma());
                 for (String s : targetLanguage.linearizeAll(e)) {
                     if (!translatedWords.contains(s)) {
                         translatedWords.add(s);
-                        lexiconWords.add(new LexiconWord(an.getLemma(), s, "explanation", gfClass.partOfSpeech(new Word(an.getLemma()))));
+                        lexiconWords.add(new LexiconWord(an.getLemma(), s, "explanation", speechTag(an.getLemma())));
                     }
                 }
-                lemmas.add(an.getLemma());
             }
         }
+    }
+
+    //gfClass.partOfSpeech(new Word(an.getLemma())))
+
+    public String speechTag(String lemma){
+        Expr e = Expr.readExpr("MkTag (Inflection" + wordClass(lemma) + " " + lemma + ")");
+        return targetLanguage.linearize(e);
+    }
+
+    public String inflect(String lemma){
+        Expr e = Expr.readExpr("MkDocument (NoDefinition \"\") (Inflection" + wordClass(lemma) + " " + lemma + ") \"\"");
+        return targetLanguage.linearize(e);
+    }
+
+    public String wordClass(String lemma){
+        return gr.getFunctionType(lemma).getCategory();
     }
 
     public void switchLanguages() {
