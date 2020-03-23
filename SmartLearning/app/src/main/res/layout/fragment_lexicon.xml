@@ -1,39 +1,228 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/lexicon_search_view"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    android:focusableInTouchMode="true"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
 
-    <include
-        android:id="@+id/lexicon_toolbar"
-        layout="@layout/lexicon_toolbar"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/lexicon_appbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        tools:layout_editor_absoluteX="-1dp"
-        tools:layout_editor_absoluteY="1dp" />
+        android:layout_height="112dp"
+        app:expanded="false">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/lexicon_collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:contentScrim="?attr/colorPrimary"
+
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:toolbarId="@+id/lexicon_lang_toolbar">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/lexicon_lang_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:layout_gravity="top"
+                android:background="@drawable/bottom_border"
+                android:gravity="center"
+                android:minHeight="0dp"
+                app:contentInsetLeft="0dp"
+                app:contentInsetStart="0dp">
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <Spinner
+                        android:id="@+id/lexicon_from_language"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:background="?attr/selectableItemBackground"
+                        android:gravity="center"
+                        android:spinnerMode="dropdown"
+                        tools:layout_editor_absoluteX="8dp"
+                        tools:layout_editor_absoluteY="28dp" />
+
+
+                    <ImageButton
+                        android:id="@+id/lexicon_switch_placeholder"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:background="@color/transparent"
+                        android:visibility="invisible"
+                        app:srcCompat="@drawable/arrows_forward"
+                        tools:layout_editor_absoluteX="108dp"
+                        tools:layout_editor_absoluteY="13dp" />
+
+                    <Spinner
+                        android:id="@+id/lexicon_to_language"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="1"
+                        android:background="?attr/selectableItemBackground"
+                        android:spinnerMode="dropdown"
+                        android:textColor="#EEE2CB"
+                        tools:layout_editor_absoluteX="303dp"
+                        tools:layout_editor_absoluteY="28dp" />
+                </LinearLayout>
+
+            </androidx.appcompat.widget.Toolbar>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginBottom="6dp"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/lexicon_searchbar"
+                        android:layout_width="200dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/rounded_corners"
+                        android:ellipsize="end"
+                        android:hint="@android:string/search_go"
+                        android:imeOptions="actionSearch"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:textSize="18sp" />
+
+                    <ImageButton
+                        android:id="@+id/lexicon_search_clear"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignEnd="@+id/lexicon_searchbar"
+                        android:layout_alignRight="@+id/lexicon_searchbar"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginRight="8dp"
+                        android:alpha="0.8"
+                        android:scaleX="0.9"
+                        android:scaleY="0.9"
+                        app:srcCompat="@drawable/ic_clear_circle_black_24dp" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/lexicon_from_short"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginBottom="6dp"
+                    android:layout_weight="1"
+                    android:text="EN"
+                    android:textColor="@color/colorLight"
+                    android:textSize="16sp" />
+
+                <ImageButton
+                    android:id="@+id/lexicon_switch_collapsed"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:background="@color/transparent"
+                    android:scaleX="1.2"
+                    android:scaleY="1.2"
+                    android:tint="@color/colorLight"
+                    app:srcCompat="@drawable/ic_swap_horiz_24dp" />
+
+                <TextView
+                    android:id="@+id/lexicon_to_short"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginRight="14dp"
+                    android:layout_marginBottom="6dp"
+                    android:layout_weight="1.2"
+                    android:gravity="end"
+                    android:text="SE"
+                    android:textColor="@color/colorLight"
+                    android:textSize="16sp" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/lexicon_expand_button_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="4dp"
+                    android:layout_weight="0.6">
+
+                    <ImageView
+                        android:id="@+id/lexicon_dropdown_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginRight="16dp"
+                        android:tint="@color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/lexicon_expand_button"
+                        app:srcCompat="@drawable/ic_arrow_drop_down_24dp" />
+
+                    <ImageButton
+                        android:id="@+id/lexicon_expand_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_weight="2"
+                        android:background="@null"
+                        android:tint="@color/colorLight"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.6"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_language_black_24dp" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lexicon_recyclerview"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginStart="1dp"
-        android:layout_marginLeft="1dp"
-        android:layout_marginTop="1dp"
         android:layout_marginEnd="1dp"
-        android:layout_marginRight="1dp"
-        android:layout_marginBottom="1dp"
+        android:background="@color/colorLight"
         android:focusableInTouchMode="true"
         android:scrollbars="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lexicon_toolbar"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:itemCount="0"
-        tools:listitem="@layout/lexicon_recycleritem" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        tools:listitem="@layout/lexicon_recycleritem">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

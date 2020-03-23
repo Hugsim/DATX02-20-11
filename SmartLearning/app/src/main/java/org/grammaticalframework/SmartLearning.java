@@ -21,6 +21,8 @@ public class SmartLearning extends Application {
     private ConcrLoader targetLoader;
     private ConcrLoader otherLoader;
 
+    private PGF pgf;
+
     private static final String SOURCE_LANG_KEY = "source_lang";
     private static final String TARGET_LANG_KEY = "target_lang";
 
@@ -37,6 +39,7 @@ public class SmartLearning extends Application {
         new Language("it-IT", "Italian", "ParseIta"),
         new Language("es-ES", "Spanish", "ParseSpa"),
         new Language("sv-SE", "Swedish", "ParseSwe"),
+        new Language("pt-PT", "Portuguese", "ParsePor"),
         new Language("th-TH", "Thai",    "ParseTha"),
     };
 
@@ -63,6 +66,10 @@ public class SmartLearning extends Application {
         }
 
         otherLoader = null;
+    }
+
+    public PGF getPgf() {
+        return pgf;
     }
 
     public List<Language> getAvailableLanguages() {
@@ -125,6 +132,20 @@ public class SmartLearning extends Application {
 
     public Language getTargetLanguage() {
         return targetLoader.getLanguage();
+    }
+
+    public int getLanguageIndex(Language language) {
+        for (int i = 0; i < languages.length; i++) {
+            if (language.equals(languages[i])) {
+                return i;
+            }
+        }
+
+        return 0;
+    }
+
+    public PGF getGrammar() {
+        return grammarLoader.getGrammar();
     }
 
     public void setTargetLanguage(Language language) {
@@ -192,9 +213,6 @@ public class SmartLearning extends Application {
     }
 
     private class GrammarLoader extends Thread {
-
-        private PGF pgf;
-
         public GrammarLoader() {
             pgf = null;
         }
