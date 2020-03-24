@@ -3,6 +3,9 @@
     <color name="colorPrimary">#4B332E</color>
     <color name="colorPrimaryDark">#281E1C</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="ColorAccent2">#633F31</color>
+    <color name="colorLight">#F8EFDC</color>
+    <color name="colorLine">#D18F48</color>
 
     <color name="green">#32CD32</color>
     <color name="transparent">@android:color/transparent</color>
