@@ -14,12 +14,14 @@ import org.grammaticalframework.pgf.MorphoAnalysis;
 import org.grammaticalframework.pgf.PGF;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 
 public class LexiconViewModel extends AndroidViewModel {
     private List<String> translatedWords;
@@ -79,7 +81,20 @@ public class LexiconViewModel extends AndroidViewModel {
                 }
             }
         }
-        lexiconWordsLiveData.setValue(lexiconWords);
+        LiveData<List<WNExplanation>> wnExplanationsLiveData = wnExplanationRepository.getWNExplanations(functions);
+        lexiconWordsLiveData = (MutableLiveData<List<LexiconWord>>) Transformations.switchMap(wnExplanationsLiveData, explanations -> {
+            for(LexiconWord lw : lexiconWords){
+                for(WNExplanation we : explanations) {
+                    if(lw.getFunction().equals(we.getFunction())) {
+                        lw.setExplanation(we.getExplanation());
+                        lexiconWordsLiveData.getValue().add(lw);
+                        return  lexiconWordsLiveData;
+                    }
+                }
+            }
+            return lexiconWordsLiveData;
+        });
+        //lexiconWordsLiveData.setValue(lexiconWords);
     }
 
     public LiveData<List<LexiconWord>> getLexiconWords() {
