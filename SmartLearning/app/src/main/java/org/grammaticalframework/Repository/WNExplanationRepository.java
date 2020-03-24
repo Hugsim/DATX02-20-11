@@ -39,4 +39,8 @@ public class WNExplanationRepository {
     public LiveData<List<WNExplanation>> getWNExplanations(List<String> functions){
         return mWNExplanationDao.getAllWordNetExplanations(functions);
     }
+
+    public WNExplanation getWNExplanationSync(String function){
+        return mWNExplanationDao.getWNExplanation(function);
+    }
 }

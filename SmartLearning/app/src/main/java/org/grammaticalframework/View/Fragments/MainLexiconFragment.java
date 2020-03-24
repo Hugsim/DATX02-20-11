@@ -43,7 +43,6 @@ import java.util.List;
 public class MainLexiconFragment extends BaseFragment implements AppBarLayout.OnOffsetChangedListener {
 
     private LexiconViewModel lexiconVM;
-    private List<LexiconWord> lexiconWordList;
     private final BaseFragment lexiconDetailsFragment = FragmentFactory.createLexiconDetailsFragment();
     private EditText search_bar;
     private AppBarLayout lexicon_toolbar;
@@ -83,7 +82,6 @@ public class MainLexiconFragment extends BaseFragment implements AppBarLayout.On
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.fragment_lexicon, container, false);
 
-        lexiconWordList = lexiconVM.getTranslatedWords();
         search_bar = fragmentView.findViewById(R.id.lexicon_searchbar);
         fromLanguageSpinner = fragmentView.findViewById(R.id.lexicon_from_language);
         toLanguageSpinner = fragmentView.findViewById(R.id.lexicon_to_language);
@@ -206,10 +204,15 @@ public class MainLexiconFragment extends BaseFragment implements AppBarLayout.On
         // Initiate recycler view, set adapter
         NavController navController = Navigation.findNavController(getActivity().findViewById(R.id.nav_host_fragment));
         rvLexicon = (RecyclerView) fragmentView.findViewById(R.id.lexicon_recyclerview);
-        wordAdapter = new LexiconWordAdapter(lexiconWordList, lexiconDetailsFragment, navController);
+        wordAdapter = new LexiconWordAdapter(lexiconDetailsFragment, navController);
         rvLexicon.setAdapter(wordAdapter);
         rvLexicon.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvLexicon.addItemDecoration(new DividerItemDecoration((rvLexicon.getContext()), DividerItemDecoration.VERTICAL));
+
+        //Observe livedata from viwemodel
+        lexiconVM.getLexiconWords().observe(getViewLifecycleOwner(), lexiconWords -> {
+            wordAdapter.setLexiconWordList(lexiconWords);
+        });
 
         return fragmentView;
     }
@@ -221,15 +224,11 @@ public class MainLexiconFragment extends BaseFragment implements AppBarLayout.On
 
     private void updateRecycler(String searchString){
         lexiconVM.wordTranslator(searchString);
-        lexiconWordList = lexiconVM.getTranslatedWords();
         rvLexicon.addItemDecoration(new DividerItemDecoration((rvLexicon.getContext()), DividerItemDecoration.VERTICAL));
     }
 
     private void clearRecyclerView(){
-        int size = lexiconVM.getTranslatedWords().size();
-        lexiconVM.getTranslatedWords().clear();
-        listSize = size;
-
+        //TODO: Clear livedata?
     }
 
     /*
@@ -313,7 +312,7 @@ public class MainLexiconFragment extends BaseFragment implements AppBarLayout.On
 
     private void searchWord(String searchString) {
         clearRecyclerView();
-        wordAdapter.notifyItemRangeRemoved(0,listSize);
+        //wordAdapter.notifyItemRangeRemoved(0,listSize);
         if (!searchString.isEmpty()) {
             updateRecycler(searchString);
             wordAdapter.notifyDataSetChanged();

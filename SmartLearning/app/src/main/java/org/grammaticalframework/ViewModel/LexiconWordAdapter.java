@@ -19,6 +19,7 @@ import org.grammaticalframework.View.Fragments.BaseFragment;
 import org.grammaticalframework.View.Fragments.LexiconDetailsFragment;
 import org.grammaticalframework.View.Fragments.MainLexiconFragmentDirections;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LexiconWordAdapter extends RecyclerView.Adapter<LexiconWordAdapter.WordItemViewHolder> {
@@ -28,10 +29,10 @@ public class LexiconWordAdapter extends RecyclerView.Adapter<LexiconWordAdapter.
     private NavController navController;
     private static final String TAG = LexiconWordAdapter.class.getSimpleName();
 
-    public LexiconWordAdapter(List<LexiconWord> word_list, BaseFragment ldFragment, NavController navController) {
-        lexiconWordList = word_list;
+    public LexiconWordAdapter(BaseFragment ldFragment, NavController navController) {
         this.ldFragment = ldFragment;
         this.navController = navController;
+        lexiconWordList = new ArrayList<>();
     }
 
     @Override
@@ -67,6 +68,11 @@ public class LexiconWordAdapter extends RecyclerView.Adapter<LexiconWordAdapter.
     @Override
     public int getItemCount() {
         return lexiconWordList.size();
+    }
+
+    public void setLexiconWordList(List<LexiconWord> lexiconWordList) {
+        this.lexiconWordList = lexiconWordList;
+        notifyDataSetChanged(); //TODO: change this, not optimal
     }
 
     public class WordItemViewHolder extends RecyclerView.ViewHolder {

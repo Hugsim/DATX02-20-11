@@ -3,6 +3,8 @@ package org.grammaticalframework.ViewModel;
 import android.app.Application;
 
 import org.grammaticalframework.Language;
+import org.grammaticalframework.Repository.WNExplanation;
+import org.grammaticalframework.Repository.WNExplanationRepository;
 import org.grammaticalframework.SmartLearning;
 import org.grammaticalframework.gf.GF;
 import org.grammaticalframework.gf.Word;
@@ -16,10 +18,16 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 public class LexiconViewModel extends AndroidViewModel {
     private List<String> translatedWords;
     private List<LexiconWord> lexiconWords;
+
+    private MutableLiveData<List<LexiconWord>> lexiconWordsLiveData = new MutableLiveData<>();
+
+
     private SmartLearning sl;
     private Concr sourceLanguage;
     private Concr targetLanguage;
@@ -27,6 +35,12 @@ public class LexiconViewModel extends AndroidViewModel {
     private static final String TAG = LexiconViewModel.class.getSimpleName();
     private GF gfClass;
     private PGF gr;
+
+    //The functions that we are going to find in wordnet
+    private List<String> functions = new ArrayList<>();
+
+    //The repository for explanataions
+    private WNExplanationRepository wnExplanationRepository;
 
     public LexiconViewModel(@NonNull Application application) {
         super(application);
@@ -37,10 +51,7 @@ public class LexiconViewModel extends AndroidViewModel {
         targetLanguage = sl.getTargetConcr();
         gfClass = new GF(sl);
         gr = sl.getGrammar();
-    }
-
-    public List<LexiconWord> getTranslatedWords(){
-        return lexiconWords;
+        wnExplanationRepository = new WNExplanationRepository(application);
     }
 
     public void wordTranslator(String word) {
@@ -50,18 +61,29 @@ public class LexiconViewModel extends AndroidViewModel {
         if (!translatedWords.isEmpty()) {
             translatedWords.clear();
         }
+        if (!functions.isEmpty()){
+            functions.clear();
+        }
 
         for (MorphoAnalysis an : sourceLanguage.lookupMorpho(word)) {
             if (targetLanguage.hasLinearization(an.getLemma())) {
                 Expr e = Expr.readExpr(an.getLemma());
+                String function = e.unApp().getFunction();
+                functions.add(function);
                 for (String s : targetLanguage.linearizeAll(e)) {
                     if (!translatedWords.contains(s)) {
                         translatedWords.add(s);
+                        //WNExplanation wne = wnExplanationRepository.getWNExplanationSync(function);
                         lexiconWords.add(new LexiconWord(an.getLemma(), s, "explanation", speechTag(an.getLemma())));
                     }
                 }
             }
         }
+        lexiconWordsLiveData.setValue(lexiconWords);
+    }
+
+    public LiveData<List<LexiconWord>> getLexiconWords() {
+        return lexiconWordsLiveData;
     }
 
     //gfClass.partOfSpeech(new Word(an.getLemma())))
