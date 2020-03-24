@@ -16,6 +16,7 @@ import androidx.navigation.Navigation;
 
 import org.grammaticalframework.R;
 import org.grammaticalframework.ViewModel.LexiconViewModel;
+import org.grammaticalframework.ViewModel.LexiconWord;
 
 
 public class LexiconDetailsFragment extends BaseFragment {
@@ -57,10 +58,15 @@ public class LexiconDetailsFragment extends BaseFragment {
 
         if(getArguments() != null){
             LexiconDetailsFragmentArgs args = LexiconDetailsFragmentArgs.fromBundle(getArguments());
-            translatedWord = args.getMessage();
-            lemma = args.getMessage2();
+            LexiconWord word = args.getMessage();
+            translatedWord = word.getWord();
+            lemma = word.getLemma();
             textView1.setText(translatedWord);
-            String html = model.inflect(lemma);
+            // TODO: maybe perhaps not write html like this?
+            String html = "<p>The function for this word is: " + word.getFunction() + "</p>";
+            html += "<h2>Explanation</h2>";
+            html += "<p>" + word.getExplanation() +"</p>";
+            html += model.inflect(lemma);
             webView.loadData(html, "text/html", "UTF-8");
         }
     }

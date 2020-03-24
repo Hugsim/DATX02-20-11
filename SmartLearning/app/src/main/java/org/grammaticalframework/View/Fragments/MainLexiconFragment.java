@@ -227,9 +227,11 @@ public class MainLexiconFragment extends BaseFragment implements AppBarLayout.On
                 for(int i = 0; i < lexiconWordList.size(); i++){
                     LexiconWord lexiconWord = lexiconWordList.get(i);
                     if(lexiconWord.getFunction().equals(explanation.getFunction())){
+                        Log.d(TAG, "MATCH");
                         lexiconWord.setExplanation(explanation.getExplanation());
                         lexiconWordList.set(i, lexiconWord);
-                        break;
+                        wordAdapter.setLexiconWordList(lexiconWordList);
+                        //break;
                     }
                 }
             }

@@ -1,6 +1,8 @@
 package org.grammaticalframework.ViewModel;
 
-public class LexiconWord {
+import java.io.Serializable;
+
+public class LexiconWord implements Serializable {
     private String lemma;
     private String word;
     private String explanation;

@@ -52,8 +52,8 @@ public class LexiconWordAdapter extends RecyclerView.Adapter<LexiconWordAdapter.
         LexiconWord lexiconWord = lexiconWordList.get(position);
 
         // Skickar med ordet (lemma + translatedWord) till LexiconDetailsFragment
-        MainLexiconFragmentDirections.ActionLexiconFragmentToLexiconDetailsFragment action = MainLexiconFragmentDirections.actionLexiconFragmentToLexiconDetailsFragment();
-        action.setMessage(lexiconWord.getWord());
+        MainLexiconFragmentDirections.ActionLexiconFragmentToLexiconDetailsFragment action = MainLexiconFragmentDirections.actionLexiconFragmentToLexiconDetailsFragment(lexiconWord);
+        action.setMessage(lexiconWord);
         action.setMessage2(lexiconWord.getLemma());
 
         viewHolder.itemView.setOnClickListener((v) -> {
