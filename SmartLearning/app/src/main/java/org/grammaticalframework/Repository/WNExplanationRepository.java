@@ -43,4 +43,5 @@ public class WNExplanationRepository {
     public WNExplanation getWNExplanationSync(String function){
         return mWNExplanationDao.getWNExplanation(function);
     }
+
 }

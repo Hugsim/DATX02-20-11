@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -210,6 +211,13 @@ public class MainLexiconFragment extends BaseFragment implements AppBarLayout.On
         rvLexicon.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvLexicon.addItemDecoration(new DividerItemDecoration((rvLexicon.getContext()), DividerItemDecoration.VERTICAL));
 
+        return fragmentView;
+    }
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         //Observe livedata from viwemodel
         //wordAdapter.setLexiconWordList(lexiconVM.getLexiconWords());
 
@@ -225,12 +233,10 @@ public class MainLexiconFragment extends BaseFragment implements AppBarLayout.On
                     }
                 }
             }
-            Log.d(TAG, "should redraw");
             wordAdapter.setLexiconWordList(lexiconWordList);
             wordAdapter.notifyDataSetChanged();
         });
 
-        return fragmentView;
     }
 
     private void hideKeyboard(View view){

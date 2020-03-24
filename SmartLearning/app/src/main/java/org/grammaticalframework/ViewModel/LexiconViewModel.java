@@ -29,7 +29,9 @@ public class LexiconViewModel extends AndroidViewModel {
     private List<String> translatedWords;
     private List<LexiconWord> lexiconWords;
 
-    private LiveData<List<WNExplanation>> wnExplanations;
+    static private LiveData<List<WNExplanation>> wnExplanations;
+
+    private MutableLiveData<List<String>> functionsToSearchFor = new MutableLiveData<>();
 
 
     private SmartLearning sl;
@@ -56,7 +58,9 @@ public class LexiconViewModel extends AndroidViewModel {
         gfClass = new GF(sl);
         gr = sl.getGrammar();
         wnExplanationRepository = new WNExplanationRepository(application);
-        wnExplanations = new MutableLiveData<>();
+        wnExplanations = Transformations.switchMap(functionsToSearchFor, functions -> {
+           return wnExplanationRepository.getWNExplanations(functions);
+        });
     }
 
     public void wordTranslator(String word) {
@@ -83,11 +87,13 @@ public class LexiconViewModel extends AndroidViewModel {
                 }
             }
         }
-        Log.d(TAG, "UPDATED WORDS");
-        //lexiconWordsLiveData.setValue(lexiconWords);
-        //wnExplanations = Transformations.map(wnExplanationRepository.getWNExplanations(functions), explanations -> explanations);
-        wnExplanations = wnExplanationRepository.getWNExplanations(functions);
-        Log.d(TAG, "UPDATED WORDS 2");
+
+        //Needs to be called, updates explanation livedata
+        searchForFunctions(functions);
+    }
+
+    private void searchForFunctions(List<String> functions){
+        functionsToSearchFor.setValue(functions);
     }
 
     public List<LexiconWord> getLexiconWords() {
@@ -95,7 +101,7 @@ public class LexiconViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<WNExplanation>> getWNExplanations() {
-        return Transformations.distinctUntilChanged(wnExplanations);
+        return wnExplanations;
     }
 
     //gfClass.partOfSpeech(new Word(an.getLemma())))
