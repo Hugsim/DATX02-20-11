@@ -9,7 +9,7 @@ with open('WordNet.gf') as inputfile:
             line = line[4:]
             function = line.split(" ")[0]
             if("--" not in line):
-                outputfile.writelines("\"" + function + ";\"\";" + "\"There is no explanation available for this word\"" + "\n")
+                outputfile.writelines("\"" + function + "\";\"random_siffra\";\"There is no explanation available for this word\"\n")
                 continue
             synonym = re.split(r'(-- )(.*?)((?:(?!\t).)*)', line)[3]
             explanation = re.split(r'\t(.*?)(\n|;)', line)[1]
