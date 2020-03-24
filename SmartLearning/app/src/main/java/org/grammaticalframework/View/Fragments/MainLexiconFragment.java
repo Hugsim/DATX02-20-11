@@ -214,6 +214,11 @@ public class MainLexiconFragment extends BaseFragment implements AppBarLayout.On
             wordAdapter.setLexiconWordList(lexiconWords);
         });
 
+        lexiconVM.getWNExplanations().observe(getViewLifecycleOwner(), wnExplanations -> {
+            Log.d(TAG, "WNE explanation changes observed in fragment");
+            wordAdapter.setExplanationWordList(wnExplanations);
+        });
+
         return fragmentView;
     }
 

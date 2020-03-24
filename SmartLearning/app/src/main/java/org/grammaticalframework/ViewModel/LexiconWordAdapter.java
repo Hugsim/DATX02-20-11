@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.grammaticalframework.R;
+import org.grammaticalframework.Repository.WNExplanation;
 import org.grammaticalframework.View.Fragments.BaseFragment;
 import org.grammaticalframework.View.Fragments.LexiconDetailsFragment;
 import org.grammaticalframework.View.Fragments.MainLexiconFragmentDirections;
@@ -73,6 +74,21 @@ public class LexiconWordAdapter extends RecyclerView.Adapter<LexiconWordAdapter.
     public void setLexiconWordList(List<LexiconWord> lexiconWordList) {
         this.lexiconWordList = lexiconWordList;
         notifyDataSetChanged(); //TODO: change this, not optimal
+    }
+
+    public void setExplanationWordList(List<WNExplanation> wnExplanations) {
+        Log.d(TAG, "setExplanationWordList");
+        if(wnExplanations.size() == lexiconWordList.size()){
+            for (WNExplanation wnExplanation: wnExplanations) {
+                for (LexiconWord lexiconWord: lexiconWordList) {
+                    if(lexiconWord.getFunction().equals(wnExplanation.getFunction())){
+                        lexiconWord.setExplanation(wnExplanation.getExplanation());
+                        break;
+                    }
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
     public class WordItemViewHolder extends RecyclerView.ViewHolder {

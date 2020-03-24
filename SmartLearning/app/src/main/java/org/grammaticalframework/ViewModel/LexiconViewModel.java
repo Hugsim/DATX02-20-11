@@ -1,6 +1,7 @@
 package org.grammaticalframework.ViewModel;
 
 import android.app.Application;
+import android.util.Log;
 
 import org.grammaticalframework.Language;
 import org.grammaticalframework.Repository.WNExplanation;
@@ -28,6 +29,8 @@ public class LexiconViewModel extends AndroidViewModel {
     private List<LexiconWord> lexiconWords;
 
     private MutableLiveData<List<LexiconWord>> lexiconWordsLiveData = new MutableLiveData<>();
+
+    private LiveData<List<WNExplanation>> wnExplanations = new MutableLiveData<>();
 
 
     private SmartLearning sl;
@@ -71,34 +74,41 @@ public class LexiconViewModel extends AndroidViewModel {
             if (targetLanguage.hasLinearization(an.getLemma())) {
                 Expr e = Expr.readExpr(an.getLemma());
                 String function = e.unApp().getFunction();
-                functions.add(function);
                 for (String s : targetLanguage.linearizeAll(e)) {
                     if (!translatedWords.contains(s)) {
+                        functions.add(function);
                         translatedWords.add(s);
                         //WNExplanation wne = wnExplanationRepository.getWNExplanationSync(function);
-                        lexiconWords.add(new LexiconWord(an.getLemma(), s, "explanation", speechTag(an.getLemma())));
+                        lexiconWords.add(new LexiconWord(an.getLemma(), s, "", speechTag(an.getLemma()), function));
                     }
                 }
             }
         }
-        LiveData<List<WNExplanation>> wnExplanationsLiveData = wnExplanationRepository.getWNExplanations(functions);
-        lexiconWordsLiveData = (MutableLiveData<List<LexiconWord>>) Transformations.switchMap(wnExplanationsLiveData, explanations -> {
+        /*lexiconWordsLiveData = (MutableLiveData<List<LexiconWord>>) Transformations.switchMap(wnExplanationRepository.getWNExplanations(functions), explanations -> {
+            Log.d(TAG, "inside of Transformations");
             for(LexiconWord lw : lexiconWords){
                 for(WNExplanation we : explanations) {
                     if(lw.getFunction().equals(we.getFunction())) {
                         lw.setExplanation(we.getExplanation());
-                        lexiconWordsLiveData.getValue().add(lw);
-                        return  lexiconWordsLiveData;
+                        List<LexiconWord> list = lexiconWordsLiveData.getValue();
+                        list.add(lw);
+                        lexiconWordsLiveData.setValue(list);
+                        return lexiconWordsLiveData;
                     }
                 }
             }
             return lexiconWordsLiveData;
-        });
-        //lexiconWordsLiveData.setValue(lexiconWords);
+        });*/
+        lexiconWordsLiveData.setValue(lexiconWords);
+        wnExplanations = wnExplanationRepository.getWNExplanations(functions);
     }
 
     public LiveData<List<LexiconWord>> getLexiconWords() {
         return lexiconWordsLiveData;
+    }
+
+    public LiveData<List<WNExplanation>> getWNExplanations() {
+        return wnExplanations;
     }
 
     //gfClass.partOfSpeech(new Word(an.getLemma())))

@@ -7,7 +7,7 @@ public class LexiconWord {
     private String function;
     private String tag;
 
-    public LexiconWord(String lemma, String word, String explanation, String tag) {
+    public LexiconWord(String lemma, String word, String explanation, String tag, String function) {
         this.lemma = lemma;
         this.word = word;
         this.explanation = explanation;
