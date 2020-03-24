@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {WNExplanation.class}, version = 1, exportSchema = true)
+@Database(entities = {WNExplanation.class}, version = 2, exportSchema = false)
 public abstract class WNExplanationDatabase extends RoomDatabase {
 
     private static final String TAG = WNExplanationDatabase.class.getSimpleName();
@@ -43,13 +43,13 @@ public abstract class WNExplanationDatabase extends RoomDatabase {
     public static List<WNExplanation> parseCsv(Context context) {
         LinkedList<WNExplanation> wneList = new LinkedList<>();
         try {
-            CSVReader csvReader = new CSVReader(new InputStreamReader(context.getAssets().open("WordNet.csv")),';', ' ', 1);
+            CSVReader csvReader = new CSVReader(new InputStreamReader(context.getAssets().open("WordNet.csv")),';', '"', 1);
             String[] nextLine;
 
             while ((nextLine = csvReader.readNext()) != null) {
-                if(nextLine.length < 2)
+                if(nextLine.length < 3)
                     continue;
-                wneList.add(new WNExplanation(nextLine[0], nextLine[1]));
+                wneList.add(new WNExplanation(nextLine[0], nextLine[1], nextLine[2]));
             }
         }catch (Exception e){
             Log.d(TAG, e.getMessage());

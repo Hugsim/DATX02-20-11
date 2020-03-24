@@ -15,12 +15,16 @@ public class WNExplanation {
     @ColumnInfo(name = "function")
     @NonNull
     private String function;
+    @ColumnInfo(name = "synonym")
+    @NonNull
+    private String synonym;
     @ColumnInfo(name = "explanation")
     @NonNull
     private String explanation;
 
-    public WNExplanation(String function, String explanation) {
+    public WNExplanation(String function, String synonym, String explanation) {
         this.function = function;
+        this.synonym = synonym;
         this.explanation = explanation;
     }
 
@@ -38,5 +42,14 @@ public class WNExplanation {
 
     public String getExplanation() {
         return explanation;
+    }
+
+    @NonNull
+    public String getSynonym() {
+        return synonym;
+    }
+
+    public void setSynonym(@NonNull String synonym) {
+        this.synonym = synonym;
     }
 }

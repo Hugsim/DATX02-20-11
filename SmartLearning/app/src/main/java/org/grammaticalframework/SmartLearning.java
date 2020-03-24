@@ -76,25 +76,6 @@ public class SmartLearning extends Application {
 
     }
 
-    public static List<WNExplanation> parseCsv(Context context) {
-        Log.d("Henrik", "kommer till parseCSV");
-
-        LinkedList<WNExplanation> wneList = new LinkedList<>();
-        try {
-            CSVReader csvReader = new CSVReader(new InputStreamReader(context.getAssets().open("WordNet.csv")));
-            String[] nextLine;
-
-            while ((nextLine = csvReader.readNext()) != null) {
-                Log.d(TAG, nextLine.toString());
-                wneList.add(new WNExplanation(nextLine[0], nextLine[1]));
-            }
-        }catch (Exception e){
-            Log.d(TAG, e.getMessage());
-        }
-        Log.d("Henrik", "kommer till skicka tillbaka listan, listans size: " + wneList.size());
-        return wneList;
-    }
-
     public PGF getPgf() {
         return pgf;
     }

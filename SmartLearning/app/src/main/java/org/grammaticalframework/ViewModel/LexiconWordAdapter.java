@@ -56,7 +56,6 @@ public class LexiconWordAdapter extends RecyclerView.Adapter<LexiconWordAdapter.
         action.setMessage(lexiconWord.getWord());
         action.setMessage2(lexiconWord.getLemma());
 
-
         viewHolder.itemView.setOnClickListener((v) -> {
             navController.navigate(action);
         });
