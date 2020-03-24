@@ -76,21 +76,6 @@ public class LexiconWordAdapter extends RecyclerView.Adapter<LexiconWordAdapter.
         notifyDataSetChanged(); //TODO: change this, not optimal
     }
 
-    public void setExplanationWordList(List<WNExplanation> wnExplanations) {
-        Log.d(TAG, "setExplanationWordList");
-        if(wnExplanations.size() == lexiconWordList.size()){
-            for (WNExplanation wnExplanation: wnExplanations) {
-                for (LexiconWord lexiconWord: lexiconWordList) {
-                    if(lexiconWord.getFunction().equals(wnExplanation.getFunction())){
-                        lexiconWord.setExplanation(wnExplanation.getExplanation());
-                        break;
-                    }
-                }
-            }
-        }
-        notifyDataSetChanged();
-    }
-
     public class WordItemViewHolder extends RecyclerView.ViewHolder {
 
         public TextView wordTextView;

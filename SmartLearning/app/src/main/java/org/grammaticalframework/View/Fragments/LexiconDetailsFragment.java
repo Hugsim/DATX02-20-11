@@ -46,7 +46,7 @@ public class LexiconDetailsFragment extends BaseFragment {
             navController.popBackStack();
         });
 
-        model = new ViewModelProvider(this).get(LexiconViewModel.class);
+        model = new ViewModelProvider(getActivity()).get(LexiconViewModel.class);
         return fragmentView;
 
     }
