@@ -62,8 +62,11 @@ public class FillTheGapClass {
     }
 
     private void scanBracket(Object bs) {
+        Log.d(TAG, "Bracketedscanned");
         if(bs instanceof Bracket){
-            if(((Bracket) bs).cat.equals("V")){
+            Log.d(TAG, ":DDDD");
+            if(((Bracket) bs).cat.equals("V")|| ((Bracket) bs).cat.equals("V2")|| ((Bracket) bs).cat.equals("V3")){
+                Log.d(TAG, "___________________________________________");
                 String verb = ((Bracket) bs).fun;
                 inflect(verb);
                 return; //After the first verb has been found, stop
@@ -79,6 +82,7 @@ public class FillTheGapClass {
     }
 
     private void inflect(String verb) {
+        Log.d(TAG, verb);
         Expr e = Expr.readExpr(verb);
         for(Map.Entry<String,String> entry  : target.tabularLinearize(e).entrySet()) {
             if(entry.getKey().contains("Act")){

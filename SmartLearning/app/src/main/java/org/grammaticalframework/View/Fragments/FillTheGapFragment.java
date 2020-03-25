@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import org.grammaticalframework.R;
 import org.grammaticalframework.View.MainActivity;
@@ -27,8 +29,10 @@ public class FillTheGapFragment extends Fragment{
     Button button4;
     Button button5;
     TextView sentence;
+    private boolean isCorrect = false;
 
     FillTheGapViewModel model;
+    NavController navController;
 
     public FillTheGapFragment () {
         // Required empty public constructor
@@ -55,6 +59,7 @@ public class FillTheGapFragment extends Fragment{
         buttons.add(button4 = getView().findViewById(R.id.button4));
         buttons.add(button5 = getView().findViewById(R.id.button5));
         sentence = getView().findViewById(R.id.exerciseSentence);
+        navController = Navigation.findNavController(view);
 
         model = new ViewModelProvider(requireActivity()).get(FillTheGapViewModel.class);
         List<String> inflections = model.getInflections();
@@ -65,6 +70,8 @@ public class FillTheGapFragment extends Fragment{
                 Toast toast;
                 if(model.checkCorrectAnswer(word)){
                     toast = Toast.makeText(getActivity(), "Correct answer!", Toast.LENGTH_SHORT);
+                    navController.navigate(R.id.action_fillTheGapFragment_self);
+                    model.getNewSentence();
                 }else{
                     toast = Toast.makeText(getActivity(), "Wrong answer!", Toast.LENGTH_SHORT);
                 }
@@ -72,7 +79,6 @@ public class FillTheGapFragment extends Fragment{
 
             });
         }
-
         sentence.setText(model.getSentence());
 
 
