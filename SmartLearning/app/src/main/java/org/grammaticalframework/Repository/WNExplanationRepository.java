@@ -44,4 +44,8 @@ public class WNExplanationRepository {
         return mWNExplanationDao.getWNExplanation(function);
     }
 
+    public WNExplanation getSynonym (String function){
+        return mWNExplanationDao.getWNSynonym(function);
+    }
+
 }
