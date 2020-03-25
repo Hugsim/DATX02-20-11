@@ -32,10 +32,16 @@ ExprProb: An expression with a probability of correct parsing
 
  */
 
-class GF(val sl: SmartLearning) {
-    val from: Concr = sl.sourceConcr!!
-    val to: Concr = sl.targetConcr!!
-    val grammar: PGF = sl.pgf!!
+class GF(var sl: SmartLearning) {
+
+    val from: Concr
+        get() = sl.sourceConcr!!
+
+    val to: Concr
+        get() = sl.targetConcr!!
+
+    val pgf: PGF
+        get() = sl.pgf!!
 
     fun translateWord(str: String): String {
         val answer = linearize(parse(str, from), to)
@@ -60,7 +66,7 @@ class GF(val sl: SmartLearning) {
     }
 
     fun typeOf(word: Word): String {
-        return grammar.getFunctionType(word.function).category
+        return sl.grammar.getFunctionType(word.function).category
     }
 
     fun partOfSpeech(word: Word): String {

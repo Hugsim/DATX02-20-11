@@ -69,6 +69,7 @@ public class LexiconViewModel extends AndroidViewModel {
     public String speechTag(String lemma){
         Expr e = Expr.readExpr("MkTag (Inflection" + wordClass(lemma) + " " + lemma + ")");
         return targetLanguage.linearize(e);
+        //return gfClass.partOfSpeech(new Word(lemma));
     }
 
     public String inflect(String lemma){
@@ -77,13 +78,12 @@ public class LexiconViewModel extends AndroidViewModel {
     }
 
     public String wordClass(String lemma){
-        return gr.getFunctionType(lemma).getCategory();
+        return gfClass.typeOf(new Word(lemma));
     }
 
     public void switchLanguages() {
         sl.switchLanguages();
-        updateSourceLanguage();
-        updateTargetLanguage();
+        gfClass.setSl(sl);
     }
 
     private void updateSourceLanguage() {
