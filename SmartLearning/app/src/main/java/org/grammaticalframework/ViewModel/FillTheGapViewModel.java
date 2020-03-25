@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 
+import org.grammaticalframework.FillTheGapClass;
 import org.grammaticalframework.SmartLearning;
 import org.grammaticalframework.gf.GF;
 import org.grammaticalframework.gf.Word;
@@ -31,6 +32,7 @@ public class FillTheGapViewModel extends AndroidViewModel {
     private List<String> sentence = new ArrayList<>();
     private List<String> inflections = new ArrayList<>();
     private String redactedWord;
+    private FillTheGapClass fillthegap;
 
     private GF gf;
 
@@ -44,13 +46,14 @@ public class FillTheGapViewModel extends AndroidViewModel {
         eng = mSmartLearning.getSourceConcr();
         swe = mSmartLearning.getTargetConcr();
 
-        Expr e = Expr.readExpr("PhrUtt NoPConj (UttS (UseCl (TTAnt TPast ASimul) PPos (PredVP (UsePron we_Pron) (AdvVP (UseV eat_2_V) a_la_carte_Adv)))) NoVoc");
+        //Expr e = Expr.readExpr("PhrUtt NoPConj (UttS (UseCl (TTAnt TPast ASimul) PPos (PredVP (UsePron we_Pron) (AdvVP (UseV eat_2_V) a_la_carte_Adv)))) NoVoc");
 
+        fillthegap = new FillTheGapClass("PhrUtt NoPConj (UttS (UseCl (TTAnt TPast ASimul) PPos (PredVP (UsePron we_Pron) (AdvVP (UseV eat_2_V) a_la_carte_Adv)))) NoVoc",
+                eng,swe);
+        /*Object[] bs = swe.bracketedLinearize(e);
+        printChildren(bs[0], bs[0]);*/
 
-        Object[] bs = swe.bracketedLinearize(e);
-        printChildren(bs[0], bs[0]);
-
-        String swedishLinearization = swe.linearize(e);
+        /*String swedishLinearization = swe.linearize(e);
         for(String word : swedishLinearization.split(" ")){
             sentence.add(word);
         }
@@ -63,18 +66,18 @@ public class FillTheGapViewModel extends AndroidViewModel {
                 inflections.set(indexInflection, temp);
                 redactedWord = word;
             }
-        }
+        }*/
 
         //Redact word(s)
 
-        if(sentence.contains(redactedWord)) {
+        /*if(sentence.contains(redactedWord)) {
             int toRemove = sentence.indexOf(redactedWord);
             String redacted = "";
             for (char c : redactedWord.toCharArray()) {
                 redacted += "_";
                 sentence.set(toRemove, redacted);
             }
-        }
+        }*/
 
 
     }
@@ -82,7 +85,7 @@ public class FillTheGapViewModel extends AndroidViewModel {
 
     public String getSentence() {
         StringBuilder sb = new StringBuilder();
-        for(String word : sentence) {
+        for(String word : fillthegap.getTargetSentence()) {
             sb.append(word);
             sb.append(" ");
         }
@@ -94,22 +97,24 @@ public class FillTheGapViewModel extends AndroidViewModel {
 
     public List<String> getInflections() {
         List<String> notAllInflections = new ArrayList<>();
-        for(int i = 0; i < 5 && i < inflections.size(); i++){
-            notAllInflections.add(inflections.get(i));
+        for(int i = 0; i < 5 && i < fillthegap.getInflections().size(); i++){
+            notAllInflections.add(fillthegap.getInflections().get(i));
         }
         Collections.shuffle(notAllInflections);
         return notAllInflections;
     }
 
     public boolean checkCorrectAnswer(String answer){
-        if(answer.equals(redactedWord)){
+        return fillthegap.checkCorrectAnswer(answer);
+
+        /*if(answer.equals(redactedWord)){
             return true;
         } else{
             return false;
-        }
+        }*/
     }
 
-    private void printChildren(Object bs, Object fullBs) {
+    /*private void printChildren(Object bs, Object fullBs) {
         if(bs instanceof Bracket){
             if(((Bracket) bs).cat.equals("V")){
                 inflect((Bracket) bs, (Bracket) fullBs);
@@ -123,9 +128,9 @@ public class FillTheGapViewModel extends AndroidViewModel {
         }else if(bs instanceof String){
             //Log.d(TAG, (String) bs);
         }
-    }
+    }*/
 
-    private void inflect(Bracket bracket, Bracket fullBs) {
+    /*private void inflect(Bracket bracket, Bracket fullBs) {
         String word = bracket.children[0].toString();
         for(MorphoAnalysis an : swe.lookupMorpho(word)){
             Expr e = Expr.readExpr(an.getLemma());
@@ -135,7 +140,7 @@ public class FillTheGapViewModel extends AndroidViewModel {
                 }
             }
         }
-    }
+    }*/
 
 
 }
