@@ -15,12 +15,15 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {WNExplanation.class}, version = 2, exportSchema = false)
+@Database(entities = {WNExplanation.class, FillTheGapExercise.class}, version = 2, exportSchema = false)
 public abstract class WNExplanationDatabase extends RoomDatabase {
 
     private static final String TAG = WNExplanationDatabase.class.getSimpleName();
     private  static WNExplanationDatabase INSTANCE;
     public abstract WNExplanationDao wordNetExplanationDao();
+
+    public abstract FillTheGapExerciseDao fillTheGapExerciseDao();
+
     private static final int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
@@ -30,20 +33,21 @@ public abstract class WNExplanationDatabase extends RoomDatabase {
                 if (INSTANCE == null){
                     INSTANCE = Room
                             .databaseBuilder(context.getApplicationContext(),
-                                    WNExplanationDatabase.class, "wordnet.db")
+                                    WNExplanationDatabase.class, "smartlearning.db")
                             .build();
-                    //Populate db with the explanations
-                    databaseWriteExecutor.execute(() -> INSTANCE.wordNetExplanationDao().insertAll(parseCsv(context)));
+                    //Populate db with the explanations & exercises
+                    databaseWriteExecutor.execute(() -> INSTANCE.wordNetExplanationDao().insertAll(parseCsv(context, "WordNet.csv")));
+                    databaseWriteExecutor.execute(() -> INSTANCE.wordNetExplanationDao().insertAll(parseCsv(context, "Exercises.csv")));
                 }
             }
         }
         return INSTANCE;
     }
 
-    public static List<WNExplanation> parseCsv(Context context) {
+    public static List<WNExplanation> parseCsv(Context context, String fileName) {
         LinkedList<WNExplanation> wneList = new LinkedList<>();
         try {
-            CSVReader csvReader = new CSVReader(new InputStreamReader(context.getAssets().open("WordNet.csv")),';', '"', 1);
+            CSVReader csvReader = new CSVReader(new InputStreamReader(context.getAssets().open(fileName)),';', '"', 1);
             String[] nextLine;
 
             while ((nextLine = csvReader.readNext()) != null) {
