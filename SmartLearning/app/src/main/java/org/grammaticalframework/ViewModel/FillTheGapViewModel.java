@@ -58,17 +58,20 @@ public class FillTheGapViewModel extends AndroidViewModel {
         //fillTheGapExerciseRepository = new FillTheGapExerciseRepository(application);
         //fillTheGapExercises = fillTheGapExerciseRepository.getAllFillTheGapExercises();
         //ftge = fillTheGapExerciseRepository.getFillTheGapExerciseSync("close_2_V");
-        //ftge = new FillTheGapExercise("PhrUtt NoPConj (UttS (UseCl (TTAnt TPast ASimul) PPos (PredVP (UsePron we_Pron) (AdvVP (UseV eat_2_V) a_la_carte_Adv)))) NoVoc","eat_2_V");
-        Expr e = Expr.readExpr("PhrUtt NoPConj (UttS (UseCl (TTAnt TPast ASimul) PPos (PredVP (UsePron we_Pron) (AdvVP (UseV eat_2_V) a_la_carte_Adv)))) NoVoc");
-        //linearizedSentence = target.linearize(e);
-        target.bracketedLinearize(e);
-        //findWordToRedact(bs[0]);
-        //setRedactedWord();
+        ftge = new FillTheGapExercise("PhrUtt NoPConj (UttS (UseCl (TTAnt TPast ASimul) PPos (PredVP (UsePron we_Pron) (AdvVP (UseV eat_2_V) a_la_carte_Adv)))) NoVoc","eat_2_V");
+        loadWord();
     }
     /*private void sentenceToExpr(){
         fillthegap.setExpr(Expr.readExpr(fillthegap.getSentence()));
     }*/
 
+    private void loadWord() {
+        expression = Expr.readExpr(ftge.getAbstractSyntaxTree());
+        linearizedSentence = target.linearize(expression);
+        Object[] bs = target.bracketedLinearize(expression);
+        findWordToRedact(bs[0]);
+        setRedactedWord();
+    }
 
 
     public String getSentence() {
@@ -95,7 +98,8 @@ public class FillTheGapViewModel extends AndroidViewModel {
 
 
     public void getNewSentence(){
-        ftge = new FillTheGapExercise("PhrUtt NoPConj (UttS (UseCl (TTAnt TPast ASimul) PPos (PredVP (DetCN (DetQuant IndefArt NumPl) (UseN finger_1_N)) (AdvVP (UseV close_2_V) (PrepNP in_1_Prep (DetCN (DetQuant IndefArt NumSg) (AdjCN (PositA tight_1_A) (UseN fist_N)))))))) NoVoc", "spare_V3");
+        ftge = new FillTheGapExercise("PhrUtt NoPConj (UttS (UseCl (TTAnt TPast ASimul) PPos (PredVP (DetCN (DetQuant DefArt NumSg) (UseN mother_1_N)) (ReflVPSlash (SlashV2a abandon_5_V2) (ReflPoss NumPl (UseN child_1_N)))))) NoVoc", "abandon_5_V2");
+        loadWord();
     }
 
     /*private void bracketLinearize(){
@@ -106,7 +110,8 @@ public class FillTheGapViewModel extends AndroidViewModel {
     private void findWordToRedact(Object bs){
             if(bs instanceof Bracket){
                 if(((Bracket) bs).fun.equals(ftge.getFunctionToReplace())){
-                    redactedWord = ((Bracket) bs).toString();
+                    redactedWord = ((Bracket) bs).children[0].toString();
+                    inflect(((Bracket) bs).fun);
                 } else{
                     if(((Bracket) bs).children != null) {
                         for(Object child : ((Bracket) bs).children) {
@@ -138,6 +143,9 @@ public class FillTheGapViewModel extends AndroidViewModel {
 
     private void inflect(String verb) {
         Log.d(TAG, verb);
+        if(!inflections.isEmpty()) {
+            inflections.clear();
+        }
         Expr e = Expr.readExpr(verb);
         for(Map.Entry<String,String> entry  : target.tabularLinearize(e).entrySet()) {
             if(entry.getKey().contains("Act")){
@@ -152,7 +160,8 @@ public class FillTheGapViewModel extends AndroidViewModel {
         ArrayList<String> sentence = new ArrayList<>();
         Collections.addAll(sentence, targetLinearization.split(" "));
         //Prepend the correct inflection to inflections
-
+        if(inflections.size() < 1)
+            return;
         String temp = inflections.get(0);
         int indexInflection = inflections.indexOf(redactedWord);
         inflections.set(0, redactedWord);
@@ -165,7 +174,7 @@ public class FillTheGapViewModel extends AndroidViewModel {
             for (char c : redactedWord.toCharArray()) {
                 redacted += "_";
                 sentence.set(toRemove, redacted);
-                linearizedSentence = sentence.toString();
+                linearizedSentence = android.text.TextUtils.join(" ", sentence);
             }
         }
     }
