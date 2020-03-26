@@ -4,8 +4,12 @@ import android.app.Application;
 import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Transformations;
 
 import org.grammaticalframework.FillTheGapClass;
+import org.grammaticalframework.Repository.FillTheGapExercise;
+import org.grammaticalframework.Repository.FillTheGapExerciseRepository;
 import org.grammaticalframework.SmartLearning;
 import org.grammaticalframework.gf.GF;
 import org.grammaticalframework.pgf.Bracket;
@@ -25,8 +29,18 @@ public class FillTheGapViewModel extends AndroidViewModel {
     private static final String TAG = FillTheGapViewModel.class.getSimpleName();
     Concr source;
     Concr target;
-    private FillTheGapClass fillthegap;
+    private FillTheGapExercise fillthegap;
+    private Expr expression;
     private GF gf;
+
+    private FillTheGapExercise ftge;
+
+    private FillTheGapExerciseRepository fillTheGapExerciseRepository;
+    private LiveData<List<FillTheGapExercise>> fillTheGapExercises;
+
+    private String redactedWord;
+    private String linearizedSentence;
+    private ArrayList<String> inflections = new ArrayList<>();
 
     public FillTheGapViewModel(Application application){
         super(application);
@@ -37,41 +51,42 @@ public class FillTheGapViewModel extends AndroidViewModel {
         gf = new GF(mSmartLearning);
         source = mSmartLearning.getSourceConcr();
         target = mSmartLearning.getTargetConcr();
-        fillthegap = new FillTheGapClass("PhrUtt NoPConj (UttS (AdvS (SubjS when_Subj (UseCl (TTAnt TPast ASimul) PPos (PredVP (DetCN (DetQuant IndefArt NumSg) (UseN studentMasc_1_N)) (ComplSlash (SlashV2a make_1_V2) (DetCN (DetQuant IndefArt NumSg) (AdjCN (PositA stupid_1_A) (UseN mistake_1_N))))))) (UseCl (TTAnt TPast ASimul) PPos (PredVP (UsePron he_Pron) (ComplSlash (Slash2V3 spare_V3 (UsePron they_Pron)) (DetCN (DetQuant no_Quant NumSg) (UseN abuse_2_N))))))) NoVoc"
-);
-        sentenceToExpr();
-        bracketLinearize();
-        setRedactedWord();
+        //fillthegap = new FillTheGapClass("PhrUtt NoPConj (UttS (AdvS (SubjS when_Subj (UseCl (TTAnt TPast ASimul) PPos (PredVP (DetCN (DetQuant IndefArt NumSg) (UseN studentMasc_1_N)) (ComplSlash (SlashV2a make_1_V2) (DetCN (DetQuant IndefArt NumSg) (AdjCN (PositA stupid_1_A) (UseN mistake_1_N))))))) (UseCl (TTAnt TPast ASimul) PPos (PredVP (UsePron he_Pron) (ComplSlash (Slash2V3 spare_V3 (UsePron they_Pron)) (DetCN (DetQuant no_Quant NumSg) (UseN abuse_2_N))))))) NoVoc");
+        //sentenceToExpr();
+        //bracketLinearize();
+
+        //fillTheGapExerciseRepository = new FillTheGapExerciseRepository(application);
+        //fillTheGapExercises = fillTheGapExerciseRepository.getAllFillTheGapExercises();
+        //ftge = fillTheGapExerciseRepository.getFillTheGapExerciseSync("close_2_V");
+        //ftge = new FillTheGapExercise("PhrUtt NoPConj (UttS (UseCl (TTAnt TPast ASimul) PPos (PredVP (UsePron we_Pron) (AdvVP (UseV eat_2_V) a_la_carte_Adv)))) NoVoc","eat_2_V");
+        Expr e = Expr.readExpr("PhrUtt NoPConj (UttS (UseCl (TTAnt TPast ASimul) PPos (PredVP (UsePron we_Pron) (AdvVP (UseV eat_2_V) a_la_carte_Adv)))) NoVoc");
+        //linearizedSentence = target.linearize(e);
+        target.bracketedLinearize(e);
+        //findWordToRedact(bs[0]);
+        //setRedactedWord();
     }
-    private void sentenceToExpr(){
+    /*private void sentenceToExpr(){
         fillthegap.setExpr(Expr.readExpr(fillthegap.getSentence()));
-    }
+    }*/
 
 
 
     public String getSentence() {
-        StringBuilder sb = new StringBuilder();
-        for(String word : fillthegap.getTargetSentence()) {
-            sb.append(word);
-            sb.append(" ");
-        }
-        sb.deleteCharAt(sb.length()-1);
-        return sb.toString();
-
+        return linearizedSentence;
         //return gf.translateWord("apple");
     }
 
     public List<String> getInflections() {
         List<String> notAllInflections = new ArrayList<>();
-        for(int i = 0; i < 5 && i < fillthegap.getInflections().size(); i++){
-            notAllInflections.add(fillthegap.getInflections().get(i));
+        for(int i = 0; i < 5 && i < inflections.size(); i++){
+            notAllInflections.add(inflections.get(i));
         }
         Collections.shuffle(notAllInflections);
         return notAllInflections;
     }
 
     public boolean checkCorrectAnswer(String answer){
-        if(answer.equals(fillthegap.getRedactedWord())){
+        if(answer.equals(redactedWord)){
             return true;
         } else{
             return false;
@@ -80,12 +95,26 @@ public class FillTheGapViewModel extends AndroidViewModel {
 
 
     public void getNewSentence(){
-        fillthegap = new FillTheGapClass("PhrUtt NoPConj (UttS (UseCl (TTAnt TPast ASimul) PPos (PredVP (DetCN (DetQuant IndefArt NumPl) (UseN finger_1_N)) (AdvVP (UseV close_2_V) (PrepNP in_1_Prep (DetCN (DetQuant IndefArt NumSg) (AdjCN (PositA tight_1_A) (UseN fist_N)))))))) NoVoc");
+        ftge = new FillTheGapExercise("PhrUtt NoPConj (UttS (UseCl (TTAnt TPast ASimul) PPos (PredVP (DetCN (DetQuant IndefArt NumPl) (UseN finger_1_N)) (AdvVP (UseV close_2_V) (PrepNP in_1_Prep (DetCN (DetQuant IndefArt NumSg) (AdjCN (PositA tight_1_A) (UseN fist_N)))))))) NoVoc", "spare_V3");
     }
 
-    private void bracketLinearize(){
+    /*private void bracketLinearize(){
         fillthegap.setBs(target.bracketedLinearize(fillthegap.getExpr()));
         scanBracket(fillthegap.getBs()[0]);
+    }*/
+
+    private void findWordToRedact(Object bs){
+            if(bs instanceof Bracket){
+                if(((Bracket) bs).fun.equals(ftge.getFunctionToReplace())){
+                    redactedWord = ((Bracket) bs).toString();
+                } else{
+                    if(((Bracket) bs).children != null) {
+                        for(Object child : ((Bracket) bs).children) {
+                            findWordToRedact(child);
+                        }
+                    }
+                }
+            }
     }
 
     private void scanBracket(Object bs) {
@@ -112,34 +141,31 @@ public class FillTheGapViewModel extends AndroidViewModel {
         Expr e = Expr.readExpr(verb);
         for(Map.Entry<String,String> entry  : target.tabularLinearize(e).entrySet()) {
             if(entry.getKey().contains("Act")){
-                fillthegap.getInflections().add(entry.getValue()); //Add inflections
+                inflections.add(entry.getValue()); //Add inflections
             }
         }
 
     }
 
     private void setRedactedWord(){
-        String targetLinearization = target.linearize(fillthegap.getExpr());
-        for(String word : targetLinearization.split(" ")){
-            fillthegap.getTargetSentence().add(word);
-        }
+        String targetLinearization = target.linearize(expression);
+        ArrayList<String> sentence = new ArrayList<>();
+        Collections.addAll(sentence, targetLinearization.split(" "));
         //Prepend the correct inflection to inflections
-        for(String word : fillthegap.getInflections()) {
-            if(targetLinearization.contains(word)){
-                String temp = fillthegap.getInflections().get(0);
-                int indexInflection = fillthegap.getInflections().indexOf(word);
-                fillthegap.getInflections().set(0, word);
-                fillthegap.getInflections().set(indexInflection, temp);
-                fillthegap.setRedactedWord(word);
-            }
-        }
-        if(fillthegap.getTargetSentence().contains(fillthegap.getRedactedWord())) {
+
+        String temp = inflections.get(0);
+        int indexInflection = inflections.indexOf(redactedWord);
+        inflections.set(0, redactedWord);
+        inflections.set(indexInflection, temp);
+
+        if(linearizedSentence.contains(redactedWord)) {
             Log.d(TAG, "ooga booga");
-            int toRemove = fillthegap.getTargetSentence().indexOf(fillthegap.getRedactedWord());
+            int toRemove = sentence.indexOf(redactedWord);
             String redacted = "";
-            for (char c : fillthegap.getRedactedWord().toCharArray()) {
+            for (char c : redactedWord.toCharArray()) {
                 redacted += "_";
-                fillthegap.getTargetSentence().set(toRemove, redacted);
+                sentence.set(toRemove, redacted);
+                linearizedSentence = sentence.toString();
             }
         }
     }
