@@ -60,8 +60,7 @@
         <argument
             android:id="@+id/first_message"
             android:name="message"
-            app:argType="string"
-            android:defaultValue="default" />
+            app:argType="org.grammaticalframework.ViewModel.LexiconWord" />
         <action
             android:id="@+id/action_lexiconDetailsFragment_to_lexiconFragment"
             app:destination="@id/lexiconFragment"/>

@@ -2,6 +2,7 @@ package org.grammaticalframework;
 
 import java.io.*;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import android.app.Application;
@@ -9,6 +10,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import org.grammaticalframework.Repository.CSVReader;
+import org.grammaticalframework.Repository.WNExplanation;
+import org.grammaticalframework.Repository.WNExplanationDatabase;
 import org.grammaticalframework.pgf.Concr;
 import org.grammaticalframework.pgf.PGF;
 
@@ -66,6 +70,10 @@ public class SmartLearning extends Application {
         }
 
         otherLoader = null;
+
+        //init db
+        //WNExplanationDatabase.getInstance(getApplicationContext()).wordNetExplanationDao().insertAll(parseCsv(getApplicationContext()));
+
     }
 
     public PGF getPgf() {
