@@ -3,11 +3,9 @@ package org.grammaticalframework.Repository;
 import android.content.Context;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import java.io.InputStreamReader;
 import java.util.LinkedList;
@@ -35,16 +33,21 @@ public abstract class WNExplanationDatabase extends RoomDatabase {
                             .databaseBuilder(context.getApplicationContext(),
                                     WNExplanationDatabase.class, "smartlearning.db")
                             .build();
+
+                    //empty the database
+                    //databaseWriteExecutor.execute(() -> INSTANCE.wordNetExplanationDao().deleteAll());
+                    //databaseWriteExecutor.execute(() -> INSTANCE.fillTheGapExerciseDao().deleteAll());
+
                     //Populate db with the explanations & exercises
-                    databaseWriteExecutor.execute(() -> INSTANCE.wordNetExplanationDao().insertAll(parseCsv(context, "WordNet.csv")));
-                    databaseWriteExecutor.execute(() -> INSTANCE.wordNetExplanationDao().insertAll(parseCsv(context, "Exercises.csv")));
+                    databaseWriteExecutor.execute(() -> INSTANCE.wordNetExplanationDao().insertAll(parseExplanationCSV(context, "WordNet.csv")));
+                    databaseWriteExecutor.execute(() -> INSTANCE.fillTheGapExerciseDao().insertAll(parseFillTheGapExerciseCSV(context, "Exercises.csv")));
                 }
             }
         }
         return INSTANCE;
     }
 
-    public static List<WNExplanation> parseCsv(Context context, String fileName) {
+    public static List<WNExplanation> parseExplanationCSV(Context context, String fileName) {
         LinkedList<WNExplanation> wneList = new LinkedList<>();
         try {
             CSVReader csvReader = new CSVReader(new InputStreamReader(context.getAssets().open(fileName)),';', '"', 1);
@@ -59,6 +62,23 @@ public abstract class WNExplanationDatabase extends RoomDatabase {
             Log.d(TAG, e.getMessage());
         }
         return wneList;
+    }
+
+    public static List<FillTheGapExercise> parseFillTheGapExerciseCSV(Context context, String fileName) {
+        LinkedList<FillTheGapExercise> fillTheGapExerciseList = new LinkedList<>();
+        try {
+            CSVReader csvReader = new CSVReader(new InputStreamReader(context.getAssets().open(fileName)),';', '"', 1);
+            String[] nextLine;
+
+            while ((nextLine = csvReader.readNext()) != null) {
+                if(nextLine.length < 2)
+                    continue;
+                fillTheGapExerciseList.add(new FillTheGapExercise(nextLine[0], nextLine[1]));
+            }
+        }catch (Exception e){
+            Log.d(TAG, e.getMessage());
+        }
+        return fillTheGapExerciseList;
     }
 
 }
