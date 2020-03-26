@@ -1,0 +1,3 @@
+abstractSyntaxTree;functionToReplace
+"PhrUtt NoPConj (UttS (UseCl (TTAnt TPast ASimul) PPos (PredVP (DetCN (DetQuant IndefArt NumPl) (UseN finger_1_N)) (AdvVP (UseV close_2_V) (PrepNP in_1_Prep (DetCN (DetQuant IndefArt NumSg) (AdjCN (PositA tight_1_A) (UseN fist_N)))))))) NoVoc";close_2_V
+"PhrUtt NoPConj (UttS (AdvS (SubjS when_Subj (UseCl (TTAnt TPast ASimul) PPos (PredVP (DetCN (DetQuant IndefArt NumSg) (UseN studentMasc_1_N)) (ComplSlash (SlashV2a make_1_V2) (DetCN (DetQuant IndefArt NumSg) (AdjCN (PositA stupid_1_A) (UseN mistake_1_N))))))) (UseCl (TTAnt TPast ASimul) PPos (PredVP (UsePron he_Pron) (ComplSlash (Slash2V3 spare_V3 (UsePron they_Pron)) (DetCN (DetQuant no_Quant NumSg) (UseN abuse_2_N))))))) NoVoc";spare_V3
