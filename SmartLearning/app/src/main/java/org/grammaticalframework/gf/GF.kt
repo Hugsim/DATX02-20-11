@@ -1,12 +1,12 @@
 package org.grammaticalframework.gf
 
 import android.util.Log
+import org.grammaticalframework.Language
 
 import org.grammaticalframework.SmartLearning
 import org.grammaticalframework.pgf.Concr
 import org.grammaticalframework.pgf.Expr
 import org.grammaticalframework.pgf.PGF
-import java.lang.IllegalArgumentException
 
 const val TAG = "Kotl/GF"
 
@@ -32,23 +32,29 @@ ExprProb: An expression with a probability of correct parsing
 
  */
 
-class GF(var sl: SmartLearning) {
+class GF(var smartLearningInstance: SmartLearning) {
 
-    val from: Concr
-        get() = sl.sourceConcr!!
+    val sourceConcr: Concr
+        get() = smartLearningInstance.sourceConcr!!
 
-    val to: Concr
-        get() = sl.targetConcr!!
+    val targetConcr: Concr
+        get() = smartLearningInstance.targetConcr!!
+
+    val sourceLang: Language
+        get() = smartLearningInstance.sourceLanguage!!
+
+    val targetLang: Language
+        get() = smartLearningInstance.targetLanguage!!
 
     val pgf: PGF
-        get() = sl.pgf!!
+        get() = smartLearningInstance.pgf!!
 
     fun translateWord(str: String): String {
-        val answer = linearize(parse(str, from), to)
+        val answer = linearize(parse(str, sourceConcr), targetConcr)
         Log.d(TAG, "Translated \"${str}\" into \"$answer\"")
 
-        Log.d(TAG, partOfSpeech(Word("play_1_V")))
-        Log.d(TAG, generateInflectionTable(Word("apple_1_N")))
+        Log.d(TAG, partOfSpeech("play_1_V"))
+        Log.d(TAG, generateInflectionTable("apple_1_N"))
 
         //recurse(Expr.readExpr("PhrUtt NoPConj (UttS (UseCl (TTAnt TPast ASimul) PPos (PredVP (UsePron we_Pron) (AdvVP (AdvVP (UseV eat_2_V) a_la_carte_Adv) today_2_Adv)))) NoVoc"))
 
@@ -57,7 +63,7 @@ class GF(var sl: SmartLearning) {
 
     fun recurse(ea: Expr) {
         ea.unApp() ?. let {
-            Log.d("RECURSE", it.function + " - " + it.arguments.size + " - " +  linearize(Expr.readExpr(it.function), from))
+            Log.d("RECURSE", it.function + " - " + it.arguments.size + " - " +  linearize(Expr.readExpr(it.function), sourceConcr))
 
             for (e in it.arguments) {
                 recurse(e)
@@ -65,21 +71,21 @@ class GF(var sl: SmartLearning) {
         } ?: return
     }
 
-    fun typeOf(word: Word): String {
-        return sl.grammar.getFunctionType(word.function).category
+    fun typeOf(function: String): String {
+        return smartLearningInstance.grammar.getFunctionType(function).category
     }
 
-    fun partOfSpeech(word: Word): String {
-        return linearize(Expr.readExpr("MkTag (Inflection${typeOf(word)} ${word.function})"), to)
+    fun partOfSpeech(function: String): String {
+        return linearize(Expr.readExpr("MkTag (Inflection${typeOf(function)} ${function})"), targetConcr)
     }
 
-    fun generateInflectionTable(word: Word): String {
-        return linearize(Expr.readExpr("MkDocument (NoDefinition \"\") (Inflection${typeOf(word)} ${word.function}) \"\""), to)
+    fun generateInflectionTable(function: String): String {
+        return linearize(Expr.readExpr("MkDocument (NoDefinition \"\") (Inflection${typeOf(function)} ${function}) \"\""), targetConcr)
     }
 
     fun translateSentence(sentence: String): Sentence {
         Log.d(TAG, "Translated $sentence")
-        return Sentence(parse(sentence, from), from)
+        return Sentence(parse(sentence, sourceConcr), sourceConcr)
     }
     
     companion object {

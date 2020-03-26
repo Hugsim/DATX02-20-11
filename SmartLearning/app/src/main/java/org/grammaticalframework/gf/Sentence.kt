@@ -13,7 +13,7 @@ class Sentence(val syntaxTree: Expr, val lang: Concr) {
     val listPhrases: List<String>
         get() = stringRep.split(" ")
 
-    fun getListWords(): List<Word> {
+    fun getListWords(): List<String> {
         return TODO()
     }
 

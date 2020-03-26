@@ -5,7 +5,6 @@ import android.app.Application;
 import org.grammaticalframework.Language;
 import org.grammaticalframework.SmartLearning;
 import org.grammaticalframework.gf.GF;
-import org.grammaticalframework.gf.Word;
 import org.grammaticalframework.pgf.Concr;
 import org.grammaticalframework.pgf.Expr;
 import org.grammaticalframework.pgf.MorphoAnalysis;
@@ -32,11 +31,11 @@ public class LexiconViewModel extends AndroidViewModel {
         super(application);
         translatedWords = new ArrayList<>();
         lexiconWords = new ArrayList<>();
-        sl = (SmartLearning) getApplication().getApplicationContext();
-        sourceLanguage = sl.getSourceConcr();
-        targetLanguage = sl.getTargetConcr();
-        gfClass = new GF(sl);
-        gr = sl.getGrammar();
+        gfClass = new GF((SmartLearning) getApplication().getApplicationContext());
+        sl = gfClass.getSmartLearningInstance();
+        gr = gfClass.getSmartLearningInstance().getGrammar();
+        sourceLanguage = gfClass.getSourceConcr();
+        targetLanguage = gfClass.getTargetConcr();
     }
 
     public List<LexiconWord> getTranslatedWords(){
@@ -66,57 +65,55 @@ public class LexiconViewModel extends AndroidViewModel {
 
     //gfClass.partOfSpeech(new Word(an.getLemma())))
 
-    public String speechTag(String lemma){
-        Expr e = Expr.readExpr("MkTag (Inflection" + wordClass(lemma) + " " + lemma + ")");
-        return targetLanguage.linearize(e);
-        //return gfClass.partOfSpeech(new Word(lemma));
+    public String speechTag(String lemma) {
+        return gfClass.partOfSpeech(lemma);
     }
 
-    public String inflect(String lemma){
-        Expr e = Expr.readExpr("MkDocument (NoDefinition \"\") (Inflection" + wordClass(lemma) + " " + lemma + ") \"\"");
-        return targetLanguage.linearize(e);
+    public String inflect(String lemma) {
+        return gfClass.generateInflectionTable(lemma);
     }
 
-    public String wordClass(String lemma){
-        return gfClass.typeOf(new Word(lemma));
+    public String wordClass(String lemma) {
+        return gfClass.typeOf(lemma);
     }
 
     public void switchLanguages() {
-        sl.switchLanguages();
-        gfClass.setSl(sl);
+        gfClass.getSmartLearningInstance().switchLanguages();
+        updateSourceLanguage();
+        updateTargetLanguage();
     }
 
     private void updateSourceLanguage() {
-        sourceLanguage = sl.getSourceConcr();
+        sourceLanguage = gfClass.getSourceConcr();
     }
 
     private void updateTargetLanguage() {
-        targetLanguage = sl.getTargetConcr();
+        targetLanguage = gfClass.getTargetConcr();
     }
 
     public List<Language> getAvailableLanguages() {
-        return sl.getAvailableLanguages();
+        return gfClass.getSmartLearningInstance().getAvailableLanguages();
     }
 
     public int getLanguageIndex(Language lang) {
-        return sl.getLanguageIndex(lang);
+        return gfClass.getSmartLearningInstance().getLanguageIndex(lang);
     }
 
     public Language getSourceLanguage() {
-        return sl.getSourceLanguage();
+        return gfClass.getSourceLang();
     }
 
     public Language getTargetLanguage(){
-        return sl.getTargetLanguage();
+        return gfClass.getTargetLang();
     }
 
     public void setSourceLanguage(Language lang) {
-        sl.setSourceLanguage(lang);
+        gfClass.getSmartLearningInstance().setSourceLanguage(lang);
         updateSourceLanguage();
     }
 
     public void setTargetLanguage(Language lang) {
-        sl.setTargetLanguage(lang);
+        gfClass.getSmartLearningInstance().setTargetLanguage(lang);
         updateTargetLanguage();
     }
 }
