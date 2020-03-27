@@ -80,7 +80,6 @@ public class FillTheGapFragment extends Fragment{
                 buttons.get(i).setOnClickListener(v -> {
                     Toast toast;
                     if(model.checkCorrectAnswer(word)){
-                        toast = Toast.makeText(getActivity(), "Correct answer!", Toast.LENGTH_SHORT);
                         btn.setBackgroundColor(Color.GREEN);
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
@@ -91,7 +90,6 @@ public class FillTheGapFragment extends Fragment{
                             }
                         }, 1500);
                     }else{
-                        toast = Toast.makeText(getActivity(), "Wrong answer!", Toast.LENGTH_SHORT);
                         btn.setBackgroundColor(Color.RED);
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
@@ -101,8 +99,6 @@ public class FillTheGapFragment extends Fragment{
                             }
                         }, 1500);
                     }
-                    toast.show();
-
                 });
             }
             sentence.setText(model.getSentence());
