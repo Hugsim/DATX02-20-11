@@ -100,8 +100,13 @@ class GF(var smartLearningInstance: SmartLearning) {
         }
 
         @JvmStatic
-        fun makeMostLikelyWord(word: String, lang: Concr): Word {
-            return Word(lang.lookupMorpho(word).first()?.lemma ?: "")
+        fun makeMostLikelyWord(word: String, lang: Concr): String {
+            return lang.lookupMorpho(word).first()?.lemma ?: ""
+        }
+
+        @JvmStatic
+        fun linearizeFunction(lemma: String, lang: Concr): String {
+            return linearize(Expr.readExpr(lemma), lang)
         }
     }
 }
