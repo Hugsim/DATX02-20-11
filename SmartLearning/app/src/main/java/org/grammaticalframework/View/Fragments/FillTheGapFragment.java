@@ -89,7 +89,7 @@ public class FillTheGapFragment extends Fragment{
                                 navController.navigate(R.id.action_fillTheGapFragment_self);
                                 model.getNewSentence();
                             }
-                        }, 2000);
+                        }, 1500);
                     }else{
                         toast = Toast.makeText(getActivity(), "Wrong answer!", Toast.LENGTH_SHORT);
                         btn.setBackgroundColor(Color.RED);
@@ -99,7 +99,7 @@ public class FillTheGapFragment extends Fragment{
                             public void run() {
                                 btn.setBackgroundResource(R.drawable.default_button_colour);
                             }
-                        }, 2000);
+                        }, 1500);
                     }
                     toast.show();
 
