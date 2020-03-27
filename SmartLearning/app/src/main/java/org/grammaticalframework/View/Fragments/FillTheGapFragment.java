@@ -67,9 +67,9 @@ public class FillTheGapFragment extends Fragment{
 
         model = new ViewModelProvider(requireActivity()).get(FillTheGapViewModel.class);
         model.getFillTheGapExercise().observe(getViewLifecycleOwner(), fillTheGapExercise -> {
-            if(fillTheGapExercise != null)
-                model.loadWord(fillTheGapExercise);
-            Log.d(TAG, "INSIDE fragment observer, fillthegapexercise: " + fillTheGapExercise);
+            if(fillTheGapExercise == null)
+                return;
+            model.loadWord(fillTheGapExercise);
             List<String> inflections = model.getInflections();
             for(int i = 0; i < buttons.size() && i < inflections.size(); i++) {
                 String word = inflections.get(i);

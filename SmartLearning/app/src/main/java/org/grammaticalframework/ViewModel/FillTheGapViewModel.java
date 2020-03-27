@@ -55,35 +55,16 @@ public class FillTheGapViewModel extends AndroidViewModel {
         gf = new GF(mSmartLearning);
         source = mSmartLearning.getSourceConcr();
         target = mSmartLearning.getTargetConcr();
-        //fillthegap = new FillTheGapClass("PhrUtt NoPConj (UttS (AdvS (SubjS when_Subj (UseCl (TTAnt TPast ASimul) PPos (PredVP (DetCN (DetQuant IndefArt NumSg) (UseN studentMasc_1_N)) (ComplSlash (SlashV2a make_1_V2) (DetCN (DetQuant IndefArt NumSg) (AdjCN (PositA stupid_1_A) (UseN mistake_1_N))))))) (UseCl (TTAnt TPast ASimul) PPos (PredVP (UsePron he_Pron) (ComplSlash (Slash2V3 spare_V3 (UsePron they_Pron)) (DetCN (DetQuant no_Quant NumSg) (UseN abuse_2_N))))))) NoVoc");
-        //sentenceToExpr();
-        //bracketLinearize();
 
         fillTheGapExerciseRepository = new FillTheGapExerciseRepository(application);
-        //fillTheGapExercises = fillTheGapExerciseRepository.getAllFillTheGapExercises();
-        //ftge = fillTheGapExerciseRepository.getFillTheGapExerciseSync("close_2_V");
 
         //Make sure that the exercise shown depends on what exercise we want to show
-        fillTheGapExercise = Transformations.switchMap(nextExercise, fid -> {
-            Log.d(TAG, "inside switchmap transformation, fid: " +fid);
-            return fillTheGapExerciseRepository.getFillTheGapExercise(fid);
-            /*return Transformations.map(fillTheGapExerciseRepository.getFillTheGapExercise(fid), exercise -> {
-                Log.d(TAG, "inside map transformation, exercise: " + exercise);
-                if(exercise != null){
-                    ftge = new FillTheGapExercise(exercise.getAbstractSyntaxTree(), exercise.getFunctionToReplace());
-                    loadWord();
-                }
-                return exercise;
-            });*/
+        fillTheGapExercise = Transformations.switchMap(nextExercise, function -> {
+            return fillTheGapExerciseRepository.getFillTheGapExercise(function);
         });
 
         nextExercise.setValue("abandon_5_V2");
-
-        //ftge = new FillTheGapExercise("PhrUtt NoPConj (UttS (UseCl (TTAnt TPast ASimul) PPos (PredVP (UsePron we_Pron) (AdvVP (UseV eat_2_V) a_la_carte_Adv)))) NoVoc","eat_2_V");
     }
-    /*private void sentenceToExpr(){
-        fillthegap.setExpr(Expr.readExpr(fillthegap.getSentence()));
-    }*/
 
     public void loadWord(FillTheGapExercise ftge) {
         this.ftge = ftge;
@@ -118,8 +99,7 @@ public class FillTheGapViewModel extends AndroidViewModel {
 
 
     public void getNewSentence(){
-        ftge = new FillTheGapExercise("PhrUtt NoPConj (UttS (UseCl (TTAnt TPast ASimul) PPos (PredVP (DetCN (DetQuant DefArt NumSg) (UseN mother_1_N)) (ReflVPSlash (SlashV2a abandon_5_V2) (ReflPoss NumPl (UseN child_1_N)))))) NoVoc", "abandon_5_V2");
-        loadWord(ftge);
+        nextExercise.setValue("spare_V3");
     }
 
     /*private void bracketLinearize(){
