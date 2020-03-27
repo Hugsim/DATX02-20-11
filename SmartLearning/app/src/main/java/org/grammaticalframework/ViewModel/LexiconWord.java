@@ -1,6 +1,7 @@
 package org.grammaticalframework.ViewModel;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class LexiconWord implements Serializable {
     private String lemma;
@@ -8,13 +9,15 @@ public class LexiconWord implements Serializable {
     private String explanation;
     private String function;
     private String tag;
+    private String synonym;
 
-    public LexiconWord(String lemma, String word, String explanation, String tag, String function) {
+    public LexiconWord(String lemma, String word, String explanation, String tag, String function, String synonym) {
         this.lemma = lemma;
         this.word = word;
         this.explanation = explanation;
         this.function = function;
         this.tag = tag;
+        this.synonym = synonym;
     }
 
     public String getLemma() {return lemma; }
@@ -35,4 +38,11 @@ public class LexiconWord implements Serializable {
         return tag;
     }
 
+    public String getSynonym(){
+        return synonym;
+    }
+
+    public void setSynonyms(String synonyms){
+        this.synonym = synonyms;
+    }
 }

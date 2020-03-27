@@ -44,8 +44,8 @@ public class WNExplanationRepository {
         return mWNExplanationDao.getWNExplanation(function);
     }
 
-    public WNExplanation getSynonym (String function){
-        return mWNExplanationDao.getWNSynonym(function);
+    public LiveData<List<WNExplanation>> getSynonyms (List<String> functions){
+        return mWNExplanationDao.getWNSynonyms(functions);
     }
 
 }

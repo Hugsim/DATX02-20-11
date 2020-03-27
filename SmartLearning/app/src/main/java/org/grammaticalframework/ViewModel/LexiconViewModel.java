@@ -30,9 +30,10 @@ public class LexiconViewModel extends AndroidViewModel {
     private List<LexiconWord> lexiconWords;
 
     static private LiveData<List<WNExplanation>> wnExplanations;
+    static private LiveData<List<WNExplanation>> wnSynonyms;
 
     private MutableLiveData<List<String>> functionsToSearchFor = new MutableLiveData<>();
-
+    private MutableLiveData<List<String>> synonymsToSearchFor = new MutableLiveData<>();
 
     private SmartLearning sl;
     private Concr sourceLanguage;
@@ -44,6 +45,7 @@ public class LexiconViewModel extends AndroidViewModel {
 
     //The functions that we are going to find in wordnet
     private List<String> functions = new ArrayList<>();
+    private List<String> synonyms = new ArrayList<>();
 
     //The repository for explanataions
     private WNExplanationRepository wnExplanationRepository;
@@ -58,8 +60,15 @@ public class LexiconViewModel extends AndroidViewModel {
         gfClass = new GF(sl);
         gr = sl.getGrammar();
         wnExplanationRepository = new WNExplanationRepository(application);
+
         wnExplanations = Transformations.switchMap(functionsToSearchFor, functions -> {
+            Log.d(TAG, "WNEXP");
            return wnExplanationRepository.getWNExplanations(functions);
+        });
+
+        wnSynonyms = Transformations.switchMap(synonymsToSearchFor, synonyms -> {
+            Log.d(TAG, "WNSYN");
+            return wnExplanationRepository.getSynonyms(synonyms);
         });
     }
 
@@ -73,6 +82,9 @@ public class LexiconViewModel extends AndroidViewModel {
         if (!functions.isEmpty()){
             functions.clear();
         }
+        if(!synonyms.isEmpty()){
+            synonyms.clear();
+        }
 
         for (MorphoAnalysis an : sourceLanguage.lookupMorpho(word)) {
             if (targetLanguage.hasLinearization(an.getLemma())) {
@@ -82,7 +94,7 @@ public class LexiconViewModel extends AndroidViewModel {
                     if (!translatedWords.contains(s)) {
                         functions.add(function);
                         translatedWords.add(s);
-                        lexiconWords.add(new LexiconWord(an.getLemma(), s, "", speechTag(an.getLemma()), function));
+                        lexiconWords.add(new LexiconWord(an.getLemma(), s, "", speechTag(an.getLemma()), function, ""));
                     }
                 }
             }
@@ -90,18 +102,35 @@ public class LexiconViewModel extends AndroidViewModel {
 
         //Needs to be called, updates explanation livedata
         searchForFunctions(functions);
+        searchForSynonyms(synonyms);
     }
+
+
 
     private void searchForFunctions(List<String> functions){
         functionsToSearchFor.setValue(functions);
+    }
+
+    private void searchForSynonyms(List<String> synonyms){
+        synonymsToSearchFor.setValue(synonyms);
     }
 
     public List<LexiconWord> getLexiconWords() {
         return lexiconWords;
     }
 
+    public List<String> getSynonyms(){
+        return synonyms;
+    }
+
+    public void setLexiconWords(List<LexiconWord> lexiconWords){this.lexiconWords = lexiconWords;}
+
     public LiveData<List<WNExplanation>> getWNExplanations() {
         return wnExplanations;
+    }
+
+    public LiveData<List<WNExplanation>> getWNSynonyms() {
+        return wnSynonyms;
     }
 
     //gfClass.partOfSpeech(new Word(an.getLemma())))

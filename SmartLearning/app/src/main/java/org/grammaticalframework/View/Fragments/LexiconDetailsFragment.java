@@ -1,6 +1,7 @@
 package org.grammaticalframework.View.Fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +16,18 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import org.grammaticalframework.R;
+import org.grammaticalframework.Repository.WNExplanation;
 import org.grammaticalframework.ViewModel.LexiconViewModel;
 import org.grammaticalframework.ViewModel.LexiconWord;
+import org.grammaticalframework.pgf.Expr;
+
+import java.util.List;
 
 
 public class LexiconDetailsFragment extends BaseFragment {
 
     private ImageView backButton;
+    private List <String> foundSynonymList;
     private String translatedWord;
     private String lemma;
     private NavController navController;
@@ -70,4 +76,23 @@ public class LexiconDetailsFragment extends BaseFragment {
             webView.loadData(html, "text/html", "UTF-8");
         }
     }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        model.getWNSynonyms().observe(getViewLifecycleOwner(), wnSynonyms ->{
+            List<LexiconWord> lexiconWordList = model.getLexiconWords();
+            for (WNExplanation synonym : wnSynonyms){
+                for (int i = 0; i < lexiconWordList.size(); i++){
+                    LexiconWord lexiconWord = lexiconWordList.get(i);
+                    if (!lexiconWord.getSynonym().equals("random_siffra") && lexiconWord.getSynonym().equals(synonym.getSynonym())){
+                        Log.d(TAG, "FOUND SYNONYMS");
+                        //foundSynonymList.add(synonym.getFunction());
+                    }
+                }
+            }
+        });
+    }
+
 }
