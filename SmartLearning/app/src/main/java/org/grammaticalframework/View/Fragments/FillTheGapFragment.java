@@ -1,6 +1,8 @@
 package org.grammaticalframework.View.Fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,15 +75,31 @@ public class FillTheGapFragment extends Fragment{
             List<String> inflections = model.getInflections();
             for(int i = 0; i < buttons.size() && i < inflections.size(); i++) {
                 String word = inflections.get(i);
+                Button btn = buttons.get(i);
                 buttons.get(i).setText(word);
                 buttons.get(i).setOnClickListener(v -> {
                     Toast toast;
                     if(model.checkCorrectAnswer(word)){
                         toast = Toast.makeText(getActivity(), "Correct answer!", Toast.LENGTH_SHORT);
-                        navController.navigate(R.id.action_fillTheGapFragment_self);
-                        model.getNewSentence();
+                        btn.setBackgroundColor(Color.GREEN);
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                navController.navigate(R.id.action_fillTheGapFragment_self);
+                                model.getNewSentence();
+                            }
+                        }, 2000);
                     }else{
                         toast = Toast.makeText(getActivity(), "Wrong answer!", Toast.LENGTH_SHORT);
+                        btn.setBackgroundColor(Color.RED);
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                btn.setBackgroundResource(R.drawable.default_button_colour);
+                            }
+                        }, 2000);
                     }
                     toast.show();
 
