@@ -49,6 +49,7 @@ public class SmartLearning extends Application {
 
     public void onCreate() {
         super.onCreate();
+        deleteDatabases(getApplicationContext());
 
         mSharedPref = getApplicationContext().getSharedPreferences(
                 getApplicationContext().getString(R.string.global_preferences_key), Context.MODE_PRIVATE);
@@ -302,6 +303,17 @@ public class SmartLearning extends Application {
                     } catch (IOException e) {
                         Log.e(TAG, "Error closing the stream", e);
                     }
+                }
+            }
+        }
+    }
+
+    private static void deleteDatabases (Context context){
+        String[] databaseList = context.databaseList();
+        if(databaseList != null){
+            for(String database : databaseList){
+                if (!context.deleteDatabase(database)){
+                    Log.e(TAG, "Not able to delete database " + database + ".");
                 }
             }
         }

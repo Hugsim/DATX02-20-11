@@ -230,11 +230,10 @@ public class MainLexiconFragment extends BaseFragment implements AppBarLayout.On
                         lexiconWord.setExplanation(explanation.getExplanation());
                         lexiconWordList.set(i, lexiconWord);
                         wordAdapter.setLexiconWordList(lexiconWordList);
-                        if(!lexiconWord.getSynonym().equals("random_siffra")){
+                        if(!(lexiconWord.getSynonym().equals("random_siffra"))){
                             lexiconWord.setSynonyms(explanation.getSynonym());
                             lexiconVM.getSynonyms().add(explanation.getSynonym());
                         }
-                        //break;
                     }
                 }
             }

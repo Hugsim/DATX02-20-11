@@ -99,20 +99,26 @@ public class LexiconDetailsFragment extends BaseFragment {
             for (WNExplanation synonym : wnSynonyms){
                 for (int i = 0; i < lexiconWordList.size(); i++){
                     LexiconWord lexiconWord = lexiconWordList.get(i);
-                    if (!lexiconWord.getSynonym().equals("random_siffra") && lexiconWord.getSynonym().equals(synonym.getSynonym())
-                            && !foundSynonymList.contains(synonym.getFunction())){
+                    if (!lexiconWord.getSynonym().equals("random_siffra") && lexiconWord.getExplanation().equals(synonym.getExplanation())
+                            && !foundSynonymList.contains(synonym.getFunction()) && !(lexiconWord.getFunction().equals(synonym.getFunction()))){
                         foundSynonymList.add(synonym.getFunction());
                         Log.d(TAG, "FOUND SYNONYMS");
                     }
                 }
             }
-            StringBuilder synonymSB = new StringBuilder();
-            synonymSB.append("Synonyms: ");
-            for (String synonyms : foundSynonymList){
-                synonymSB.append(synonyms).append(",").append(" ");
-            }
-            synonymTextView.setText(synonymSB);
+            printSynonyms();
+            foundSynonymList.clear();
         });
+    }
+
+    private void printSynonyms (){
+        StringBuilder synonymSB = new StringBuilder();
+        synonymSB.append("Synonyms: ");
+        for (String synonyms : foundSynonymList){
+            synonymSB.append(synonyms).append(",").append(" ");
+        }
+        synonymTextView.setText(synonymSB);
+        synonymSB.setLength(0);
     }
 
 }
