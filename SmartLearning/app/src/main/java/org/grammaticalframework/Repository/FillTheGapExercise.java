@@ -1,6 +1,7 @@
 package org.grammaticalframework.Repository;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -49,4 +50,20 @@ public class FillTheGapExercise {
     public void setFunctionToReplace(String functionToReplace) {
         this.functionToReplace = functionToReplace;
     }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if(obj instanceof FillTheGapExercise){
+            FillTheGapExercise toCompare = (FillTheGapExercise) obj;
+            return (this.abstractSyntaxTree.equals(toCompare.abstractSyntaxTree)
+                    && this.functionToReplace.equals(toCompare.functionToReplace));
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.functionToReplace.hashCode() + this.abstractSyntaxTree.hashCode();
+    }
+
 }

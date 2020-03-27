@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
@@ -46,6 +47,11 @@ public class FillTheGapViewModel extends AndroidViewModel {
     private String linearizedSentence;
     private ArrayList<String> inflections = new ArrayList<>();
 
+    private LiveData<FillTheGapExercise> unsolvedExercise;
+
+    //Keeps track on if the current exercise is solved or not
+    private boolean currentExerciseSolved = false;
+
     public FillTheGapViewModel(Application application){
         super(application);
 
@@ -63,7 +69,9 @@ public class FillTheGapViewModel extends AndroidViewModel {
             return fillTheGapExerciseRepository.getFillTheGapExercise(function);
         });
 
-        nextExercise.setValue("abandon_5_V2");
+        unsolvedExercise = fillTheGapExerciseRepository.getUnsolvedExercise();
+
+        //nextExercise.setValue("abandon_5_V2");
     }
 
     public void loadWord(FillTheGapExercise ftge) {
@@ -73,6 +81,10 @@ public class FillTheGapViewModel extends AndroidViewModel {
         Object[] bs = target.bracketedLinearize(expression);
         findWordToRedact(bs[0]);
         setRedactedWord();
+    }
+
+    public LiveData<FillTheGapExercise> getUnsolvedExercise() {
+        return unsolvedExercise;
     }
 
     public String getSentence() {
@@ -98,8 +110,11 @@ public class FillTheGapViewModel extends AndroidViewModel {
     }
 
 
+    //Should only be called when the previous exercise was solved
     public void getNewSentence(){
-        nextExercise.setValue("spare_V3");
+        //say that the next exercise is solved
+        fillTheGapExerciseRepository.addSolvedExercise(ftge);
+        //nextExercise.setValue("spare_V3");
     }
 
     /*private void bracketLinearize(){
@@ -182,4 +197,5 @@ public class FillTheGapViewModel extends AndroidViewModel {
     public LiveData<FillTheGapExercise> getFillTheGapExercise() {
         return fillTheGapExercise;
     }
+
 }

@@ -68,7 +68,7 @@ public class FillTheGapFragment extends Fragment{
         navController = Navigation.findNavController(view);
 
         model = new ViewModelProvider(requireActivity()).get(FillTheGapViewModel.class);
-        model.getFillTheGapExercise().observe(getViewLifecycleOwner(), fillTheGapExercise -> {
+        model.getUnsolvedExercise().observe(getViewLifecycleOwner(), fillTheGapExercise -> {
             if(fillTheGapExercise == null)
                 return;
             model.loadWord(fillTheGapExercise);
