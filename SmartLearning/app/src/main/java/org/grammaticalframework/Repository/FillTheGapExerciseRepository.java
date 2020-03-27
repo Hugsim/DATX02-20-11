@@ -37,7 +37,7 @@ public class FillTheGapExerciseRepository {
         return fillTheGapExerciseDao.getAllFillTheGapExercises(functionsToReplace);
     }
 
-    public FillTheGapExercise getFillTheGapExerciseSync(String functionToReplace) {
+    public LiveData<FillTheGapExercise> getFillTheGapExercise(String functionToReplace) {
         return fillTheGapExerciseDao.getFillTheGapExercise(functionToReplace);
     }
 }

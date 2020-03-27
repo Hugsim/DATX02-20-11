@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
 import org.grammaticalframework.FillTheGapClass;
@@ -38,6 +39,9 @@ public class FillTheGapViewModel extends AndroidViewModel {
     private FillTheGapExerciseRepository fillTheGapExerciseRepository;
     private LiveData<List<FillTheGapExercise>> fillTheGapExercises;
 
+    static private LiveData<FillTheGapExercise> fillTheGapExercise;
+    private MutableLiveData<String> nextExercise = new MutableLiveData<>();
+
     private String redactedWord;
     private String linearizedSentence;
     private ArrayList<String> inflections = new ArrayList<>();
@@ -55,24 +59,40 @@ public class FillTheGapViewModel extends AndroidViewModel {
         //sentenceToExpr();
         //bracketLinearize();
 
-        //fillTheGapExerciseRepository = new FillTheGapExerciseRepository(application);
+        fillTheGapExerciseRepository = new FillTheGapExerciseRepository(application);
         //fillTheGapExercises = fillTheGapExerciseRepository.getAllFillTheGapExercises();
         //ftge = fillTheGapExerciseRepository.getFillTheGapExerciseSync("close_2_V");
-        ftge = new FillTheGapExercise("PhrUtt NoPConj (UttS (UseCl (TTAnt TPast ASimul) PPos (PredVP (UsePron we_Pron) (AdvVP (UseV eat_2_V) a_la_carte_Adv)))) NoVoc","eat_2_V");
-        loadWord();
+
+        //Make sure that the exercise shown depends on what exercise we want to show
+        fillTheGapExercise = Transformations.switchMap(nextExercise, fid -> {
+            Log.d(TAG, "inside switchmap transformation, fid: " +fid);
+            return fillTheGapExerciseRepository.getFillTheGapExercise(fid);
+            /*return Transformations.map(fillTheGapExerciseRepository.getFillTheGapExercise(fid), exercise -> {
+                Log.d(TAG, "inside map transformation, exercise: " + exercise);
+                if(exercise != null){
+                    ftge = new FillTheGapExercise(exercise.getAbstractSyntaxTree(), exercise.getFunctionToReplace());
+                    loadWord();
+                }
+                return exercise;
+            });*/
+        });
+
+        nextExercise.setValue("abandon_5_V2");
+
+        //ftge = new FillTheGapExercise("PhrUtt NoPConj (UttS (UseCl (TTAnt TPast ASimul) PPos (PredVP (UsePron we_Pron) (AdvVP (UseV eat_2_V) a_la_carte_Adv)))) NoVoc","eat_2_V");
     }
     /*private void sentenceToExpr(){
         fillthegap.setExpr(Expr.readExpr(fillthegap.getSentence()));
     }*/
 
-    private void loadWord() {
+    public void loadWord(FillTheGapExercise ftge) {
+        this.ftge = ftge;
         expression = Expr.readExpr(ftge.getAbstractSyntaxTree());
         linearizedSentence = target.linearize(expression);
         Object[] bs = target.bracketedLinearize(expression);
         findWordToRedact(bs[0]);
         setRedactedWord();
     }
-
 
     public String getSentence() {
         return linearizedSentence;
@@ -99,7 +119,7 @@ public class FillTheGapViewModel extends AndroidViewModel {
 
     public void getNewSentence(){
         ftge = new FillTheGapExercise("PhrUtt NoPConj (UttS (UseCl (TTAnt TPast ASimul) PPos (PredVP (DetCN (DetQuant DefArt NumSg) (UseN mother_1_N)) (ReflVPSlash (SlashV2a abandon_5_V2) (ReflPoss NumPl (UseN child_1_N)))))) NoVoc", "abandon_5_V2");
-        loadWord();
+        loadWord(ftge);
     }
 
     /*private void bracketLinearize(){
@@ -179,4 +199,7 @@ public class FillTheGapViewModel extends AndroidViewModel {
         }
     }
 
+    public LiveData<FillTheGapExercise> getFillTheGapExercise() {
+        return fillTheGapExercise;
+    }
 }

@@ -1,6 +1,7 @@
 package org.grammaticalframework.View.Fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FillTheGapFragment extends Fragment{
+
+    final static private String TAG = FillTheGapFragment.class.getSimpleName();
+
     Button button1;
     Button button2;
     Button button3;
@@ -62,24 +66,30 @@ public class FillTheGapFragment extends Fragment{
         navController = Navigation.findNavController(view);
 
         model = new ViewModelProvider(requireActivity()).get(FillTheGapViewModel.class);
-        List<String> inflections = model.getInflections();
-        for(int i = 0; i < buttons.size() && i < inflections.size(); i++) {
-            String word = inflections.get(i);
-            buttons.get(i).setText(word);
-            buttons.get(i).setOnClickListener(v -> {
-                Toast toast;
-                if(model.checkCorrectAnswer(word)){
-                    toast = Toast.makeText(getActivity(), "Correct answer!", Toast.LENGTH_SHORT);
-                    navController.navigate(R.id.action_fillTheGapFragment_self);
-                    model.getNewSentence();
-                }else{
-                    toast = Toast.makeText(getActivity(), "Wrong answer!", Toast.LENGTH_SHORT);
-                }
-                toast.show();
+        model.getFillTheGapExercise().observe(getViewLifecycleOwner(), fillTheGapExercise -> {
+            if(fillTheGapExercise != null)
+                model.loadWord(fillTheGapExercise);
+            Log.d(TAG, "INSIDE fragment observer, fillthegapexercise: " + fillTheGapExercise);
+            List<String> inflections = model.getInflections();
+            for(int i = 0; i < buttons.size() && i < inflections.size(); i++) {
+                String word = inflections.get(i);
+                buttons.get(i).setText(word);
+                buttons.get(i).setOnClickListener(v -> {
+                    Toast toast;
+                    if(model.checkCorrectAnswer(word)){
+                        toast = Toast.makeText(getActivity(), "Correct answer!", Toast.LENGTH_SHORT);
+                        navController.navigate(R.id.action_fillTheGapFragment_self);
+                        model.getNewSentence();
+                    }else{
+                        toast = Toast.makeText(getActivity(), "Wrong answer!", Toast.LENGTH_SHORT);
+                    }
+                    toast.show();
 
-            });
-        }
-        sentence.setText(model.getSentence());
+                });
+            }
+            sentence.setText(model.getSentence());
+        });
+
 
 
     }

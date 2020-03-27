@@ -24,7 +24,7 @@ public interface FillTheGapExerciseDao {
     LiveData<List<FillTheGapExercise>> getAllFillTheGapExercises();
 
     @Query("SELECT * FROM FillTheGapExercise_table WHERE functionToReplace = :functionToReplace")
-    FillTheGapExercise getFillTheGapExercise(String functionToReplace);
+    LiveData<FillTheGapExercise> getFillTheGapExercise(String functionToReplace);
 
     @Query("SELECT * FROM FillTheGapExercise_table WHERE functionToReplace IN (:functionsToReplace)")
     LiveData<List<FillTheGapExercise>> getAllFillTheGapExercises(List<String> functionsToReplace);
