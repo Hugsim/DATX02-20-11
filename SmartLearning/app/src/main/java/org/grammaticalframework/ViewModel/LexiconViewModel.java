@@ -188,4 +188,8 @@ public class LexiconViewModel extends AndroidViewModel {
         sl.setTargetLanguage(lang);
         updateTargetLanguage();
     }
+
+    public Concr getTargetConcr(){
+        return targetLanguage;
+    }
 }

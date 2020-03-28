@@ -17,11 +17,15 @@ import androidx.navigation.Navigation;
 
 import org.grammaticalframework.R;
 import org.grammaticalframework.Repository.WNExplanation;
+import org.grammaticalframework.SmartLearning;
 import org.grammaticalframework.ViewModel.LexiconViewModel;
 import org.grammaticalframework.ViewModel.LexiconWord;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.grammaticalframework.gf.GF;
+import org.grammaticalframework.gf.GFKt;
 
 
 public class LexiconDetailsFragment extends BaseFragment {
@@ -101,8 +105,10 @@ public class LexiconDetailsFragment extends BaseFragment {
                                 && !foundSynonymList.contains(synonym.getFunction()) && !(lexiconWord.getFunction().equals(synonym.getFunction()))){
                             foundSynonymList.add(synonym.getFunction());
                             //lexiconWord.setSynonymWords(constructSynonymWordsString(synonym.getFunction(), synonymSB));
-                            constructSynonymWordsString(synonym.getFunction(), synonymSB);
+                            String temp = synonym.getFunction();
+                            constructSynonymWordsString(GF.linearizeFunction(temp, model.getTargetConcr()), synonymSB);
                             Log.d(TAG, "FOUND SYNONYMS");
+
                         }
 
                     synonymTextView.setText(synonymSB);
