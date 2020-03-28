@@ -51,18 +51,6 @@ class GF(var smartLearningInstance: SmartLearning) {
     val pgf: PGF
         get() = smartLearningInstance.pgf!!
 
-    /* fun translateWord(str: String): String {
-        val answer = linearize(parse(str, sourceConcr), targetConcr)
-        Log.d(TAG, "Translated \"${str}\" into \"$answer\"")
-
-        Log.d(TAG, partOfSpeech("play_1_V"))
-        Log.d(TAG, generateInflectionTable("apple_1_N"))
-
-        //recurse(Expr.readExpr("PhrUtt NoPConj (UttS (UseCl (TTAnt TPast ASimul) PPos (PredVP (UsePron we_Pron) (AdvVP (AdvVP (UseV eat_2_V) a_la_carte_Adv) today_2_Adv)))) NoVoc"))
-
-        return answer
-    } */
-
     fun recurse(ea: Expr) {
         ea.unApp() ?. let {
             Log.d("RECURSE", it.function + " - " + it.arguments.size + " - " +  linearizeWith(Expr.readExpr(it.function), sourceConcr))

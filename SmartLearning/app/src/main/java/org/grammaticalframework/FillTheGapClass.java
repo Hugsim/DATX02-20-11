@@ -2,11 +2,9 @@ package org.grammaticalframework;
 
 import android.util.Log;
 
-import org.grammaticalframework.SmartLearning;
 import org.grammaticalframework.pgf.Bracket;
 import org.grammaticalframework.pgf.Concr;
 import org.grammaticalframework.pgf.Expr;
-import org.grammaticalframework.pgf.MorphoAnalysis;
 
 import java.util.ArrayList;
 import java.util.List;
