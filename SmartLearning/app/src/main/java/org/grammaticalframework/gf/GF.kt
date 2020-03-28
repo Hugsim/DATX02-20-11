@@ -63,7 +63,7 @@ class GF(var smartLearningInstance: SmartLearning) {
 
     fun recurse(ea: Expr) {
         ea.unApp() ?. let {
-            Log.d("RECURSE", it.function + " - " + it.arguments.size + " - " +  linearize(Expr.readExpr(it.function), sourceConcr))
+            Log.d("RECURSE", it.function + " - " + it.arguments.size + " - " +  linearizeWith(Expr.readExpr(it.function), sourceConcr))
 
             for (e in it.arguments) {
                 recurse(e)
@@ -71,36 +71,39 @@ class GF(var smartLearningInstance: SmartLearning) {
         } ?: return
     }
 
-    fun functionTypeOf(function: String): String {
+    fun typeOfFunction(function: String): String {
         return smartLearningInstance.grammar.getFunctionType(function).category
     }
 
     fun partOfSpeech(function: String): String {
-        return linearize(Expr.readExpr("MkTag (Inflection${functionTypeOf(function)} ${function})"), targetConcr)
+        return linearize(readExpr("MkTag (Inflection${typeOfFunction(function)} ${function})"))
     }
 
     fun generateInflectionTable(function: String): String {
-        return linearize(Expr.readExpr("MkDocument (NoDefinition \"\") (Inflection${functionTypeOf(function)} ${function}) \"\""), targetConcr)
-    }
-
-    fun readExpr(expr: String): Expr {
-        return Expr.readExpr(expr)
+        return linearize(readExpr("MkDocument (NoDefinition \"\") (Inflection${typeOfFunction(function)} ${function}) \"\""))
     }
 
     fun translate(sentence: String): String {
-        return linearize(parse(sentence, sourceConcr), targetConcr)
+        return linearize(parse(sentence))
     }
-    
-    companion object {
 
+    fun linearize(expr: Expr): String {
+        return linearizeWith(expr, targetConcr)
+    }
+
+    fun parse(sentence: String): Expr {
+        return parseWith(sentence, sourceConcr)
+    }
+
+    companion object {
         // Takes a natural language sentence and parses it into its most likely syntax tree representation
         @JvmStatic
-        fun parse(sentence: String, lang: Concr): Expr {
+        fun parseWith(sentence: String, lang: Concr): Expr {
             return lang.parse("Phr", sentence).first().expr
         }
 
         @JvmStatic
-        fun linearize(expr: Expr, lang: Concr): String {
+        fun linearizeWith(expr: Expr, lang: Concr): String {
             return lang.linearize(expr)
         }
 
@@ -111,7 +114,12 @@ class GF(var smartLearningInstance: SmartLearning) {
 
         @JvmStatic
         fun linearizeFunction(lemma: String, lang: Concr): String {
-            return linearize(Expr.readExpr(lemma), lang)
+            return linearizeWith(readExpr(lemma), lang)
+        }
+
+        @JvmStatic
+        fun readExpr(expr: String): Expr {
+            return Expr.readExpr(expr)
         }
     }
 }

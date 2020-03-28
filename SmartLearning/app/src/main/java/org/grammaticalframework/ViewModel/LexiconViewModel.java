@@ -69,7 +69,7 @@ public class LexiconViewModel extends AndroidViewModel {
     }
 
     public String wordClass(String lemma) {
-        return gfClass.functionTypeOf(lemma);
+        return gfClass.typeOfFunction(lemma);
     }
 
     public void switchLanguages() {
