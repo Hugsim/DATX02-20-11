@@ -32,6 +32,8 @@ ExprProb: An expression with a probability of correct parsing
 
  */
 
+typealias Function = String
+
 class GF(var smartLearningInstance: SmartLearning) {
 
     val sourceConcr: Concr
@@ -71,15 +73,15 @@ class GF(var smartLearningInstance: SmartLearning) {
         } ?: return
     }
 
-    fun typeOfFunction(function: String): String {
+    fun typeOfFunction(function: Function): String {
         return smartLearningInstance.grammar.getFunctionType(function).category
     }
 
-    fun partOfSpeech(function: String): String {
+    fun partOfSpeech(function: Function): String {
         return linearize(readExpr("MkTag (Inflection${typeOfFunction(function)} ${function})"))
     }
 
-    fun generateInflectionTable(function: String): String {
+    fun generateInflectionTable(function: Function): String {
         return linearize(readExpr("MkDocument (NoDefinition \"\") (Inflection${typeOfFunction(function)} ${function}) \"\""))
     }
 
@@ -95,7 +97,24 @@ class GF(var smartLearningInstance: SmartLearning) {
         return parseWith(sentence, sourceConcr)
     }
 
+    fun possibleFunctions(word: String): List<Function> {
+        return targetConcr.lookupMorpho(word).map { a -> a.lemma }
+    }
+
+    fun allLinearizations(expr: Expr): Iterable<String> {
+        return targetConcr.linearizeAll(expr)
+    }
+
+    fun hasLinearization(function: Function): Boolean {
+        return hasLinearizationIn(function, targetConcr)
+    }
+
     companion object {
+        @JvmStatic
+        fun hasLinearizationIn(function: Function, lang: Concr): Boolean {
+            return lang.hasLinearization(function)
+        }
+
         // Takes a natural language sentence and parses it into its most likely syntax tree representation
         @JvmStatic
         fun parseWith(sentence: String, lang: Concr): Expr {
@@ -108,13 +127,13 @@ class GF(var smartLearningInstance: SmartLearning) {
         }
 
         @JvmStatic
-        fun makeMostLikelyWord(word: String, lang: Concr): String {
+        fun mostLikelyFunction(word: String, lang: Concr): Function {
             return lang.lookupMorpho(word).first()?.lemma ?: ""
         }
 
         @JvmStatic
-        fun linearizeFunction(lemma: String, lang: Concr): String {
-            return linearizeWith(readExpr(lemma), lang)
+        fun linearizeFunction(function: Function, lang: Concr): String {
+            return linearizeWith(readExpr(function), lang)
         }
 
         @JvmStatic
