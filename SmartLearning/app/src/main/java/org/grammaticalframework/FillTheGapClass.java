@@ -2,11 +2,13 @@ package org.grammaticalframework;
 
 import android.util.Log;
 
+import org.grammaticalframework.gf.GF;
 import org.grammaticalframework.pgf.Bracket;
 import org.grammaticalframework.pgf.Concr;
 import org.grammaticalframework.pgf.Expr;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +19,7 @@ public class FillTheGapClass {
     private String redactedWord;
     private Expr expr;
     private Object[] bs;
+    private GF gf;
 
     public List<String> getInflections() {
         return inflections;
@@ -29,29 +32,22 @@ public class FillTheGapClass {
     }
 
     private List<String> targetSentence = new ArrayList<>();
-    Concr target;
-    Concr source;
 
 
-    public FillTheGapClass(String sentence, Concr source, Concr target){
+    public FillTheGapClass(String sentence, GF gf){
         this.sentence = sentence;
-        this.target = target;
-        this.source = source;
+        this.gf = gf;
         sentenceToExpr(sentence);
-        bracketLinearize(source, target);
+        bracketLinearize(gf.getSourceConcr(), gf.getTargetConcr());
         setRedactedWord();
     }
 
     private void sentenceToExpr(String sentence){
-        expr = Expr.readExpr(sentence);
+        expr = GF.readExpr(sentence);
     }
 
     public boolean checkCorrectAnswer(String answer){
-        if(answer.equals(redactedWord)){
-            return true;
-        } else{
-            return false;
-        }
+        return answer.equals(redactedWord);
     }
 
     private void bracketLinearize(Concr source, Concr target){
@@ -74,27 +70,24 @@ public class FillTheGapClass {
                     scanBracket(child);
                 }
             }
-        }else if(bs instanceof String){
-            //Log.d(TAG, (String) bs);
         }
     }
 
     private void inflect(String verb) {
         Log.d(TAG, verb);
-        Expr e = Expr.readExpr(verb);
-        for(Map.Entry<String,String> entry  : target.tabularLinearize(e).entrySet()) {
+        Expr e = GF.readExpr(verb);
+        for(Map.Entry<String, String> entry : gf.tabularLinearize(e)) {
             if(entry.getKey().contains("Act")){
-                inflections.add(entry.getValue()); //Add inflections
+                inflections.add(entry.getValue());
             }
         }
 
     }
 
     private void setRedactedWord(){
-        String targetLinearization = target.linearize(expr);
-        for(String word : targetLinearization.split(" ")){
-            targetSentence.add(word);
-        }
+        String targetLinearization = gf.linearize(expr);
+        targetSentence.addAll(Arrays.asList(targetLinearization.split(" ")));
+
         //Prepend the correct inflection to inflections
         for(String word : inflections) {
             if(targetLinearization.contains(word)){
@@ -107,11 +100,12 @@ public class FillTheGapClass {
         }
         if(targetSentence.contains(redactedWord)) {
             int toRemove = targetSentence.indexOf(redactedWord);
-            String redacted = "";
-            for (char c : redactedWord.toCharArray()) {
-                redacted += "_";
-                targetSentence.set(toRemove, redacted);
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < redactedWord.length(); i++) {
+                sb.append('_');
             }
+            targetSentence.set(toRemove, sb.toString());
         }
     }
 

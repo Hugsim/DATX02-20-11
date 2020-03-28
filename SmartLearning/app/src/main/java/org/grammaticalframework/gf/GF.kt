@@ -97,6 +97,10 @@ class GF(var smartLearningInstance: SmartLearning) {
         return hasLinearizationIn(function, targetConcr)
     }
 
+    fun tabularLinearize(expr: Expr): Iterable<Map.Entry<String, Function>> {
+        return targetConcr.tabularLinearize(expr).asIterable()
+    }
+
     companion object {
         @JvmStatic
         fun hasLinearizationIn(function: Function, lang: Concr): Boolean {
