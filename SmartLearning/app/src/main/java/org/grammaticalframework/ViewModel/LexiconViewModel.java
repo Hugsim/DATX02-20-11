@@ -8,7 +8,6 @@ import org.grammaticalframework.gf.GF;
 import org.grammaticalframework.pgf.Concr;
 import org.grammaticalframework.pgf.Expr;
 import org.grammaticalframework.pgf.MorphoAnalysis;
-import org.grammaticalframework.pgf.PGF;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,21 +18,17 @@ import androidx.lifecycle.AndroidViewModel;
 public class LexiconViewModel extends AndroidViewModel {
     private List<String> translatedWords;
     private List<LexiconWord> lexiconWords;
-    private SmartLearning sl;
     private Concr sourceLanguage;
     private Concr targetLanguage;
 
     private static final String TAG = LexiconViewModel.class.getSimpleName();
     private GF gfClass;
-    private PGF gr;
 
     public LexiconViewModel(@NonNull Application application) {
         super(application);
         translatedWords = new ArrayList<>();
         lexiconWords = new ArrayList<>();
         gfClass = new GF((SmartLearning) getApplication().getApplicationContext());
-        sl = gfClass.getSmartLearningInstance();
-        gr = gfClass.getSmartLearningInstance().getGrammar();
         sourceLanguage = gfClass.getSourceConcr();
         targetLanguage = gfClass.getTargetConcr();
     }
@@ -74,7 +69,7 @@ public class LexiconViewModel extends AndroidViewModel {
     }
 
     public String wordClass(String lemma) {
-        return gfClass.typeOf(lemma);
+        return gfClass.functionTypeOf(lemma);
     }
 
     public void switchLanguages() {

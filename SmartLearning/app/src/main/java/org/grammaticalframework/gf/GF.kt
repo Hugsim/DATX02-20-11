@@ -49,7 +49,7 @@ class GF(var smartLearningInstance: SmartLearning) {
     val pgf: PGF
         get() = smartLearningInstance.pgf!!
 
-    fun translateWord(str: String): String {
+    /* fun translateWord(str: String): String {
         val answer = linearize(parse(str, sourceConcr), targetConcr)
         Log.d(TAG, "Translated \"${str}\" into \"$answer\"")
 
@@ -59,7 +59,7 @@ class GF(var smartLearningInstance: SmartLearning) {
         //recurse(Expr.readExpr("PhrUtt NoPConj (UttS (UseCl (TTAnt TPast ASimul) PPos (PredVP (UsePron we_Pron) (AdvVP (AdvVP (UseV eat_2_V) a_la_carte_Adv) today_2_Adv)))) NoVoc"))
 
         return answer
-    }
+    } */
 
     fun recurse(ea: Expr) {
         ea.unApp() ?. let {
@@ -71,24 +71,29 @@ class GF(var smartLearningInstance: SmartLearning) {
         } ?: return
     }
 
-    fun typeOf(function: String): String {
+    fun functionTypeOf(function: String): String {
         return smartLearningInstance.grammar.getFunctionType(function).category
     }
 
     fun partOfSpeech(function: String): String {
-        return linearize(Expr.readExpr("MkTag (Inflection${typeOf(function)} ${function})"), targetConcr)
+        return linearize(Expr.readExpr("MkTag (Inflection${functionTypeOf(function)} ${function})"), targetConcr)
     }
 
     fun generateInflectionTable(function: String): String {
-        return linearize(Expr.readExpr("MkDocument (NoDefinition \"\") (Inflection${typeOf(function)} ${function}) \"\""), targetConcr)
+        return linearize(Expr.readExpr("MkDocument (NoDefinition \"\") (Inflection${functionTypeOf(function)} ${function}) \"\""), targetConcr)
     }
 
-    fun translateSentence(sentence: String): Sentence {
-        Log.d(TAG, "Translated $sentence")
-        return Sentence(parse(sentence, sourceConcr), sourceConcr)
+    fun readExpr(expr: String): Expr {
+        return Expr.readExpr(expr)
+    }
+
+    fun translate(sentence: String): String {
+        return linearize(parse(sentence, sourceConcr), targetConcr)
     }
     
     companion object {
+
+        // Takes a natural language sentence and parses it into its most likely syntax tree representation
         @JvmStatic
         fun parse(sentence: String, lang: Concr): Expr {
             return lang.parse("Phr", sentence).first().expr

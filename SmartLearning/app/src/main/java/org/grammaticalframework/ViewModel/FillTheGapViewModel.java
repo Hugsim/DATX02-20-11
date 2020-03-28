@@ -8,7 +8,6 @@ import androidx.lifecycle.AndroidViewModel;
 import org.grammaticalframework.FillTheGapClass;
 import org.grammaticalframework.SmartLearning;
 import org.grammaticalframework.gf.GF;
-import org.grammaticalframework.gf.Word;
 import org.grammaticalframework.pgf.Bracket;
 import org.grammaticalframework.pgf.Concr;
 import org.grammaticalframework.pgf.Expr;
