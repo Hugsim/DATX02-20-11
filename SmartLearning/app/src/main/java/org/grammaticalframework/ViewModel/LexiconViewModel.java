@@ -94,7 +94,7 @@ public class LexiconViewModel extends AndroidViewModel {
                     if (!translatedWords.contains(s)) {
                         functions.add(function);
                         translatedWords.add(s);
-                        lexiconWords.add(new LexiconWord(an.getLemma(), s, "", speechTag(an.getLemma()), function, ""));
+                        lexiconWords.add(new LexiconWord(an.getLemma(), s, "", speechTag(an.getLemma()), function, "", ""));
                     }
                 }
             }

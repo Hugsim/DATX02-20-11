@@ -19,7 +19,6 @@ import org.grammaticalframework.R;
 import org.grammaticalframework.Repository.WNExplanation;
 import org.grammaticalframework.ViewModel.LexiconViewModel;
 import org.grammaticalframework.ViewModel.LexiconWord;
-import org.grammaticalframework.pgf.Expr;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,6 +82,7 @@ public class LexiconDetailsFragment extends BaseFragment {
             explanationSB.append("Explanation: ").append(word.getExplanation());
             debugFunctionTextView.setText(debugFunctionSB);
             explanationTextView.setText(explanationSB);
+            loadSynonymWordsForOneWord(word);
 
             // TODO: maybe perhaps not write html like this?
             String html = model.inflect(lemma);
@@ -90,35 +90,31 @@ public class LexiconDetailsFragment extends BaseFragment {
         }
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    private void loadSynonymWordsForOneWord(LexiconWord lexiconWord){
+        StringBuilder synonymSB = new StringBuilder();
+        synonymSB.append("Synonyms: ");
 
         model.getWNSynonyms().observe(getViewLifecycleOwner(), wnSynonyms ->{
-            List<LexiconWord> lexiconWordList = model.getLexiconWords();
             for (WNExplanation synonym : wnSynonyms){
-                for (int i = 0; i < lexiconWordList.size(); i++){
-                    LexiconWord lexiconWord = lexiconWordList.get(i);
-                    if (!lexiconWord.getSynonym().equals("random_siffra") && lexiconWord.getExplanation().equals(synonym.getExplanation())
-                            && !foundSynonymList.contains(synonym.getFunction()) && !(lexiconWord.getFunction().equals(synonym.getFunction()))){
-                        foundSynonymList.add(synonym.getFunction());
-                        Log.d(TAG, "FOUND SYNONYMS");
-                    }
+                if(!synonym.getSynonym().equals("random_siffra")){
+                        if (!lexiconWord.getSynonymCode().equals("random_siffra") && lexiconWord.getExplanation().equals(synonym.getExplanation())
+                                && !foundSynonymList.contains(synonym.getFunction()) && !(lexiconWord.getFunction().equals(synonym.getFunction()))){
+                            foundSynonymList.add(synonym.getFunction());
+                            //lexiconWord.setSynonymWords(constructSynonymWordsString(synonym.getFunction(), synonymSB));
+                            constructSynonymWordsString(synonym.getFunction(), synonymSB);
+                            Log.d(TAG, "FOUND SYNONYMS");
+                        }
+
+                    synonymTextView.setText(synonymSB);
+                    foundSynonymList.clear();
                 }
             }
-            printSynonyms();
-            foundSynonymList.clear();
         });
     }
 
-    private void printSynonyms (){
-        StringBuilder synonymSB = new StringBuilder();
-        synonymSB.append("Synonyms: ");
-        for (String synonyms : foundSynonymList){
-            synonymSB.append(synonyms).append(",").append(" ");
-        }
-        synonymTextView.setText(synonymSB);
-        synonymSB.setLength(0);
+    private String constructSynonymWordsString(String synonymCode, StringBuilder synonymSB){
+        synonymSB.append(synonymCode).append(",").append(" ");
+        return synonymSB.toString();
     }
 
 }
