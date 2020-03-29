@@ -28,12 +28,9 @@ public abstract class WNExplanationDatabase extends RoomDatabase {
         if(INSTANCE == null){
             synchronized (WNExplanationDatabase.class){
                 if (INSTANCE == null){
-                    INSTANCE = Room
-                            .databaseBuilder(context.getApplicationContext(),
-                                    WNExplanationDatabase.class, "wordnet.db")
+                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(), WNExplanationDatabase.class, "wordnet.db")
+                            .createFromAsset("databases/wordnet.db")
                             .build();
-                    //Populate db with the explanations
-                    databaseWriteExecutor.execute(() -> INSTANCE.wordNetExplanationDao().insertAll(parseCsv(context)));
                 }
             }
         }

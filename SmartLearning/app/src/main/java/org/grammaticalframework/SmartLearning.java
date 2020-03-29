@@ -49,7 +49,6 @@ public class SmartLearning extends Application {
 
     public void onCreate() {
         super.onCreate();
-        deleteDatabases(getApplicationContext());
 
         mSharedPref = getApplicationContext().getSharedPreferences(
                 getApplicationContext().getString(R.string.global_preferences_key), Context.MODE_PRIVATE);
