@@ -5,6 +5,7 @@ import android.app.Application;
 import org.grammaticalframework.Language;
 import org.grammaticalframework.SmartLearning;
 import org.grammaticalframework.gf.GF;
+import org.grammaticalframework.pgf.Concr;
 import org.grammaticalframework.pgf.Expr;
 import org.grammaticalframework.pgf.MorphoAnalysis;
 import org.grammaticalframework.pgf.PGF;
@@ -30,8 +31,6 @@ public class LexiconViewModel extends AndroidViewModel {
     //The functions that we are going to find in wordnet
     private List<String> functions = new ArrayList<>();
 
-    //The repository for explanataions
-
     public LexiconViewModel(@NonNull Application application) {
         super(application);
         translatedWords = new ArrayList<>();
@@ -52,15 +51,14 @@ public class LexiconViewModel extends AndroidViewModel {
             functions.clear();
         }
 
-        // Load language (first time after switching) before translating to avoid delay in switching language
-        sl.setSourceLanguage(source);
-        sl.setTargetLanguage(target);
+        Concr source = sl.getSourceConcr();
+        Concr target = sl.getTargetConcr();
 
-        for (MorphoAnalysis an : sl.getSourceConcr().lookupMorpho(word)) {
-            if (sl.getTargetConcr().hasLinearization(an.getLemma())) {
+        for (MorphoAnalysis an : source.lookupMorpho(word)) {
+            if (target.hasLinearization(an.getLemma())) {
                 Expr e = Expr.readExpr(an.getLemma());
                 String function = e.unApp().getFunction();
-                for (String s : sl.getTargetConcr().linearizeAll(e)) {
+                for (String s : target.linearizeAll(e)) {
                     if (!translatedWords.contains(s)) {
                         functions.add(function);
                         translatedWords.add(s);
@@ -106,11 +104,11 @@ public class LexiconViewModel extends AndroidViewModel {
     }
 
     public void setSourceLanguage(Language lang) {
-        source = lang;
+        sl.setSourceLanguage(lang);
     }
 
     public void setTargetLanguage(Language lang) {
-        target = lang;
+        sl.setTargetLanguage(lang);
     }
 
     public List<LexiconWord> getTranslatedWords(){

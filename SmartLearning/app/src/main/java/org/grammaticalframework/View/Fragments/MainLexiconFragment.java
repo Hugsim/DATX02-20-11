@@ -39,6 +39,8 @@ import org.grammaticalframework.ViewModel.LexiconViewModel;
 import org.grammaticalframework.ViewModel.LexiconWord;
 import org.grammaticalframework.ViewModel.LexiconWordAdapter;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainLexiconFragment extends BaseFragment implements AppBarLayout.OnOffsetChangedListener {
 
@@ -125,6 +127,23 @@ public class MainLexiconFragment extends BaseFragment implements AppBarLayout.On
         switch_button.setOnClickListener((v) -> {
             switch_button.animate().rotationBy(180).setDuration(200).start();
             switchLanguages();
+            // Disable for 1 second after pressing to avoid spam-clicking
+            switch_button.setEnabled(false);
+
+            Timer buttonTimer = new Timer();
+            buttonTimer.schedule(new TimerTask() {
+
+                @Override
+                public void run() {
+                    getActivity().runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            switch_button.setEnabled(true);
+                        }
+                    });
+                }
+            }, 1000);
         });
 
         expand_button.setOnClickListener((v) -> {

@@ -3,6 +3,8 @@ package org.grammaticalframework;
 import java.io.*;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import android.app.Application;
 import android.content.Context;
@@ -20,6 +22,7 @@ public class SmartLearning extends Application {
     private ConcrLoader sourceLoader;
     private ConcrLoader targetLoader;
     private ConcrLoader otherLoader;
+    private Semaphore loaderAccess;
 
     private PGF pgf;
 
@@ -45,9 +48,12 @@ public class SmartLearning extends Application {
 
     public void onCreate() {
         super.onCreate();
+        Log.d(TAG, "Main thread with ID: " + Thread.currentThread().getName() + " is now running.");
 
         mSharedPref = getApplicationContext().getSharedPreferences(
                 getApplicationContext().getString(R.string.global_preferences_key), Context.MODE_PRIVATE);
+
+        loaderAccess = new Semaphore(1);
 
         grammarLoader = new GrammarLoader();
         grammarLoader.start();
@@ -121,6 +127,7 @@ public class SmartLearning extends Application {
         } catch (InterruptedException e) {
             Log.e(TAG, "Loading interrupted", e);
         }
+
 
         if (sourceLoader.getLanguage() != targetLoader.getLanguage()) {
             cacheOrUnloadLanguage(sourceLoader);
@@ -223,7 +230,7 @@ public class SmartLearning extends Application {
 
         public void run() {
             InputStream in = null;
-
+            Log.d(TAG, "Grammar thread with ID: " + getName() + " is now running.");
             try {
                 String grammarName = "Parse.pgf";
                 in = getApplicationContext().getAssets().open(grammarName);
@@ -266,6 +273,7 @@ public class SmartLearning extends Application {
         }
 
         public void run() {
+            Log.d(TAG, "Concr thread with ID: " + getName() + " is now running.");
             try {
                 grammarLoader.join();
             } catch (InterruptedException e) {
@@ -280,7 +288,8 @@ public class SmartLearning extends Application {
                 Log.d(TAG, "Trying to load " + name);
                 long t1 = System.currentTimeMillis();
                 concr = grammarLoader.getGrammar().getLanguages().get(language.getConcrete());
-                concr.load(in);
+                long t3 = System.currentTimeMillis();
+                Log.d(TAG, "Fetched from grammar: (" + (t3-t1) + " ms)");
                 long t2 = System.currentTimeMillis();
                 Log.d(TAG, name + " loaded ("+(t2-t1)+" ms)");
             } catch (FileNotFoundException e) {
