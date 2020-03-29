@@ -8,6 +8,7 @@ import org.grammaticalframework.Repository.WNExplanation;
 import org.grammaticalframework.Repository.WNExplanationRepository;
 import org.grammaticalframework.SmartLearning;
 import org.grammaticalframework.gf.GF;
+import org.grammaticalframework.pgf.Concr;
 import org.grammaticalframework.pgf.Expr;
 import org.grammaticalframework.pgf.MorphoAnalysis;
 import org.grammaticalframework.pgf.PGF;
@@ -80,12 +81,11 @@ public class LexiconViewModel extends AndroidViewModel {
             synonyms.clear();
         }
 
-        // Load language (first time after switching) before translating to avoid delay in switching language
-        sl.setSourceLanguage(source);
-        sl.setTargetLanguage(target);
+        Concr source = sl.getSourceConcr();
+        Concr target = sl.getTargetConcr();
 
-        for (MorphoAnalysis an : sl.getSourceConcr().lookupMorpho(word)) {
-            if (sl.getTargetConcr().hasLinearization(an.getLemma())) {
+        for (MorphoAnalysis an : source.lookupMorpho(word)) {
+            if (target.hasLinearization(an.getLemma())) {
                 Expr e = Expr.readExpr(an.getLemma());
                 String function = e.unApp().getFunction();
                 for (String s : targetLanguage.linearizeAll(e)) {
@@ -168,11 +168,11 @@ public class LexiconViewModel extends AndroidViewModel {
     }
 
     public void setSourceLanguage(Language lang) {
-        source = lang;
+        sl.setSourceLanguage(lang);
     }
 
     public void setTargetLanguage(Language lang) {
-        target = lang;
+        sl.setTargetLanguage(lang);
     }
 
     public List<LexiconWord> getTranslatedWords(){
