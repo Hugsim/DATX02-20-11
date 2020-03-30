@@ -30,8 +30,6 @@ public class FillTheGapViewModel extends AndroidViewModel {
 
 
     private static final String TAG = FillTheGapViewModel.class.getSimpleName();
-    Concr source;
-    Concr target;
     private FillTheGapExercise fillthegap;
     private Expr expression;
     private GF gf;
@@ -50,18 +48,16 @@ public class FillTheGapViewModel extends AndroidViewModel {
 
     private LiveData<FillTheGapExercise> unsolvedExercise;
 
+    private SmartLearning mSmartLearning;
+
     //Keeps track on if the current exercise is solved or not
     private boolean currentExerciseSolved = false;
 
     public FillTheGapViewModel(Application application){
         super(application);
 
-        Log.d(TAG, "INSIDE OF FILLTHEGAPVIEWMODEL");
-
-        SmartLearning mSmartLearning = (SmartLearning) getApplication().getApplicationContext();
+        mSmartLearning = (SmartLearning) getApplication().getApplicationContext();
         gf = new GF(mSmartLearning);
-        source = mSmartLearning.getSourceConcr();
-        target = mSmartLearning.getTargetConcr();
 
         fillTheGapExerciseRepository = new FillTheGapExerciseRepository(application);
 
@@ -78,8 +74,8 @@ public class FillTheGapViewModel extends AndroidViewModel {
     public void loadWord(FillTheGapExercise ftge) {
         this.ftge = ftge;
         expression = Expr.readExpr(ftge.getAbstractSyntaxTree());
-        linearizedSentence = target.linearize(expression);
-        Object[] bs = target.bracketedLinearize(expression);
+        linearizedSentence = mSmartLearning.getTargetConcr().linearize(expression);
+        Object[] bs = mSmartLearning.getTargetConcr().bracketedLinearize(expression);
         findWordToRedact(bs[0]);
         setRedactedWord();
     }
@@ -118,10 +114,6 @@ public class FillTheGapViewModel extends AndroidViewModel {
         //nextExercise.setValue("spare_V3");
     }
 
-    /*private void bracketLinearize(){
-        fillthegap.setBs(target.bracketedLinearize(fillthegap.getExpr()));
-        scanBracket(fillthegap.getBs()[0]);
-    }*/
 
     private void findWordToRedact(Object bs){
             if(bs instanceof Bracket){
@@ -138,43 +130,26 @@ public class FillTheGapViewModel extends AndroidViewModel {
             }
     }
 
-    private void scanBracket(Object bs) {
-        Log.d(TAG, "Bracketedscanned");
-        if(bs instanceof Bracket){
-            Log.d(TAG, ":DDDD");
-            if(((Bracket) bs).cat.equals("V")|| ((Bracket) bs).cat.equals("V2")|| ((Bracket) bs).cat.equals("V3")){
-                Log.d(TAG, "___________________________________________");
-                String verb = ((Bracket) bs).fun;
-                inflect(verb);
-                return; //After the first verb has been found, stop
-            }
-            if (((Bracket) bs).children != null){
-                for(Object child : ((Bracket) bs).children){
-                    scanBracket(child);
-                }
-            }
-        }else if(bs instanceof String){
-        }
-    }
-
     private void inflect(String verb) {
         Log.d(TAG, verb);
         if(!inflections.isEmpty()) {
             inflections.clear();
         }
         Expr e = Expr.readExpr(verb);
-        for(Map.Entry<String,String> entry  : target.tabularLinearize(e).entrySet()) {
-            if(entry.getKey().contains("Act")){
+        for(Map.Entry<String,String> entry : mSmartLearning.getTargetConcr().tabularLinearize(e).entrySet()) {
+            if(!entry.getValue().equals("")){
+                Log.d(TAG,"");
+                Log.d(TAG, "entry.getKey(): " + entry.getKey());
+                Log.d(TAG, "entry.getValue(): " + entry.getValue());
+                //TODO: find out how to value if the inflection is "good" or not
+                //perhaps look at
                 inflections.add(entry.getValue()); //Add inflections
             }
         }
-
-        Log.d(TAG, "inflectlistan: " + Arrays.toString(inflections.toArray()));
-
     }
 
     private void setRedactedWord(){
-        String targetLinearization = target.linearize(expression);
+        String targetLinearization = mSmartLearning.getTargetConcr().linearize(expression);
         ArrayList<String> sentence = new ArrayList<>();
         Collections.addAll(sentence, targetLinearization.split(" "));
         //Prepend the correct inflection to inflections
@@ -192,7 +167,6 @@ public class FillTheGapViewModel extends AndroidViewModel {
         }
 
         if(linearizedSentence.contains(redactedWord)) {
-            Log.d(TAG, "ooga booga");
             int toRemove = sentence.indexOf(redactedWord);
             String redacted = "";
             for (char c : redactedWord.toCharArray()) {
