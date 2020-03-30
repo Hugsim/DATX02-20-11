@@ -18,6 +18,7 @@ import org.grammaticalframework.pgf.Concr;
 import org.grammaticalframework.pgf.Expr;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -168,6 +169,8 @@ public class FillTheGapViewModel extends AndroidViewModel {
             }
         }
 
+        Log.d(TAG, "inflectlistan: " + Arrays.toString(inflections.toArray()));
+
     }
 
     private void setRedactedWord(){
@@ -179,8 +182,14 @@ public class FillTheGapViewModel extends AndroidViewModel {
             return;
         String temp = inflections.get(0);
         int indexInflection = inflections.indexOf(redactedWord);
+
         inflections.set(0, redactedWord);
-        inflections.set(indexInflection, temp);
+
+        if(indexInflection > -1){
+           inflections.set(indexInflection, temp);
+        } else {
+            inflections.add(temp);
+        }
 
         if(linearizedSentence.contains(redactedWord)) {
             Log.d(TAG, "ooga booga");
