@@ -290,6 +290,7 @@ public class SmartLearning extends Application {
                 concr = grammarLoader.getGrammar().getLanguages().get(language.getConcrete());
                 long t3 = System.currentTimeMillis();
                 Log.d(TAG, "Fetched from grammar: (" + (t3-t1) + " ms)");
+                concr.load(in);
                 long t2 = System.currentTimeMillis();
                 Log.d(TAG, name + " loaded ("+(t2-t1)+" ms)");
             } catch (FileNotFoundException e) {
