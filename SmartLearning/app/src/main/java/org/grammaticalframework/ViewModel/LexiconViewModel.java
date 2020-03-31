@@ -88,7 +88,7 @@ public class LexiconViewModel extends AndroidViewModel {
             if (target.hasLinearization(an.getLemma())) {
                 Expr e = Expr.readExpr(an.getLemma());
                 String function = e.unApp().getFunction();
-                for (String s : targetLanguage.linearizeAll(e)) {
+                for (String s : target.linearizeAll(e)) {
                     if (!translatedWords.contains(s)) {
                         functions.add(function);
                         translatedWords.add(s);
@@ -175,11 +175,6 @@ public class LexiconViewModel extends AndroidViewModel {
         sl.setTargetLanguage(lang);
     }
 
-    public List<LexiconWord> getTranslatedWords(){
-        return lexiconWords;
-    }
+    public Concr getTargetConcr() { return sl.getTargetConcr();}
 
-    public Concr getTargetConcr(){
-        return targetLanguage;
-    }
 }
