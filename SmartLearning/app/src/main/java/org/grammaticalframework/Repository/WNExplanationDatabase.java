@@ -30,16 +30,16 @@ public abstract class WNExplanationDatabase extends RoomDatabase {
             synchronized (WNExplanationDatabase.class){
                 if (INSTANCE == null){
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(), WNExplanationDatabase.class, "smartlearning.db")
-                            //.createFromAsset("databases/smartlearning.db")
+                            .createFromAsset("databases/smartlearning.db")
                             .build();
 
                     //empty the database
-                    databaseWriteExecutor.execute(() -> INSTANCE.wordNetExplanationDao().deleteAll());
-                    databaseWriteExecutor.execute(() -> INSTANCE.fillTheGapExerciseDao().deleteAll());
+                    //databaseWriteExecutor.execute(() -> INSTANCE.wordNetExplanationDao().deleteAll());
+                    //databaseWriteExecutor.execute(() -> INSTANCE.fillTheGapExerciseDao().deleteAll());
 
                     //Populate db with the explanations & exercises
                     //databaseWriteExecutor.execute(() -> INSTANCE.wordNetExplanationDao().insertAll(parseExplanationCSV(context, "WordNet.csv")));
-                    //atabaseWriteExecutor.execute(() -> INSTANCE.fillTheGapExerciseDao().insertAll(parseFillTheGapExerciseCSV(context, "Exercises.csv")));
+                    //databaseWriteExecutor.execute(() -> INSTANCE.fillTheGapExerciseDao().insertAll(parseFillTheGapExerciseCSV(context, "Exercises.csv")));
                 }
             }
         }
