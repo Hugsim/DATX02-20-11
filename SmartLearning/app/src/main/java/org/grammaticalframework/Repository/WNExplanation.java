@@ -49,7 +49,4 @@ public class WNExplanation {
         return synonym;
     }
 
-    public void setSynonym(@NonNull String synonym) {
-        this.synonym = synonym;
-    }
 }

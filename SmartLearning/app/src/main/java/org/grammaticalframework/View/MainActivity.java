@@ -1,6 +1,8 @@
 package org.grammaticalframework.View;
 import org.grammaticalframework.R;
 import org.grammaticalframework.ViewModel.MainViewModel;
+
+import android.app.Application;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -19,6 +21,8 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.viewModel = new MainViewModel();
+
+
 
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);

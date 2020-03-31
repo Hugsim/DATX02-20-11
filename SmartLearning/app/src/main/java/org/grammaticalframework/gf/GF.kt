@@ -91,5 +91,10 @@ class GF(val sl: SmartLearning) {
         fun makeMostLikelyWord(word: String, lang: Concr): Word {
             return Word(lang.lookupMorpho(word).first()?.lemma ?: "")
         }
+
+        @JvmStatic
+        fun linearizeFunction(lemma: String, lang: Concr): String {
+            return linearize(Expr.readExpr(lemma), lang)
+        }
     }
 }

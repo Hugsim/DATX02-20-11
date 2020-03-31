@@ -306,4 +306,15 @@ public class SmartLearning extends Application {
             }
         }
     }
+
+    private static void deleteDatabases (Context context){
+        String[] databaseList = context.databaseList();
+        if(databaseList != null){
+            for(String database : databaseList){
+                if (!context.deleteDatabase(database)){
+                    Log.e(TAG, "Not able to delete database " + database + ".");
+                }
+            }
+        }
+    }
 }
