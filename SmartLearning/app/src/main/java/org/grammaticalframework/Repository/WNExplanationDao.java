@@ -32,4 +32,7 @@ public interface WNExplanationDao {
     @Query("SELECT * FROM WordNetExplanation_table WHERE function IN (:functions)")
     LiveData<List<WNExplanation>> getAllWordNetExplanations(List<String> functions);
 
+    @Query("SELECT * FROM WordNetExplanation_table WHERE synonym IN (:synonyms) AND explanation != 'There is no explanation available for this word'")
+    LiveData<List<WNExplanation>> getWNSynonyms (List<String> synonyms);
+
 }
