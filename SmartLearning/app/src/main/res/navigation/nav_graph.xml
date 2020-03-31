@@ -21,7 +21,11 @@
         android:id="@+id/fillTheGapFragment"
         android:name="org.grammaticalframework.View.Fragments.FillTheGapFragment"
         android:label="fillTheGapFragment"
-        tools:layout="@layout/fragment_exercise_fill_the_gap" />
+        tools:layout="@layout/fragment_exercise_fill_the_gap" >
+        <action
+            android:id="@+id/action_fillTheGapFragment_self"
+            app:destination="@id/fillTheGapFragment" />
+    </fragment>
     <fragment
         android:id="@+id/mainExerciseFragment"
         android:name="org.grammaticalframework.View.Fragments.MainExerciseFragment"
