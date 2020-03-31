@@ -27,17 +27,12 @@ import androidx.lifecycle.Transformations;
 public class LexiconViewModel extends AndroidViewModel {
     private List<String> translatedWords;
     private List<LexiconWord> lexiconWords;
-<<<<<<< HEAD
 
     static private LiveData<List<WNExplanation>> wnExplanations;
     static private LiveData<List<WNExplanation>> wnSynonyms;
 
     private MutableLiveData<List<String>> functionsToSearchFor = new MutableLiveData<>();
     private MutableLiveData<List<String>> synonymsToSearchFor = new MutableLiveData<>();
-=======
-    private Language source;
-    private Language target;
->>>>>>> SetLangOptimization
 
     private SmartLearning sl;
 
@@ -47,13 +42,10 @@ public class LexiconViewModel extends AndroidViewModel {
 
     //The functions that we are going to find in wordnet
     private List<String> functions = new ArrayList<>();
-<<<<<<< HEAD
     private List<String> synonyms = new ArrayList<>();
 
     //The repository for explanataions
     private WNExplanationRepository wnExplanationRepository;
-=======
->>>>>>> SetLangOptimization
 
     public LexiconViewModel(@NonNull Application application) {
         super(application);
@@ -64,7 +56,6 @@ public class LexiconViewModel extends AndroidViewModel {
         gr = sl.getGrammar();
         wnExplanationRepository = new WNExplanationRepository(application);
 
-<<<<<<< HEAD
         wnExplanations = Transformations.switchMap(functionsToSearchFor, functions -> {
             Log.d(TAG, "WNEXP");
            return wnExplanationRepository.getWNExplanations(functions);
@@ -76,8 +67,6 @@ public class LexiconViewModel extends AndroidViewModel {
         });
     }
 
-=======
->>>>>>> SetLangOptimization
     public void wordTranslator(String word) {
         if (!lexiconWords.isEmpty()) {
             lexiconWords.clear();
@@ -88,7 +77,7 @@ public class LexiconViewModel extends AndroidViewModel {
         if (!functions.isEmpty()){
             functions.clear();
         }
-<<<<<<< HEAD
+
         if(!synonyms.isEmpty()){
             synonyms.clear();
         }
@@ -96,12 +85,6 @@ public class LexiconViewModel extends AndroidViewModel {
         Concr source = sl.getSourceConcr();
         Concr target = sl.getTargetConcr();
 
-=======
-
-        Concr source = sl.getSourceConcr();
-        Concr target = sl.getTargetConcr();
-
->>>>>>> SetLangOptimization
         for (MorphoAnalysis an : source.lookupMorpho(word)) {
             if (target.hasLinearization(an.getLemma())) {
                 Expr e = Expr.readExpr(an.getLemma());
@@ -110,11 +93,7 @@ public class LexiconViewModel extends AndroidViewModel {
                     if (!translatedWords.contains(s)) {
                         functions.add(function);
                         translatedWords.add(s);
-<<<<<<< HEAD
                         lexiconWords.add(new LexiconWord(an.getLemma(), s, "", speechTag(an.getLemma()), function, "", ""));
-=======
-                        lexiconWords.add(new LexiconWord(an.getLemma(), s, "", speechTag(an.getLemma())));
->>>>>>> SetLangOptimization
                     }
                 }
             }
@@ -193,13 +172,6 @@ public class LexiconViewModel extends AndroidViewModel {
 
     public void setTargetLanguage(Language lang) {
         sl.setTargetLanguage(lang);
-<<<<<<< HEAD
-=======
-    }
-
-    public List<LexiconWord> getTranslatedWords(){
-        return lexiconWords;
->>>>>>> SetLangOptimization
     }
 
     public Concr getTargetConcr() { return sl.getTargetConcr();}
