@@ -306,6 +306,9 @@ public class MainLexiconFragment extends BaseFragment implements AppBarLayout.On
             translateView(to_lang_short, toOffsetX, toOffsetY, 0);
             translateView(switch_button, switchOffsetX, switchOffsetY, 0);
 
+            from_lang_short.setVisibility(View.VISIBLE);
+            to_lang_short.setVisibility(View.VISIBLE);
+
             dropDown_icon.setRotation(0);
         } else {
             translateView(from_lang_short, fromOffsetX, fromOffsetY, 1 - normalizedOffset);

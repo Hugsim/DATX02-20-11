@@ -1,12 +1,14 @@
 package org.grammaticalframework.View.Fragments;
 
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +38,8 @@ public class FillTheGapFragment extends Fragment{
     Button button5;
     TextView sentence;
     private boolean isCorrect = false;
+    private Handler handlerCorrect;
+    private Handler handlerIncorrect;
 
     FillTheGapViewModel model;
     NavController navController;
@@ -66,6 +70,8 @@ public class FillTheGapFragment extends Fragment{
         buttons.add(button5 = getView().findViewById(R.id.button5));
         sentence = getView().findViewById(R.id.exerciseSentence);
         navController = Navigation.findNavController(view);
+        handlerCorrect = new Handler();
+        handlerIncorrect = new Handler();
 
         model = new ViewModelProvider(requireActivity()).get(FillTheGapViewModel.class);
         model.getUnsolvedExercise().observe(getViewLifecycleOwner(), fillTheGapExercise -> {
@@ -80,22 +86,22 @@ public class FillTheGapFragment extends Fragment{
                 buttons.get(i).setOnClickListener(v -> {
                     Toast toast;
                     if(model.checkCorrectAnswer(word)){
-                        btn.setBackgroundColor(Color.GREEN);
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
+                        btn.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+                        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                        handlerCorrect.postDelayed(new Runnable() {
                             @Override
                             public void run() {
+                                getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                                 navController.navigate(R.id.action_fillTheGapFragment_self);
                                 model.getNewSentence();
                             }
                         }, 1500);
                     }else{
-                        btn.setBackgroundColor(Color.RED);
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
+                        btn.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
+                        handlerIncorrect.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                btn.setBackgroundResource(R.drawable.default_button_colour);
+                                btn.getBackground().clearColorFilter();
                             }
                         }, 1500);
                     }
@@ -104,7 +110,13 @@ public class FillTheGapFragment extends Fragment{
             sentence.setText(model.getSentence());
         });
 
+    }
 
-
+    @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        handlerCorrect.removeCallbacksAndMessages(null);
+        handlerIncorrect.removeCallbacksAndMessages(null);
     }
 }
