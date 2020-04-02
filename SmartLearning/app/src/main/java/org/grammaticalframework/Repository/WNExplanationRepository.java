@@ -38,6 +38,10 @@ public class WNExplanationRepository {
         return mWNExplanationDao.getAllWordNetExplanations(functions);
     }
 
+    public LiveData<List<WNExplanationWithCheck>> getWNExplanationsWithCheck(List<String> functions, String langcode) {
+        return mWNExplanationDao.getAllWordNetExplanationsWithCheck(functions, langcode);
+    }
+
     public WNExplanation getWNExplanationSync(String function){
         return mWNExplanationDao.getWNExplanation(function);
     }
