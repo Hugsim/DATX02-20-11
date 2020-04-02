@@ -11,14 +11,15 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {WNExplanation.class, FillTheGapExercise.class, CheckedFunction.class}, version = 3, exportSchema = false)
+@Database(entities = {WNExplanation.class, FillTheGapExercise.class, CheckedFunction.class}, version = 1, exportSchema = false)
 public abstract class WNExplanationDatabase extends RoomDatabase {
 
     private static final String TAG = WNExplanationDatabase.class.getSimpleName();
     private  static WNExplanationDatabase INSTANCE;
-    public abstract WNExplanationDao wordNetExplanationDao();
 
+    public abstract WNExplanationDao wordNetExplanationDao();
     public abstract FillTheGapExerciseDao fillTheGapExerciseDao();
+    public abstract CheckedFunctionDao checkedFunctionDao();
 
     private static final int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
@@ -35,8 +36,8 @@ public abstract class WNExplanationDatabase extends RoomDatabase {
                                     super.onCreate(db);
                                     databaseWriteExecutor.execute(() -> INSTANCE.wordNetExplanationDao().insertAll(ParseUtils.parseExplanationCSV(context, "parsing/WordNet.csv")));
                                     databaseWriteExecutor.execute(() -> INSTANCE.fillTheGapExerciseDao().insertAll(ParseUtils.parseFillTheGapExerciseCSV(context, "parsing/Exercises.csv")));
-                                    databaseWriteExecutor.execute(() -> INSTANCE.fillTheGapExerciseDao().insertAll(ParseUtils.parseFillTheGapExerciseCSV(context, "parsing/WordNetEngChecked.csv")));
-                                    databaseWriteExecutor.execute(() -> INSTANCE.fillTheGapExerciseDao().insertAll(ParseUtils.parseFillTheGapExerciseCSV(context, "parsing/wordNetSweChecked.csv")));
+                                    databaseWriteExecutor.execute(() -> INSTANCE.checkedFunctionDao().insertAll(ParseUtils.parseWordNetChecks(context, "parsing/WordNetEngChecked.csv")));
+                                    databaseWriteExecutor.execute(() -> INSTANCE.checkedFunctionDao().insertAll(ParseUtils.parseWordNetChecks(context, "parsing/wordNetSweChecked.csv")));
                                 }
                             })
                             .build();

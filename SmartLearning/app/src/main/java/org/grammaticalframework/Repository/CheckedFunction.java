@@ -35,6 +35,15 @@ public class CheckedFunction {
     }
 
     @NonNull
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @NonNull
     public String getFunction() {
         return function;
     }
