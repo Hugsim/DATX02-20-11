@@ -9,14 +9,10 @@ with open('WordNetEng.gf') as inputfile:
                 continue
             line = line[4:]
             function = line.split(" ")[0]
-            if("variants {} ;" in line):
-                #There is no definition for the linearization
-                outputfile.writelines("\"" + function + "\";\"not_defined\";\"eng\"\n")
-                continue
             if("--" not in line):
-                #In Swedish, if there is no comment then the word is considered checked
+                #In English, if there is no comment then the word is considered checked
                 outputfile.writelines("\"" + function + "\";\"checked\";\"eng\"\n")
                 continue
             if("--" in line):
-                #If there is a comment in Swedish, then the word is guessed
+                #If there is a comment in English, I am not sure of what to do with the word, so lets consider it guessed...
                 outputfile.writelines("\"" + function + "\";\"guessed\";\"eng\"\n")

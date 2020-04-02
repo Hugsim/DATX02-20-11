@@ -1,19 +1,17 @@
 package org.grammaticalframework.Repository;
 
 import android.content.Context;
-import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {WNExplanation.class, FillTheGapExercise.class}, version = 2, exportSchema = false)
+@Database(entities = {WNExplanation.class, FillTheGapExercise.class, CheckedFunction.class}, version = 3, exportSchema = false)
 public abstract class WNExplanationDatabase extends RoomDatabase {
 
     private static final String TAG = WNExplanationDatabase.class.getSimpleName();
@@ -30,7 +28,17 @@ public abstract class WNExplanationDatabase extends RoomDatabase {
             synchronized (WNExplanationDatabase.class){
                 if (INSTANCE == null){
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(), WNExplanationDatabase.class, "smartlearning.db")
-                            .createFromAsset("databases/smartlearning.db")
+                            //.createFromAsset("databases/smartlearning.db")
+                            .addCallback(new Callback() {
+                                @Override
+                                public void onCreate(@NonNull SupportSQLiteDatabase db) {
+                                    super.onCreate(db);
+                                    databaseWriteExecutor.execute(() -> INSTANCE.wordNetExplanationDao().insertAll(ParseUtils.parseExplanationCSV(context, "parsing/WordNet.csv")));
+                                    databaseWriteExecutor.execute(() -> INSTANCE.fillTheGapExerciseDao().insertAll(ParseUtils.parseFillTheGapExerciseCSV(context, "parsing/Exercises.csv")));
+                                    databaseWriteExecutor.execute(() -> INSTANCE.fillTheGapExerciseDao().insertAll(ParseUtils.parseFillTheGapExerciseCSV(context, "parsing/WordNetEngChecked.csv")));
+                                    databaseWriteExecutor.execute(() -> INSTANCE.fillTheGapExerciseDao().insertAll(ParseUtils.parseFillTheGapExerciseCSV(context, "parsing/wordNetSweChecked.csv")));
+                                }
+                            })
                             .build();
 
                     //empty the database
@@ -38,46 +46,15 @@ public abstract class WNExplanationDatabase extends RoomDatabase {
                     //databaseWriteExecutor.execute(() -> INSTANCE.fillTheGapExerciseDao().deleteAll());
 
                     //Populate db with the explanations & exercises
-                    //databaseWriteExecutor.execute(() -> INSTANCE.wordNetExplanationDao().insertAll(parseExplanationCSV(context, "WordNet.csv")));
-                    //databaseWriteExecutor.execute(() -> INSTANCE.fillTheGapExerciseDao().insertAll(parseFillTheGapExerciseCSV(context, "Exercises.csv")));
+
                 }
             }
         }
         return INSTANCE;
     }
 
-    public static List<WNExplanation> parseExplanationCSV(Context context, String fileName) {
-        LinkedList<WNExplanation> wneList = new LinkedList<>();
-        try {
-            CSVReader csvReader = new CSVReader(new InputStreamReader(context.getAssets().open(fileName)),';', '"', 1);
-            String[] nextLine;
 
-            while ((nextLine = csvReader.readNext()) != null) {
-                if(nextLine.length < 3)
-                    continue;
-                wneList.add(new WNExplanation(nextLine[0], nextLine[1], nextLine[2]));
-            }
-        }catch (Exception e){
-            Log.d(TAG, e.getMessage());
-        }
-        return wneList;
-    }
 
-    public static List<FillTheGapExercise> parseFillTheGapExerciseCSV(Context context, String fileName) {
-        LinkedList<FillTheGapExercise> fillTheGapExerciseList = new LinkedList<>();
-        try {
-            CSVReader csvReader = new CSVReader(new InputStreamReader(context.getAssets().open(fileName)),';', '"', 1);
-            String[] nextLine;
 
-            while ((nextLine = csvReader.readNext()) != null) {
-                if(nextLine.length < 2)
-                    continue;
-                fillTheGapExerciseList.add(new FillTheGapExercise(nextLine[0], nextLine[1]));
-            }
-        }catch (Exception e){
-            Log.d(TAG, e.getMessage());
-        }
-        return fillTheGapExerciseList;
-    }
 
 }
