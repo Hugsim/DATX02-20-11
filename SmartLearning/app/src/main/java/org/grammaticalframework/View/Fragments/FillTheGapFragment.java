@@ -92,6 +92,7 @@ public class FillTheGapFragment extends Fragment{
                             @Override
                             public void run() {
                                 getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                btn.getBackground().clearColorFilter();
                                 navController.navigate(R.id.action_fillTheGapFragment_self);
                                 model.getNewSentence();
                             }

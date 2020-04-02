@@ -358,7 +358,12 @@ public class MainLexiconFragment extends BaseFragment implements AppBarLayout.On
      * Returns: the last 2 letters of the lang code which contains the 2 letter abbreviation of each language
      */
     private String parseLangCode(String langCode) {
-        return langCode.substring(langCode.length() - 2);
+        String firstLetters = langCode.substring(0, 3);
+        Log.d(TAG, "First letters: " + firstLetters);
+        if (firstLetters.contains("-"))
+            return firstLetters.substring(0, 2).toUpperCase();
+        else
+            return langCode.substring(langCode.length() - 2).toUpperCase();
     }
 
     private void searchWord(String searchString) {
