@@ -29,17 +29,19 @@ public abstract class WNExplanationDatabase extends RoomDatabase {
             synchronized (WNExplanationDatabase.class){
                 if (INSTANCE == null){
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(), WNExplanationDatabase.class, "smartlearning.db")
-                            //.createFromAsset("databases/smartlearning.db")
-                            .addCallback(new Callback() {
+                            .createFromAsset("databases/smartlearning.db")
+                            /*.addCallback(new Callback() {
                                 @Override
                                 public void onCreate(@NonNull SupportSQLiteDatabase db) {
                                     super.onCreate(db);
+                                    //Code for writing from the csv-files to the database.
+                                    //Only needed when creating a new database, it should be quicker to load in the db that is already created.
                                     databaseWriteExecutor.execute(() -> INSTANCE.wordNetExplanationDao().insertAll(ParseUtils.parseExplanationCSV(context, "parsing/WordNet.csv")));
                                     databaseWriteExecutor.execute(() -> INSTANCE.fillTheGapExerciseDao().insertAll(ParseUtils.parseFillTheGapExerciseCSV(context, "parsing/Exercises.csv")));
                                     databaseWriteExecutor.execute(() -> INSTANCE.checkedFunctionDao().insertAll(ParseUtils.parseWordNetChecks(context, "parsing/WordNetEngChecked.csv")));
                                     databaseWriteExecutor.execute(() -> INSTANCE.checkedFunctionDao().insertAll(ParseUtils.parseWordNetChecks(context, "parsing/wordNetSweChecked.csv")));
                                 }
-                            })
+                            })*/
                             .build();
 
                     //empty the database

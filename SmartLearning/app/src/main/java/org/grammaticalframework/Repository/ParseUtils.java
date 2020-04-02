@@ -51,7 +51,7 @@ public class ParseUtils {
             String[] nextLine;
 
             while ((nextLine = csvReader.readNext()) != null) {
-                if(nextLine.length < 4)
+                if(nextLine.length < 3)
                     continue;
                 checkedFunctions.add(new CheckedFunction(nextLine[0], nextLine[1], nextLine[2]));
             }
