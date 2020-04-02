@@ -1,7 +1,7 @@
-import re
+import codecs
 #This script parses the engdish gf-wordnet and outputs a csv-file containing the function and its status
-with open('WordNetEng.gf') as inputfile:
-    with open('WordNetEngChecked.csv', 'w') as outputfile:
+with codecs.open('WordNetEng.gf', 'r', encoding='ISO-8859-2') as inputfile:
+    with codecs.open('WordNetEngChecked.csv', 'w', encoding='ISO-8859-2') as outputfile:
         outputfile.writelines("function;status;langcode\n")
 
         for line in inputfile:
