@@ -2,19 +2,14 @@ package org.grammaticalframework;
 
 import java.io.*;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import org.grammaticalframework.Repository.CSVReader;
-import org.grammaticalframework.Repository.WNExplanation;
-import org.grammaticalframework.Repository.WNExplanationDatabase;
 import org.grammaticalframework.pgf.Concr;
 import org.grammaticalframework.pgf.PGF;
 

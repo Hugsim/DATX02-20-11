@@ -2,20 +2,18 @@ package org.grammaticalframework.Repository;
 
 import android.content.Context;
 
-import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Database(entities = {WNExplanation.class, FillTheGapExercise.class, CheckedFunction.class}, version = 1, exportSchema = false)
-public abstract class WNExplanationDatabase extends RoomDatabase {
+public abstract class SmartLearningDatabase extends RoomDatabase {
 
-    private static final String TAG = WNExplanationDatabase.class.getSimpleName();
-    private  static WNExplanationDatabase INSTANCE;
+    private static final String TAG = SmartLearningDatabase.class.getSimpleName();
+    private  static SmartLearningDatabase INSTANCE;
 
     public abstract WNExplanationDao wordNetExplanationDao();
     public abstract FillTheGapExerciseDao fillTheGapExerciseDao();
@@ -24,11 +22,11 @@ public abstract class WNExplanationDatabase extends RoomDatabase {
     private static final int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
-    public static synchronized WNExplanationDatabase getInstance(final Context context){
+    public static synchronized SmartLearningDatabase getInstance(final Context context){
         if(INSTANCE == null){
-            synchronized (WNExplanationDatabase.class){
+            synchronized (SmartLearningDatabase.class){
                 if (INSTANCE == null){
-                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(), WNExplanationDatabase.class, "smartlearning.db")
+                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(), SmartLearningDatabase.class, "smartlearning.db")
                             .createFromAsset("databases/smartlearning.db")
                             /*.addCallback(new Callback() {
                                 @Override
