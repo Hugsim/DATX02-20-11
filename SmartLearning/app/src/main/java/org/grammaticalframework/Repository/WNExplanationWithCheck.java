@@ -9,4 +9,17 @@ public class WNExplanationWithCheck {
 
     @Embedded
     CheckedFunction checkedFunction;
+
+    public WNExplanation getWnExplanation() {
+        return wnExplanation;
+    }
+
+    public CheckedFunction getCheckedFunction() {
+        return checkedFunction;
+    }
+
+    public WNExplanationWithCheck(WNExplanation wnExplanation, CheckedFunction checkedFunction) {
+        this.wnExplanation = wnExplanation;
+        this.checkedFunction = checkedFunction;
+    }
 }

@@ -36,7 +36,7 @@ public interface WNExplanationDao {
     @Query("SELECT * FROM WordNetExplanation_table WHERE synonym IN (:synonyms) AND explanation != 'There is no explanation available for this word'")
     LiveData<List<WNExplanation>> getWNSynonyms (List<String> synonyms);
 
-    @Query("SELECT WordNetExplanation_table.*, CheckedFunction_table.* FROM WordNetExplanation_table INNER JOIN CheckedFunction_table ON WordNetExplanation_table.function = CheckedFunction_table.function WHERE WordNetExplanation_table.function IN (:functions) AND CheckedFunction_table.langcode = :langcode")
+    @Query("SELECT * FROM WordNetExplanation_table LEFT OUTER JOIN CheckedFunction_table ON WordNetExplanation_table.function=CheckedFunction_table.checked_function WHERE function IN (:functions) AND (langcode = :langcode OR langcode IS NULL)")
     LiveData<List<WNExplanationWithCheck>> getAllWordNetExplanationsWithCheck(List<String> functions, String langcode);
 
 }

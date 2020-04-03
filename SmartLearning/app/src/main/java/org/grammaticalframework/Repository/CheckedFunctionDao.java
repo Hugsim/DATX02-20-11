@@ -20,9 +20,12 @@ public interface CheckedFunctionDao {
     @Query("SELECT * FROM CheckedFunction_table")
     LiveData<List<CheckedFunction>> getAllCheckedFunctions();
 
+    /*
+    Not needed as we will only be inserting checked functions
     @Query("SELECT * FROM CheckedFunction_table WHERE function = :function AND langcode = :langcode")
     LiveData<CheckedFunction> getCheckedFunction(String function, String langcode);
 
     @Query("SELECT * FROM CheckedFunction_table WHERE function IN (:functions) AND langcode = :langcode")
     LiveData<List<CheckedFunction>> getCheckedFunctions(List<String> functions, String langcode);
+     */
 }

@@ -13,10 +13,10 @@ import androidx.room.PrimaryKey;
 public class CheckedFunction {
     @PrimaryKey(autoGenerate = true)
     @NonNull
-    @ColumnInfo(name = "id")
+    @ColumnInfo(name = "checked_id")
     private int id;
 
-    @ColumnInfo(name = "function")
+    @ColumnInfo(name = "checked_function")
     @NonNull
     private String function;
 

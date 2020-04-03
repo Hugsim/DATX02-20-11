@@ -8,6 +8,8 @@ with open('WordNet.gf') as inputfile:
                 continue
             line = line[4:]
             function = line.split(" ")[0]
+            if("--" in line):
+                function = function.replace("--", "")
             if("--" not in line):
                 outputfile.writelines("\"" + function + "\";\"random_siffra\";\"There is no explanation available for this word\"\n")
                 continue
