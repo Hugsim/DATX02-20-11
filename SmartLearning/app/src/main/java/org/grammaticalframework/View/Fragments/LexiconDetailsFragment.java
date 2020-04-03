@@ -107,8 +107,6 @@ public class LexiconDetailsFragment extends BaseFragment {
                             //lexiconWord.setSynonymWords(constructSynonymWordsString(synonym.getFunction(), synonymSB));
                             String temp = synonym.getFunction();
                             constructSynonymWordsString(GF.linearizeFunction(temp, model.getTargetConcr()), synonymSB);
-                            Log.d(TAG, "FOUND SYNONYMS");
-
                         }
 
                     synonymTextView.setText(synonymSB);

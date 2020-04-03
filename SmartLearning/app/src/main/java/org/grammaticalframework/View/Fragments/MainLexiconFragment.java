@@ -36,6 +36,7 @@ import com.google.android.material.appbar.AppBarLayout;
 import org.grammaticalframework.Language;
 import org.grammaticalframework.R;
 import org.grammaticalframework.Repository.WNExplanation;
+import org.grammaticalframework.Repository.WNExplanationWithCheck;
 import org.grammaticalframework.View.FragmentFactory;
 import org.grammaticalframework.ViewModel.LexiconViewModel;
 import org.grammaticalframework.ViewModel.LexiconWord;
@@ -240,18 +241,18 @@ public class MainLexiconFragment extends BaseFragment implements AppBarLayout.On
         //Observe livedata from viwemodel
         //wordAdapter.setLexiconWordList(lexiconVM.getLexiconWords());
 
-        lexiconVM.getWNExplanations().observe(getViewLifecycleOwner(), wnExplanations -> {
+        lexiconVM.getWnExplanationsWithChecks().observe(getViewLifecycleOwner(), wnExplanations -> {
             List<LexiconWord> lexiconWordList = lexiconVM.getLexiconWords();
-            for(WNExplanation explanation : wnExplanations){
+            for(WNExplanationWithCheck explanation : wnExplanations){
                 for(int i = 0; i < lexiconWordList.size(); i++){
                     LexiconWord lexiconWord = lexiconWordList.get(i);
-                    if(lexiconWord.getFunction().equals(explanation.getFunction())){
-                        lexiconWord.setExplanation(explanation.getExplanation());
+                    if(lexiconWord.getFunction().equals(explanation.getWnExplanation().getFunction())){
+                        lexiconWord.setExplanation(explanation.getWnExplanation().getExplanation());
                         lexiconWordList.set(i, lexiconWord);
                         wordAdapter.setLexiconWordList(lexiconWordList);
                         if(!(lexiconWord.getSynonymCode().equals("random_siffra"))){
-                            lexiconWord.setSynonymCode(explanation.getSynonym());
-                            lexiconVM.getSynonyms().add(explanation.getSynonym());
+                            lexiconWord.setSynonymCode(explanation.getWnExplanation().getSynonym());
+                            lexiconVM.getSynonyms().add(explanation.getWnExplanation().getSynonym());
                         }
                     }
                 }
@@ -322,7 +323,6 @@ public class MainLexiconFragment extends BaseFragment implements AppBarLayout.On
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(TAG, "ON RESUME");
         lexicon_toolbar.addOnOffsetChangedListener(this);
     }
 
