@@ -1,6 +1,8 @@
 package org.grammaticalframework.View.Fragments;
 
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +19,6 @@ import androidx.navigation.Navigation;
 
 import org.grammaticalframework.R;
 import org.grammaticalframework.Repository.WNExplanation;
-import org.grammaticalframework.SmartLearning;
 import org.grammaticalframework.ViewModel.LexiconViewModel;
 import org.grammaticalframework.ViewModel.LexiconWord;
 
@@ -25,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.grammaticalframework.gf.GF;
-import org.grammaticalframework.gf.GFKt;
 
 
 public class LexiconDetailsFragment extends BaseFragment {
@@ -39,7 +39,7 @@ public class LexiconDetailsFragment extends BaseFragment {
     private NavController navController;
     private LexiconViewModel model;
     private WebView webView;
-    private TextView textView1;
+    private TextView wordView;
     private TextView debugFunctionTextView;
     private TextView explanationTextView;
     private TextView synonymTextView;
@@ -54,7 +54,7 @@ public class LexiconDetailsFragment extends BaseFragment {
         View fragmentView = inflater.inflate(R.layout.fragment_lexicon_details, container, false);
 
         foundSynonymList = new ArrayList<>();
-        textView1 = fragmentView.findViewById(R.id.translated_word);
+        wordView = fragmentView.findViewById(R.id.translated_word);
         debugFunctionTextView = fragmentView.findViewById(R.id.debugFunctionTextView);
         explanationTextView = fragmentView.findViewById(R.id.explanationTextView);
         synonymTextView = fragmentView.findViewById(R.id.synonymTextView);
@@ -85,8 +85,10 @@ public class LexiconDetailsFragment extends BaseFragment {
             LexiconDetailsFragmentArgs args = LexiconDetailsFragmentArgs.fromBundle(getArguments());
             LexiconWord word = args.getMessage();
             translatedWord = word.getWord();
+            SpannableString underlinedWord = new SpannableString(translatedWord);
+            underlinedWord.setSpan(new UnderlineSpan(), 0 , translatedWord.length(), 0);
             lemma = word.getLemma();
-            textView1.setText(translatedWord);
+            wordView.setText(underlinedWord);
             debugFunctionSB.append("The function for this word is: ").append(word.getFunction());
             explanationSB.append("Explanation: ").append(word.getExplanation());
             debugFunctionTextView.setText(debugFunctionSB);
@@ -96,6 +98,13 @@ public class LexiconDetailsFragment extends BaseFragment {
             // TODO: maybe perhaps not write html like this?
             String html = model.inflect(lemma);
             webView.loadData(html, "text/html", "UTF-8");
+            webView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+
+                @Override
+                public void onLayoutChange(View v, int left, int top, int right,int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                    webView.setBackgroundColor(getResources().getColor(R.color.colorLight));
+                }
+            });
         }
     }
 
