@@ -3,11 +3,7 @@
     <color name="colorPrimary">#4E2F28</color>
     <color name="colorPrimaryDark">#281E1C</color>
     <color name="colorAccent">#D81B60</color>
-<<<<<<< HEAD
     <color name="ColorAccent2">#604233</color>
-=======
-    <color name="ColorAccent2">#5E4335</color>
->>>>>>> BugFix
     <color name="colorLight">#F8EFDC</color>
     <color name="colorLine">#B68148</color>
 
