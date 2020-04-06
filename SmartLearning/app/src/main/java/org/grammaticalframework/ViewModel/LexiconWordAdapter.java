@@ -63,6 +63,11 @@ public class LexiconWordAdapter extends RecyclerView.Adapter<LexiconWordAdapter.
         viewHolder.wordTextView.setText(lexiconWord.getWord());
         viewHolder.explanationTextView.setText(lexiconWord.getExplanation());
         viewHolder.tagTextView.setText(lexiconWord.getTag());
+        if(lexiconWord.getStatus() != null && lexiconWord.getStatus().equals("checked")){
+            viewHolder.functionChecked.setText("\uD83D\uDCAF");
+        } else {
+            viewHolder.functionChecked.setText("\uD83D\uDCA9");
+        }
     }
 
     @Override
@@ -80,6 +85,7 @@ public class LexiconWordAdapter extends RecyclerView.Adapter<LexiconWordAdapter.
         public TextView wordTextView;
         public TextView explanationTextView;
         public TextView tagTextView;
+        public TextView functionChecked;
 
         public WordItemViewHolder(View itemView) {
             super(itemView);
@@ -87,6 +93,7 @@ public class LexiconWordAdapter extends RecyclerView.Adapter<LexiconWordAdapter.
             wordTextView = itemView.findViewById(R.id.lexicon_item_name);
             explanationTextView = itemView.findViewById(R.id.lexicon_item_explanation);
             tagTextView = itemView.findViewById(R.id.lexicon_tag);
+            functionChecked = itemView.findViewById(R.id.functionChecked);
         }
     }
 }
