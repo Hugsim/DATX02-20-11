@@ -24,8 +24,13 @@
                 android:id="@+id/lexicon_details_back"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+<<<<<<< HEAD
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
+=======
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="12dp"
+>>>>>>> BugFix
                 android:background="@color/transparent"
                 android:src="?attr/actionModeCloseDrawable"
                 android:tint="@color/colorLight"
@@ -59,10 +64,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lexicon_details_appbar">
 
+<<<<<<< HEAD
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+=======
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+>>>>>>> BugFix
 
             <TextView
                 android:id="@+id/explanationTextView"
@@ -70,11 +81,21 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
+<<<<<<< HEAD
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:text="ExplanationText"
                 android:textSize="18sp" />
+=======
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+>>>>>>> BugFix
 
             <TextView
                 android:id="@+id/debugFunctionTextView"
@@ -88,7 +109,14 @@
                 android:isScrollContainer="true"
                 android:overScrollMode="ifContentScrolls"
                 android:scrollbarAlwaysDrawVerticalTrack="false"
+<<<<<<< HEAD
                 android:textSize="18sp" />
+=======
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/explanationTextView" />
+>>>>>>> BugFix
 
             <TextView
                 android:id="@+id/synonymTextView"
@@ -99,8 +127,15 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
+<<<<<<< HEAD
                 android:text="SynonymsText"
                 android:textSize="18sp" />
+=======
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/debugFunctionTextView" />
+>>>>>>> BugFix
 
             <WebView
                 android:id="@+id/web_view"
@@ -109,7 +144,15 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
+<<<<<<< HEAD
                 android:layout_marginBottom="8dp">
+=======
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/synonymTextView">
+>>>>>>> BugFix
 
             </WebView>
         </LinearLayout>
