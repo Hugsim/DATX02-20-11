@@ -41,6 +41,9 @@ import org.grammaticalframework.View.FragmentFactory;
 import org.grammaticalframework.ViewModel.LexiconViewModel;
 import org.grammaticalframework.ViewModel.LexiconWord;
 import org.grammaticalframework.ViewModel.LexiconWordAdapter;
+
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -262,9 +265,24 @@ public class MainLexiconFragment extends BaseFragment implements AppBarLayout.On
                 }
             }
             lexiconVM.setLexiconWords(lexiconWordList);
+            Collections.sort(lexiconWordList, new Comparator<LexiconWord>() {
+                @Override
+                public int compare(LexiconWord lhs, LexiconWord rhs) {
+                    // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                    //return lhs.getId() > rhs.getId() ? -1 : (lhs.customInt < rhs.customInt ) ? 1 : 0;
+                    if(lhs.getStatus().equals("checked")){
+                        if (rhs.equals("checked"))
+                            return 0;
+                        return -1;
+                    }
+                    return 1;
+                }
+            });
             wordAdapter.setLexiconWordList(lexiconWordList);
             wordAdapter.notifyDataSetChanged();
         });
+
+        rvLexicon.addItemDecoration(new DividerItemDecoration((rvLexicon.getContext()), DividerItemDecoration.VERTICAL));
 
     }
 
@@ -275,8 +293,8 @@ public class MainLexiconFragment extends BaseFragment implements AppBarLayout.On
 
     private void updateRecycler(String searchString){
         lexiconVM.wordTranslator(searchString);
-        wordAdapter.setLexiconWordList(lexiconVM.getLexiconWords());
-        rvLexicon.addItemDecoration(new DividerItemDecoration((rvLexicon.getContext()), DividerItemDecoration.VERTICAL));
+        //TODO: Should this be this way?
+        //wordAdapter.setLexiconWordList(lexiconVM.getLexiconWords());
     }
 
     private void clearRecyclerView(){
