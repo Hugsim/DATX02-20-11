@@ -60,4 +60,21 @@ public class ParseUtils {
         }
         return checkedFunctions;
     }
+
+    public static List<SynonymExercise> parseSynonymExerciseCSV(Context context, String fileName) {
+        LinkedList<SynonymExercise> synonymExerciseList = new LinkedList<>();
+        try {
+            CSVReader csvReader = new CSVReader(new InputStreamReader(context.getAssets().open(fileName)),';', '"', 1);
+            String[] nextLine;
+
+            while ((nextLine = csvReader.readNext()) != null) {
+                if(nextLine.length < 2)
+                    continue;
+                //synonymExerciseList.add(new SynonymExercise(nextLine[0], nextLine[1]), nextLine[2], nextLine[3]);
+            }
+        }catch (Exception e){
+            Log.d(TAG, e.getMessage());
+        }
+        return synonymExerciseList;
+    }
 }
