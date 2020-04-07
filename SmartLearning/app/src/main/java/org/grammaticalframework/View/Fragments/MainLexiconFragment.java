@@ -306,6 +306,9 @@ public class MainLexiconFragment extends BaseFragment implements AppBarLayout.On
             translateView(to_lang_short, toOffsetX, toOffsetY, 0);
             translateView(switch_button, switchOffsetX, switchOffsetY, 0);
 
+            from_lang_short.setVisibility(View.VISIBLE);
+            to_lang_short.setVisibility(View.VISIBLE);
+
             dropDown_icon.setRotation(0);
         } else {
             translateView(from_lang_short, fromOffsetX, fromOffsetY, 1 - normalizedOffset);
@@ -355,7 +358,12 @@ public class MainLexiconFragment extends BaseFragment implements AppBarLayout.On
      * Returns: the last 2 letters of the lang code which contains the 2 letter abbreviation of each language
      */
     private String parseLangCode(String langCode) {
-        return langCode.substring(langCode.length() - 2);
+        String firstLetters = langCode.substring(0, 3);
+        Log.d(TAG, "First letters: " + firstLetters);
+        if (firstLetters.contains("-"))
+            return firstLetters.substring(0, 2).toUpperCase();
+        else
+            return langCode.substring(langCode.length() - 2).toUpperCase();
     }
 
     private void searchWord(String searchString) {
