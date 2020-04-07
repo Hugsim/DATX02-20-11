@@ -14,14 +14,19 @@ public class FillTheGapExerciseRepository {
 
     private FillTheGapExerciseDao fillTheGapExerciseDao;
     private LiveData<List<FillTheGapExercise>> allFillTheGapExercises;
-    private LiveData<FillTheGapExercise> unsolvedExercise;
-    private MutableLiveData<Set<FillTheGapExercise>> solvedExercises = new MutableLiveData<>(new ArraySet<>());
+    private LiveData<FillTheGapExercise> unsolvedFillTheGapExercise;
+    private MutableLiveData<Set<FillTheGapExercise>> solvedFillTheGapExercises = new MutableLiveData<>(new ArraySet<>());
+
+    private SynonymExerciseDao synonymExerciseDao;
+    private LiveData<List<SynonymExercise>> allSynonymExercises;
+    private LiveData<SynonymExercise> unsolvedSynonymExercise;
+    private MutableLiveData<Set<SynonymExercise>> solvedSynonymExercises = new MutableLiveData<>(new ArraySet<>());
 
     public FillTheGapExerciseRepository(Application application) {
         SmartLearningDatabase database = SmartLearningDatabase.getInstance(application);
         fillTheGapExerciseDao = database.fillTheGapExerciseDao();
         allFillTheGapExercises = fillTheGapExerciseDao.getAllFillTheGapExercises();
-        unsolvedExercise = Transformations.switchMap(solvedExercises, solvedExercises -> {
+        unsolvedFillTheGapExercise = Transformations.switchMap(solvedFillTheGapExercises, solvedExercises -> {
             return Transformations.map(allFillTheGapExercises, exercises -> {
                 for(FillTheGapExercise exercise : exercises){
                     if(!solvedExercises.contains(exercise)){
@@ -32,18 +37,32 @@ public class FillTheGapExerciseRepository {
                 return null;
             });
         });
+
+        synonymExerciseDao = database.synonymExerciseDao();
+        allSynonymExercises = synonymExerciseDao.getAllSynonymExercises();
+        unsolvedSynonymExercise = Transformations.switchMap(solvedSynonymExercises, solvedExercises -> {
+            return Transformations.map(allSynonymExercises, exercises -> {
+                for(SynonymExercise exercise : exercises){
+                    if(!solvedExercises.contains(exercise)){
+                        return exercise;
+                    }
+                }
+                //no exercise was found
+                return null;
+            });
+        });
     }
 
-    public LiveData<FillTheGapExercise> getUnsolvedExercise() {
-        return unsolvedExercise;
+    public LiveData<FillTheGapExercise> getUnsolvedFillTheGapExercise() {
+        return unsolvedFillTheGapExercise;
     }
 
     public void addSolvedExercise(FillTheGapExercise exercise){
-        Set<FillTheGapExercise> temp = solvedExercises.getValue();
+        Set<FillTheGapExercise> temp = solvedFillTheGapExercises.getValue();
         if(temp == null)
             return;
         temp.add(exercise);
-        solvedExercises.setValue(temp);
+        solvedFillTheGapExercises.setValue(temp);
     }
 
     public void insert(FillTheGapExercise fillTheGapExercise) {
@@ -68,5 +87,9 @@ public class FillTheGapExerciseRepository {
 
     public LiveData<FillTheGapExercise> getFillTheGapExercise(String functionToReplace) {
         return fillTheGapExerciseDao.getFillTheGapExercise(functionToReplace);
+    }
+
+    public LiveData<SynonymExercise> getunsolvedSynonymExercise() {
+        return unsolvedSynonymExercise;
     }
 }

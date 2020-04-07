@@ -1,30 +1,23 @@
 package org.grammaticalframework.ViewModel;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
-import org.grammaticalframework.FillTheGapClass;
 import org.grammaticalframework.Repository.FillTheGapExercise;
 import org.grammaticalframework.Repository.FillTheGapExerciseRepository;
 import org.grammaticalframework.SmartLearning;
 import org.grammaticalframework.gf.GF;
 import org.grammaticalframework.pgf.Bracket;
-import org.grammaticalframework.pgf.Concr;
 import org.grammaticalframework.pgf.Expr;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Stack;
-
-import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class FillTheGapViewModel extends AndroidViewModel {
 
@@ -65,7 +58,7 @@ public class FillTheGapViewModel extends AndroidViewModel {
             return fillTheGapExerciseRepository.getFillTheGapExercise(function);
         });
 
-        unsolvedExercise = fillTheGapExerciseRepository.getUnsolvedExercise();
+        unsolvedExercise = fillTheGapExerciseRepository.getUnsolvedFillTheGapExercise();
 
         //nextExercise.setValue("abandon_5_V2");
     }

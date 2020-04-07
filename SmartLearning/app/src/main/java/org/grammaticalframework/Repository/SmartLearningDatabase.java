@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import java.util.LinkedList;
@@ -13,7 +14,8 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {WNExplanation.class, FillTheGapExercise.class, CheckedFunction.class}, version = 1, exportSchema = false)
+@Database(entities = {WNExplanation.class, FillTheGapExercise.class, CheckedFunction.class, SynonymExercise.class}, version = 1, exportSchema = false)
+@TypeConverters(SynonymExercise.Converter.class)
 public abstract class SmartLearningDatabase extends RoomDatabase {
 
     private static final String TAG = SmartLearningDatabase.class.getSimpleName();
@@ -22,6 +24,7 @@ public abstract class SmartLearningDatabase extends RoomDatabase {
     public abstract WNExplanationDao wordNetExplanationDao();
     public abstract FillTheGapExerciseDao fillTheGapExerciseDao();
     public abstract CheckedFunctionDao checkedFunctionDao();
+    public abstract SynonymExerciseDao synonymExerciseDao();
 
     private static final int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
@@ -31,7 +34,8 @@ public abstract class SmartLearningDatabase extends RoomDatabase {
             synchronized (SmartLearningDatabase.class){
                 if (INSTANCE == null){
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(), SmartLearningDatabase.class, "smartlearning.db")
-                            .createFromAsset("databases/smartlearning.db")
+                            //.createFromAsset("databases/smartlearning.db")
+                            //TODO: create new db file with new schema and some synonymExercises
                             .addCallback(new Callback() {
                                 @Override
                                 public void onCreate(@NonNull SupportSQLiteDatabase db) {
