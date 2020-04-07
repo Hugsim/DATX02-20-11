@@ -30,7 +30,6 @@ public class FillTheGapViewModel extends AndroidViewModel {
 
 
     private static final String TAG = FillTheGapViewModel.class.getSimpleName();
-    private FillTheGapExercise fillthegap;
     private Expr expression;
     private GF gf;
 
