@@ -31,6 +31,8 @@ import org.grammaticalframework.gf.GFKt;
 public class LexiconDetailsFragment extends BaseFragment {
 
     private ImageView backButton;
+    private Boolean hasSynonyms;
+    private Boolean hasNextSynonym;
     private List <String> foundSynonymList;
     private String translatedWord;
     private String lemma;
@@ -57,6 +59,9 @@ public class LexiconDetailsFragment extends BaseFragment {
         explanationTextView = fragmentView.findViewById(R.id.explanationTextView);
         synonymTextView = fragmentView.findViewById(R.id.synonymTextView);
         webView = (WebView) fragmentView.findViewById(R.id.web_view);
+
+        hasSynonyms= false;
+        hasNextSynonym = false;
 
         navController = Navigation.findNavController(getActivity().findViewById(R.id.nav_host_fragment));
         backButton = fragmentView.findViewById(R.id.lexicon_details_back);
@@ -96,6 +101,7 @@ public class LexiconDetailsFragment extends BaseFragment {
 
     private void loadSynonymWordsForOneWord(LexiconWord lexiconWord){
         StringBuilder synonymSB = new StringBuilder();
+
         synonymSB.append("Synonyms: ");
 
         model.getWNSynonyms().observe(getViewLifecycleOwner(), wnSynonyms ->{
@@ -104,20 +110,31 @@ public class LexiconDetailsFragment extends BaseFragment {
                         if (!lexiconWord.getSynonymCode().equals("random_siffra") && lexiconWord.getExplanation().equals(synonym.getExplanation())
                                 && !foundSynonymList.contains(synonym.getFunction()) && !(lexiconWord.getFunction().equals(synonym.getFunction()))){
                             foundSynonymList.add(synonym.getFunction());
+                            hasSynonyms = true;
                             //lexiconWord.setSynonymWords(constructSynonymWordsString(synonym.getFunction(), synonymSB));
                             String temp = synonym.getFunction();
                             constructSynonymWordsString(GF.linearizeFunction(temp, model.getTargetConcr()), synonymSB);
                         }
+                    if(hasSynonyms){
+                        synonymTextView.setText(synonymSB);
+                        synonymTextView.setVisibility(View.VISIBLE);
+                        debugFunctionTextView.setVisibility(View.GONE);
+                    } else {
+                        synonymTextView.setVisibility(View.GONE);
+                        foundSynonymList.clear();
+                        debugFunctionTextView.setVisibility(View.GONE);
+                    }
 
-                    synonymTextView.setText(synonymSB);
-                    foundSynonymList.clear();
                 }
             }
         });
     }
 
     private String constructSynonymWordsString(String synonymCode, StringBuilder synonymSB){
-        synonymSB.append(synonymCode).append(",").append(" ");
+        if(!(synonymSB.length() == 10)){
+            synonymSB.append(",").append(" ");
+        }
+        synonymSB.append(synonymCode);
         return synonymSB.toString();
     }
 
