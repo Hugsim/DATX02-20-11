@@ -270,8 +270,8 @@ public class MainLexiconFragment extends BaseFragment implements AppBarLayout.On
                 public int compare(LexiconWord lhs, LexiconWord rhs) {
                     // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
                     //return lhs.getId() > rhs.getId() ? -1 : (lhs.customInt < rhs.customInt ) ? 1 : 0;
-                    if(lhs.getStatus().equals("checked")){
-                        if (rhs.equals("checked"))
+                    if(lhs.getStatus() != null && lhs.getStatus().equals("checked")){
+                        if (rhs.getStatus() != null && rhs.getStatus().equals("checked"))
                             return 0;
                         return -1;
                     }
