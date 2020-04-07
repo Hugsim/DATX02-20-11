@@ -64,9 +64,9 @@ public class LexiconWordAdapter extends RecyclerView.Adapter<LexiconWordAdapter.
         viewHolder.explanationTextView.setText(lexiconWord.getExplanation());
         viewHolder.tagTextView.setText(lexiconWord.getTag());
         if(lexiconWord.getStatus() != null && lexiconWord.getStatus().equals("checked")){
-            viewHolder.functionChecked.setText("\uD83D\uDCAF");
+            viewHolder.functionChecked.setText("✔️");
         } else {
-            viewHolder.functionChecked.setText("\uD83D\uDCA9");
+            viewHolder.functionChecked.setText("❌");
         }
     }
 
