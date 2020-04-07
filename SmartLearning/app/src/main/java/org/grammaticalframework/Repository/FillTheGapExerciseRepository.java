@@ -1,7 +1,6 @@
 package org.grammaticalframework.Repository;
 
 import android.app.Application;
-import android.util.Log;
 
 import java.util.List;
 import java.util.Set;
@@ -19,7 +18,7 @@ public class FillTheGapExerciseRepository {
     private MutableLiveData<Set<FillTheGapExercise>> solvedExercises = new MutableLiveData<>(new ArraySet<>());
 
     public FillTheGapExerciseRepository(Application application) {
-        WNExplanationDatabase database = WNExplanationDatabase.getInstance(application);
+        SmartLearningDatabase database = SmartLearningDatabase.getInstance(application);
         fillTheGapExerciseDao = database.fillTheGapExerciseDao();
         allFillTheGapExercises = fillTheGapExerciseDao.getAllFillTheGapExercises();
         unsolvedExercise = Transformations.switchMap(solvedExercises, solvedExercises -> {
@@ -48,13 +47,13 @@ public class FillTheGapExerciseRepository {
     }
 
     public void insert(FillTheGapExercise fillTheGapExercise) {
-        WNExplanationDatabase.databaseWriteExecutor.execute(() -> {
+        SmartLearningDatabase.databaseWriteExecutor.execute(() -> {
             fillTheGapExerciseDao.insert(fillTheGapExercise);
         });
     }
 
     public void insertAll(List<FillTheGapExercise> fillTheGapExerciseList) {
-        WNExplanationDatabase.databaseWriteExecutor.execute(() -> {
+        SmartLearningDatabase.databaseWriteExecutor.execute(() -> {
             fillTheGapExerciseDao.insertAll(fillTheGapExerciseList);
         });
     }

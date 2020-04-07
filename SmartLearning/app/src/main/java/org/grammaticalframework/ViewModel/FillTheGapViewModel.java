@@ -130,16 +130,12 @@ public class FillTheGapViewModel extends AndroidViewModel {
     }
 
     private void inflect(String verb) {
-        Log.d(TAG, verb);
         if(!inflections.isEmpty()) {
             inflections.clear();
         }
         Expr e = Expr.readExpr(verb);
         for(Map.Entry<String,String> entry : mSmartLearning.getTargetConcr().tabularLinearize(e).entrySet()) {
             if(!entry.getValue().equals("")){
-                Log.d(TAG,"");
-                Log.d(TAG, "entry.getKey(): " + entry.getKey());
-                Log.d(TAG, "entry.getValue(): " + entry.getValue());
                 //TODO: find out how to value if the inflection is "good" or not
                 //perhaps look at
                 inflections.add(entry.getValue()); //Add inflections

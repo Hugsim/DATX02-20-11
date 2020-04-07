@@ -36,10 +36,14 @@ import com.google.android.material.appbar.AppBarLayout;
 import org.grammaticalframework.Language;
 import org.grammaticalframework.R;
 import org.grammaticalframework.Repository.WNExplanation;
+import org.grammaticalframework.Repository.WNExplanationWithCheck;
 import org.grammaticalframework.View.FragmentFactory;
 import org.grammaticalframework.ViewModel.LexiconViewModel;
 import org.grammaticalframework.ViewModel.LexiconWord;
 import org.grammaticalframework.ViewModel.LexiconWordAdapter;
+
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -240,26 +244,45 @@ public class MainLexiconFragment extends BaseFragment implements AppBarLayout.On
         //Observe livedata from viwemodel
         //wordAdapter.setLexiconWordList(lexiconVM.getLexiconWords());
 
-        lexiconVM.getWNExplanations().observe(getViewLifecycleOwner(), wnExplanations -> {
+        lexiconVM.getWnExplanationsWithChecks().observe(getViewLifecycleOwner(), wnExplanations -> {
             List<LexiconWord> lexiconWordList = lexiconVM.getLexiconWords();
-            for(WNExplanation explanation : wnExplanations){
+            for(WNExplanationWithCheck explanation : wnExplanations){
                 for(int i = 0; i < lexiconWordList.size(); i++){
                     LexiconWord lexiconWord = lexiconWordList.get(i);
-                    if(lexiconWord.getFunction().equals(explanation.getFunction())){
-                        lexiconWord.setExplanation(explanation.getExplanation());
+                    if(lexiconWord.getFunction().equals(explanation.getWnExplanation().getFunction())){
+                        lexiconWord.setExplanation(explanation.getWnExplanation().getExplanation());
+                        if(explanation.getCheckedFunction() != null) {
+                            lexiconWord.setStatus(explanation.getCheckedFunction().getStatus());
+                            lexiconWord.setLangcode(explanation.getCheckedFunction().getLangcode());
+                        }
                         lexiconWordList.set(i, lexiconWord);
                         wordAdapter.setLexiconWordList(lexiconWordList);
                         if(!(lexiconWord.getSynonymCode().equals("random_siffra"))){
-                            lexiconWord.setSynonymCode(explanation.getSynonym());
-                            lexiconVM.getSynonyms().add(explanation.getSynonym());
+                            lexiconWord.setSynonymCode(explanation.getWnExplanation().getSynonym());
+                            lexiconVM.getSynonyms().add(explanation.getWnExplanation().getSynonym());
                         }
                     }
                 }
             }
             lexiconVM.setLexiconWords(lexiconWordList);
+            Collections.sort(lexiconWordList, new Comparator<LexiconWord>() {
+                @Override
+                public int compare(LexiconWord lhs, LexiconWord rhs) {
+                    // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                    //return lhs.getId() > rhs.getId() ? -1 : (lhs.customInt < rhs.customInt ) ? 1 : 0;
+                    if(lhs.getStatus() != null && lhs.getStatus().equals("checked")){
+                        if (rhs.getStatus() != null && rhs.getStatus().equals("checked"))
+                            return 0;
+                        return -1;
+                    }
+                    return 1;
+                }
+            });
             wordAdapter.setLexiconWordList(lexiconWordList);
             wordAdapter.notifyDataSetChanged();
         });
+
+        rvLexicon.addItemDecoration(new DividerItemDecoration((rvLexicon.getContext()), DividerItemDecoration.VERTICAL));
 
     }
 
@@ -270,8 +293,8 @@ public class MainLexiconFragment extends BaseFragment implements AppBarLayout.On
 
     private void updateRecycler(String searchString){
         lexiconVM.wordTranslator(searchString);
-        wordAdapter.setLexiconWordList(lexiconVM.getLexiconWords());
-        rvLexicon.addItemDecoration(new DividerItemDecoration((rvLexicon.getContext()), DividerItemDecoration.VERTICAL));
+        //TODO: Should this be this way?
+        //wordAdapter.setLexiconWordList(lexiconVM.getLexiconWords());
     }
 
     private void clearRecyclerView(){
@@ -325,7 +348,6 @@ public class MainLexiconFragment extends BaseFragment implements AppBarLayout.On
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(TAG, "ON RESUME");
         lexicon_toolbar.addOnOffsetChangedListener(this);
     }
 
