@@ -1,14 +1,14 @@
 package org.grammaticalframework.ViewModel;
 
-import org.grammaticalframework.SmartLearning;
+import org.grammaticalframework.Grammarlex;
 
 import androidx.lifecycle.ViewModel;
 
 public abstract class BaseViewModel extends ViewModel {
 
-    private final static SmartLearning model = new SmartLearning();
+    private final static Grammarlex model = new Grammarlex();
 
-    public static SmartLearning getModel() {
+    public static Grammarlex getModel() {
         return model;
     }
 }

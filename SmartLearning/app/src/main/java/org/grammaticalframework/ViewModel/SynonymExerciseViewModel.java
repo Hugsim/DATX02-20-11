@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData;
 
 import org.grammaticalframework.Repository.ExerciseRepository;
 import org.grammaticalframework.Repository.SynonymExercise;
-import org.grammaticalframework.SmartLearning;
+import org.grammaticalframework.Grammarlex;
 import org.grammaticalframework.gf.GF;
 import org.grammaticalframework.pgf.Expr;
 
@@ -19,7 +19,7 @@ public class SynonymExerciseViewModel extends AndroidViewModel {
 
     private static final String TAG = SynonymExerciseViewModel.class.getSimpleName();
 
-    private SmartLearning mSmartLearning;
+    private Grammarlex mGrammarlex;
     private GF gf;
     private SynonymExercise synonymExercise;
 
@@ -33,8 +33,8 @@ public class SynonymExerciseViewModel extends AndroidViewModel {
 
     public SynonymExerciseViewModel(Application application){
         super(application);
-        mSmartLearning = (SmartLearning) getApplication().getApplicationContext();
-        gf = new GF(mSmartLearning);
+        mGrammarlex = (Grammarlex) getApplication().getApplicationContext();
+        gf = new GF(mGrammarlex);
 
         exerciseRepository = new ExerciseRepository(application);
         unsolvedExercise = exerciseRepository.getunsolvedSynonymExercise();
@@ -45,14 +45,14 @@ public class SynonymExerciseViewModel extends AndroidViewModel {
     public void loadWord(SynonymExercise se) {
         this.synonymExercise = se;
         Expr e = Expr.readExpr(se.getSynonymFunction());
-        linearizedSynonym = mSmartLearning.getTargetConcr().linearize(e);
+        linearizedSynonym = mGrammarlex.getTargetConcr().linearize(e);
         linearizedAlternatives.clear();
         for (String s : se.getAlternativeFunctions()) {
             e = Expr.readExpr(s);
-            linearizedAlternatives.add(mSmartLearning.getTargetConcr().linearize(e));
+            linearizedAlternatives.add(mGrammarlex.getTargetConcr().linearize(e));
         }
         e = Expr.readExpr(se.getAnswerFunction());
-        linearizedAlternatives.add(mSmartLearning.getTargetConcr().linearize(e));
+        linearizedAlternatives.add(mGrammarlex.getTargetConcr().linearize(e));
     }
 
     public String getWord() {
@@ -66,7 +66,7 @@ public class SynonymExerciseViewModel extends AndroidViewModel {
     
     public boolean checkCorrectAnswer(String answer) {
         Expr e = Expr.readExpr(synonymExercise.getAnswerFunction());
-        String correct = mSmartLearning.getTargetConcr().linearize(e);
+        String correct = mGrammarlex.getTargetConcr().linearize(e);
         return correct.equals(answer);
     }
 

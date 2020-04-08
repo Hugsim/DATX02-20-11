@@ -35,9 +35,9 @@ public class ParseUtils {
             String[] nextLine;
 
             while ((nextLine = csvReader.readNext()) != null) {
-                if(nextLine.length < 2)
+                if(nextLine.length < 3)
                     continue;
-                fillTheGapExerciseList.add(new FillTheGapExercise(nextLine[0], nextLine[1]));
+                fillTheGapExerciseList.add(new FillTheGapExercise(nextLine[0], nextLine[1], nextLine[2]));
             }
         }catch (Exception e){
             Log.d(TAG, e.getMessage());

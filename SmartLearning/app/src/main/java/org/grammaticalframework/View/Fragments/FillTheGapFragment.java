@@ -108,8 +108,8 @@ public class FillTheGapFragment extends Fragment{
                     }
                 });
             }
-            sentence.setText(model.getSentence() + ",   Wordclass:" +model.getWordClass());
-            instruction.setText("Choose the correct tense: ");
+            sentence.setText(model.getSentence());
+            instruction.setText(model.getTense());
         });
 
     }

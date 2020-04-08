@@ -21,9 +21,14 @@ public class FillTheGapExercise {
     @ColumnInfo(name = "functionToReplace")
     private String functionToReplace;
 
-    public FillTheGapExercise(String abstractSyntaxTree, String functionToReplace){
+    @NonNull
+    @ColumnInfo(name = "tenseFunction")
+    private String tenseFunction;
+
+    public FillTheGapExercise(String abstractSyntaxTree, String functionToReplace, String tenseFunction){
         this.abstractSyntaxTree = abstractSyntaxTree;
         this.functionToReplace = functionToReplace;
+        this.tenseFunction = tenseFunction;
     }
 
     public int getId() {
@@ -50,6 +55,8 @@ public class FillTheGapExercise {
     public void setFunctionToReplace(String functionToReplace) {
         this.functionToReplace = functionToReplace;
     }
+
+    public String getTenseFunction(){return tenseFunction;}
 
     @Override
     public boolean equals(@Nullable Object obj) {

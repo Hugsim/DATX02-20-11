@@ -1,16 +1,13 @@
 package org.grammaticalframework.ViewModel;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Transformations;
 
 import org.grammaticalframework.Repository.FillTheGapExercise;
 import org.grammaticalframework.Repository.ExerciseRepository;
-import org.grammaticalframework.SmartLearning;
+import org.grammaticalframework.Grammarlex;
 import org.grammaticalframework.gf.GF;
 import org.grammaticalframework.pgf.Bracket;
 import org.grammaticalframework.pgf.Expr;
@@ -37,13 +34,13 @@ public class FillTheGapViewModel extends AndroidViewModel {
 
     private LiveData<FillTheGapExercise> unsolvedExercise;
 
-    private SmartLearning mSmartLearning;
+    private Grammarlex mGrammarlex;
 
     public FillTheGapViewModel(Application application){
         super(application);
 
-        mSmartLearning = (SmartLearning) getApplication().getApplicationContext();
-        gf = new GF(mSmartLearning);
+        mGrammarlex = (Grammarlex) getApplication().getApplicationContext();
+        gf = new GF(mGrammarlex);
 
         exerciseRepository = new ExerciseRepository(application);
 
@@ -53,8 +50,8 @@ public class FillTheGapViewModel extends AndroidViewModel {
     public void loadWord(FillTheGapExercise ftge) {
         this.ftge = ftge;
         expression = Expr.readExpr(ftge.getAbstractSyntaxTree());
-        linearizedSentence = mSmartLearning.getTargetConcr().linearize(expression);
-        Object[] bs = mSmartLearning.getTargetConcr().bracketedLinearize(expression);
+        linearizedSentence = mGrammarlex.getTargetConcr().linearize(expression);
+        Object[] bs = mGrammarlex.getTargetConcr().bracketedLinearize(expression);
         findWordToRedact(bs[0]);
         setRedactedWord();
     }
@@ -114,7 +111,7 @@ public class FillTheGapViewModel extends AndroidViewModel {
             inflections.clear();
         }
         Expr e = Expr.readExpr(verb);
-        for(Map.Entry<String,String> entry : mSmartLearning.getTargetConcr().tabularLinearize(e).entrySet()) {
+        for(Map.Entry<String,String> entry : mGrammarlex.getTargetConcr().tabularLinearize(e).entrySet()) {
             if(!entry.getValue().equals("")){
                 //TODO: find out how to value if the inflection is "good" or not
                 //perhaps look at
@@ -124,7 +121,7 @@ public class FillTheGapViewModel extends AndroidViewModel {
     }
 
     private void setRedactedWord(){
-        String targetLinearization = mSmartLearning.getTargetConcr().linearize(expression);
+        String targetLinearization = mGrammarlex.getTargetConcr().linearize(expression);
         ArrayList<String> sentence = new ArrayList<>();
         Collections.addAll(sentence, targetLinearization.split(" "));
         //Prepend the correct inflection to inflections
@@ -152,10 +149,10 @@ public class FillTheGapViewModel extends AndroidViewModel {
         }
     }
 
-    public String getWordClass(){
-        String worcClass = mSmartLearning.getGrammar().getFunctionType(ftge.getFunctionToReplace()).getCategory();
-        Expr e = Expr.readExpr("Inflection" + worcClass + " " + ftge.getFunctionToReplace());
-        return mSmartLearning.getTargetConcr().linearize(e);
-    }
 
+    public String getTense(){
+        Expr e = Expr.readExpr( ftge.getTenseFunction());
+        Expr e2 = Expr.readExpr("PhrUtt NoPConj (UttImpPol PPos (ImpVP (ComplSlash (SlashV2a choose_1_V2) (MassNP (UseN tense_N))))) NoVoc");
+        return mGrammarlex.getTargetConcr().linearize(e2) + ": " + mGrammarlex.getTargetConcr().linearize(e);
+    }
 }

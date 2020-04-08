@@ -7,7 +7,7 @@ import org.grammaticalframework.Language;
 import org.grammaticalframework.Repository.WNExplanation;
 import org.grammaticalframework.Repository.WNExplanationRepository;
 import org.grammaticalframework.Repository.WNExplanationWithCheck;
-import org.grammaticalframework.SmartLearning;
+import org.grammaticalframework.Grammarlex;
 import org.grammaticalframework.gf.GF;
 import org.grammaticalframework.pgf.Concr;
 import org.grammaticalframework.pgf.Expr;
@@ -37,7 +37,7 @@ public class LexiconViewModel extends AndroidViewModel {
     private MutableLiveData<Pair<List<String>,String>> functionsToSearchForWithLangcode = new MutableLiveData<>();
     private MutableLiveData<List<String>> synonymsToSearchFor = new MutableLiveData<>();
 
-    private SmartLearning sl;
+    private Grammarlex sl;
 
     private static final String TAG = LexiconViewModel.class.getSimpleName();
     private GF gfClass;
@@ -54,7 +54,7 @@ public class LexiconViewModel extends AndroidViewModel {
         super(application);
         translatedWords = new ArrayList<>();
         lexiconWords = new ArrayList<>();
-        sl = (SmartLearning) getApplication().getApplicationContext();
+        sl = (Grammarlex) getApplication().getApplicationContext();
         gfClass = new GF(sl);
         gr = sl.getGrammar();
         wnExplanationRepository = new WNExplanationRepository(application);

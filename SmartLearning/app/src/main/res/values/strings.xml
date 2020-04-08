@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Smart Learning</string>
+    <string name="app_name">Grammarlex</string>
     <string name="global_preferences_key">global_preferences_key</string>
     <string name="grammar">Grammar</string>
     <string name="vocabulary">Vocabulary</string>

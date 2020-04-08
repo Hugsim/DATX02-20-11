@@ -2,11 +2,10 @@ package org.grammaticalframework.gf
 
 import android.util.Log
 
-import org.grammaticalframework.SmartLearning
+import org.grammaticalframework.Grammarlex
 import org.grammaticalframework.pgf.Concr
 import org.grammaticalframework.pgf.Expr
 import org.grammaticalframework.pgf.PGF
-import java.lang.IllegalArgumentException
 
 const val TAG = "Kotl/GF"
 
@@ -32,7 +31,7 @@ ExprProb: An expression with a probability of correct parsing
 
  */
 
-class GF(val sl: SmartLearning) {
+class GF(val sl: Grammarlex) {
     val from: Concr = sl.sourceConcr!!
     val to: Concr = sl.targetConcr!!
     val grammar: PGF = sl.pgf!!
