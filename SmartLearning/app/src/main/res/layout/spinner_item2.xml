@@ -9,4 +9,4 @@
     android:gravity="center"
     android:text="Catalan"
     android:textColor="@color/black"
-    android:textSize="18sp" />
+    android:textSize="30sp" />
