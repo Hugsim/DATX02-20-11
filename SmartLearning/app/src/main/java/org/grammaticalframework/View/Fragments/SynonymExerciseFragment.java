@@ -33,6 +33,7 @@ public class SynonymExerciseFragment  extends Fragment {
     Button button4;
     Button button5;
     TextView word;
+    TextView instruction;
 
     private SynonymExerciseViewModel model;
     private NavController navController;
@@ -62,7 +63,8 @@ public class SynonymExerciseFragment  extends Fragment {
         buttons.add(button3 = getView().findViewById(R.id.button3));
         buttons.add(button4 = getView().findViewById(R.id.button4));
         buttons.add(button5 = getView().findViewById(R.id.button5));
-        word = getView().findViewById(R.id.exerciseWord);
+        word = getView().findViewById(R.id.fillTheGapExercise);
+        instruction = getView().findViewById(R.id.synonymInstruction);
 
         handlerCorrect = new Handler();
         handlerIncorrect = new Handler();
@@ -103,6 +105,7 @@ public class SynonymExerciseFragment  extends Fragment {
                 });
             }
             word.setText(model.getWord());
+            instruction.setText("Choose the correct synonym");
         });
 
     }

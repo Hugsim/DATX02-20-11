@@ -1,5 +1,6 @@
 package org.grammaticalframework.View.Fragments;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ public class FillTheGapFragment extends Fragment{
     Button button4;
     Button button5;
     TextView sentence;
+    TextView instruction;
     private boolean isCorrect = false;
     private Handler handlerCorrect;
     private Handler handlerIncorrect;
@@ -56,6 +58,7 @@ public class FillTheGapFragment extends Fragment{
         return v;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -65,7 +68,8 @@ public class FillTheGapFragment extends Fragment{
         buttons.add(button3 = getView().findViewById(R.id.button3));
         buttons.add(button4 = getView().findViewById(R.id.button4));
         buttons.add(button5 = getView().findViewById(R.id.button5));
-        sentence = getView().findViewById(R.id.exerciseWord);
+        sentence = getView().findViewById(R.id.fillTheGapExercise);
+        instruction = getView().findViewById(R.id.fillTheGapInstruction);
         navController = Navigation.findNavController(view);
         handlerCorrect = new Handler();
         handlerIncorrect = new Handler();
@@ -105,6 +109,7 @@ public class FillTheGapFragment extends Fragment{
                 });
             }
             sentence.setText(model.getSentence() + ",   Wordclass:" +model.getWordClass());
+            instruction.setText("Choose the correct tense: ");
         });
 
     }
