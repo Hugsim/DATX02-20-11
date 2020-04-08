@@ -10,7 +10,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
-public class FillTheGapExerciseRepository {
+public class ExerciseRepository {
 
     private FillTheGapExerciseDao fillTheGapExerciseDao;
     private LiveData<List<FillTheGapExercise>> allFillTheGapExercises;
@@ -22,7 +22,7 @@ public class FillTheGapExerciseRepository {
     private LiveData<SynonymExercise> unsolvedSynonymExercise;
     private MutableLiveData<Set<SynonymExercise>> solvedSynonymExercises = new MutableLiveData<>(new ArraySet<>());
 
-    public FillTheGapExerciseRepository(Application application) {
+    public ExerciseRepository(Application application) {
         SmartLearningDatabase database = SmartLearningDatabase.getInstance(application);
         fillTheGapExerciseDao = database.fillTheGapExerciseDao();
         allFillTheGapExercises = fillTheGapExerciseDao.getAllFillTheGapExercises();
@@ -57,7 +57,7 @@ public class FillTheGapExerciseRepository {
         return unsolvedFillTheGapExercise;
     }
 
-    public void addSolvedExercise(FillTheGapExercise exercise){
+    public void addSolvedFillTheGapExercise(FillTheGapExercise exercise){
         Set<FillTheGapExercise> temp = solvedFillTheGapExercises.getValue();
         if(temp == null)
             return;
@@ -89,7 +89,18 @@ public class FillTheGapExerciseRepository {
         return fillTheGapExerciseDao.getFillTheGapExercise(functionToReplace);
     }
 
+    //Synonym Exercises
+
     public LiveData<SynonymExercise> getunsolvedSynonymExercise() {
         return unsolvedSynonymExercise;
     }
+
+    public void addSolvedSynonymExercise(SynonymExercise exercise){
+        Set<SynonymExercise> temp = solvedSynonymExercises.getValue();
+        if(temp == null)
+            return;
+        temp.add(exercise);
+        solvedSynonymExercises.setValue(temp);
+    }
+
 }

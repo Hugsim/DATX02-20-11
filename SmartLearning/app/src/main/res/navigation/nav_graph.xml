@@ -7,7 +7,11 @@
     <fragment
         android:id="@+id/synonymExerciseFragment"
         android:name="org.grammaticalframework.View.Fragments.SynonymExerciseFragment"
-        android:label="synonymExerciseFragment" />
+        android:label="synonymExerciseFragment" >
+        <action
+            android:id="@+id/action_synonymExerciseFragment_self"
+            app:destination="@id/synonymExerciseFragment" />
+    </fragment>
     <fragment
         android:id="@+id/vocabularyFragment"
         android:name="org.grammaticalframework.View.Fragments.VocabularyFragment"

@@ -4,16 +4,15 @@ import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Transformations;
 
-import org.grammaticalframework.Repository.FillTheGapExercise;
-import org.grammaticalframework.Repository.FillTheGapExerciseRepository;
+import org.grammaticalframework.Repository.ExerciseRepository;
 import org.grammaticalframework.Repository.SynonymExercise;
 import org.grammaticalframework.SmartLearning;
 import org.grammaticalframework.gf.GF;
 import org.grammaticalframework.pgf.Expr;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SynonymExerciseViewModel extends AndroidViewModel {
@@ -27,18 +26,19 @@ public class SynonymExerciseViewModel extends AndroidViewModel {
     private String linearizedSynonym;
     private List<String> linearizedAlternatives;
 
-    private FillTheGapExerciseRepository fillTheGapExerciseRepository;
+    private ExerciseRepository exerciseRepository;
 
     private LiveData<SynonymExercise> unsolvedExercise;
 
 
     public SynonymExerciseViewModel(Application application){
         super(application);
-
         mSmartLearning = (SmartLearning) getApplication().getApplicationContext();
         gf = new GF(mSmartLearning);
 
-        unsolvedExercise = fillTheGapExerciseRepository.getunsolvedSynonymExercise();
+        exerciseRepository = new ExerciseRepository(application);
+        unsolvedExercise = exerciseRepository.getunsolvedSynonymExercise();
+        linearizedAlternatives = new ArrayList<>();
 
     }
 
@@ -51,6 +51,8 @@ public class SynonymExerciseViewModel extends AndroidViewModel {
             e = Expr.readExpr(s);
             linearizedAlternatives.add(mSmartLearning.getTargetConcr().linearize(e));
         }
+        e = Expr.readExpr(se.getAnswerFunction());
+        linearizedAlternatives.add(mSmartLearning.getTargetConcr().linearize(e));
     }
 
     public String getWord() {
@@ -58,16 +60,21 @@ public class SynonymExerciseViewModel extends AndroidViewModel {
     }
 
     public List<String> getAlternatives() {
+        Collections.shuffle(linearizedAlternatives);
         return linearizedAlternatives;
     }
     
     public boolean checkCorrectAnswer(String answer) {
-        return answer.equals(synonymExercise.getAnswerFunction());
+        Expr e = Expr.readExpr(synonymExercise.getAnswerFunction());
+        String correct = mSmartLearning.getTargetConcr().linearize(e);
+        return correct.equals(answer);
     }
 
     public void getNewExercise() {
-        //Look at getNewSentence in ftgvm and make this work similary. Functionality is implemented mostly in the repository though
+        exerciseRepository.addSolvedSynonymExercise(synonymExercise);
     }
 
-
+    public LiveData<SynonymExercise> getUnsolvedExercise() {
+        return unsolvedExercise;
+    }
 }

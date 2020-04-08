@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -68,9 +69,9 @@ public class ParseUtils {
             String[] nextLine;
 
             while ((nextLine = csvReader.readNext()) != null) {
-                if(nextLine.length < 2)
+                if(nextLine.length < 4)
                     continue;
-                //synonymExerciseList.add(new SynonymExercise(nextLine[0], nextLine[1]), nextLine[2], nextLine[3]);
+                synonymExerciseList.add(new SynonymExercise(nextLine[0], nextLine[1], nextLine[2], Arrays.asList(nextLine[3].split(","))));
             }
         }catch (Exception e){
             Log.d(TAG, e.getMessage());

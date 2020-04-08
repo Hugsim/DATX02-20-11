@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
 import org.grammaticalframework.Repository.FillTheGapExercise;
-import org.grammaticalframework.Repository.FillTheGapExerciseRepository;
+import org.grammaticalframework.Repository.ExerciseRepository;
 import org.grammaticalframework.SmartLearning;
 import org.grammaticalframework.gf.GF;
 import org.grammaticalframework.pgf.Bracket;
@@ -28,11 +28,7 @@ public class FillTheGapViewModel extends AndroidViewModel {
 
     private FillTheGapExercise ftge;
 
-    private FillTheGapExerciseRepository fillTheGapExerciseRepository;
-    private LiveData<List<FillTheGapExercise>> fillTheGapExercises;
-
-    static private LiveData<FillTheGapExercise> fillTheGapExercise;
-    private MutableLiveData<String> nextExercise = new MutableLiveData<>();
+    private ExerciseRepository exerciseRepository;
 
     private String redactedWord;
     private String linearizedSentence;
@@ -42,25 +38,15 @@ public class FillTheGapViewModel extends AndroidViewModel {
 
     private SmartLearning mSmartLearning;
 
-    //Keeps track on if the current exercise is solved or not
-    private boolean currentExerciseSolved = false;
-
     public FillTheGapViewModel(Application application){
         super(application);
 
         mSmartLearning = (SmartLearning) getApplication().getApplicationContext();
         gf = new GF(mSmartLearning);
 
-        fillTheGapExerciseRepository = new FillTheGapExerciseRepository(application);
+        exerciseRepository = new ExerciseRepository(application);
 
-        //Make sure that the exercise shown depends on what exercise we want to show
-        fillTheGapExercise = Transformations.switchMap(nextExercise, function -> {
-            return fillTheGapExerciseRepository.getFillTheGapExercise(function);
-        });
-
-        unsolvedExercise = fillTheGapExerciseRepository.getUnsolvedFillTheGapExercise();
-
-        //nextExercise.setValue("abandon_5_V2");
+        unsolvedExercise = exerciseRepository.getUnsolvedFillTheGapExercise();
     }
 
     public void loadWord(FillTheGapExercise ftge) {
@@ -102,7 +88,7 @@ public class FillTheGapViewModel extends AndroidViewModel {
     //Should only be called when the previous exercise was solved
     public void getNewSentence(){
         //say that the next exercise is solved
-        fillTheGapExerciseRepository.addSolvedExercise(ftge);
+        exerciseRepository.addSolvedFillTheGapExercise(ftge);
         //nextExercise.setValue("spare_V3");
     }
 
@@ -163,10 +149,6 @@ public class FillTheGapViewModel extends AndroidViewModel {
                 linearizedSentence = android.text.TextUtils.join(" ", sentence);
             }
         }
-    }
-
-    public LiveData<FillTheGapExercise> getFillTheGapExercise() {
-        return fillTheGapExercise;
     }
 
 }

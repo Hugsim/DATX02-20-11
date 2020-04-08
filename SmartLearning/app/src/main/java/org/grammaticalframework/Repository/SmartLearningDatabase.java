@@ -46,9 +46,8 @@ public abstract class SmartLearningDatabase extends RoomDatabase {
                                     /*
                                     databaseWriteExecutor.execute(() -> INSTANCE.wordNetExplanationDao().insertAll(ParseUtils.parseExplanationCSV(context, "parsing/WordNet.csv")));
                                     databaseWriteExecutor.execute(() -> INSTANCE.fillTheGapExerciseDao().insertAll(ParseUtils.parseFillTheGapExerciseCSV(context, "parsing/Exercises.csv")));
-                                    databaseWriteExecutor.execute(() -> INSTANCE.checkedFunctionDao().insertAll(ParseUtils.parseWordNetChecks(context, "parsing/WordNetChecked.csv")));
+                                    databaseWriteExecutor.execute(() -> INSTANCE.checkedFunctionDao().insertAll(ParseUtils.parseWordNetChecks(context, "parsing/WordNetChecked.csv")));*/
                                     databaseWriteExecutor.execute(()-> INSTANCE.synonymExerciseDao().insertAll(ParseUtils.parseSynonymExerciseCSV(context, "parsing/SynonymExercises.csv")));
-                                    */
                                 }
                             })
                             .build();
