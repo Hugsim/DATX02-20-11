@@ -79,6 +79,7 @@ public class FillTheGapViewModel extends AndroidViewModel {
 
     public boolean checkCorrectAnswer(String answer){
         if(answer.equals(redactedWord)){
+            linearizedSentence = mSmartLearning.getTargetConcr().linearize(Expr.readExpr(ftge.getAbstractSyntaxTree()));
             return true;
         } else{
             return false;

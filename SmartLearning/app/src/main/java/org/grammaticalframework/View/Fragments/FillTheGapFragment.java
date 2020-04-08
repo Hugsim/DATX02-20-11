@@ -86,6 +86,7 @@ public class FillTheGapFragment extends Fragment{
                 buttons.get(i).setText(word);
                 buttons.get(i).setOnClickListener(v -> {
                     if(model.checkCorrectAnswer(word)){
+                        sentence.setText(model.getSentence());
                         btn.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
                         getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         handlerCorrect.postDelayed(new Runnable() {
@@ -108,7 +109,7 @@ public class FillTheGapFragment extends Fragment{
                     }
                 });
             }
-            sentence.setText(model.getSentence() + ",   Wordclass:" +model.getWordClass());
+            sentence.setText(model.getSentence());
             instruction.setText("Choose the correct tense: ");
         });
 
