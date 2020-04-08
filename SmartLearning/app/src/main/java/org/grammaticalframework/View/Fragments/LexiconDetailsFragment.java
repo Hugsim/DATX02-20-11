@@ -1,9 +1,9 @@
 package org.grammaticalframework.View.Fragments;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.style.UnderlineSpan;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
@@ -11,11 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -46,6 +49,9 @@ public class LexiconDetailsFragment extends BaseFragment {
     private TextView debugFunctionTextView;
     private TextView explanationTextView;
     private TextView synonymTextView;
+    private TextView explanationHeader;
+    private TextView synonymsHeader;
+    private TextView inflectionsHeader;
     private static final String TAG = LexiconDetailsFragment.class.getSimpleName();
 
     @Override
@@ -62,6 +68,9 @@ public class LexiconDetailsFragment extends BaseFragment {
         explanationTextView = fragmentView.findViewById(R.id.explanationTextView);
         synonymTextView = fragmentView.findViewById(R.id.synonymTextView);
         webView = (WebView) fragmentView.findViewById(R.id.web_view);
+        explanationHeader = fragmentView.findViewById(R.id.explanationHeader);
+        synonymsHeader = fragmentView.findViewById(R.id.synonymsHeader);
+        inflectionsHeader = fragmentView.findViewById(R.id.inflectionsHeader);
 
         hasSynonyms= false;
         hasNextSynonym = false;
@@ -78,6 +87,7 @@ public class LexiconDetailsFragment extends BaseFragment {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -88,29 +98,36 @@ public class LexiconDetailsFragment extends BaseFragment {
             LexiconDetailsFragmentArgs args = LexiconDetailsFragmentArgs.fromBundle(getArguments());
             LexiconWord word = args.getMessage();
             translatedWord = word.getWord();
-            SpannableString underlinedWord = new SpannableString(translatedWord);
-            underlinedWord.setSpan(new UnderlineSpan(), 0 , translatedWord.length(), 0);
             lemma = word.getLemma();
-            wordView.setText(underlinedWord);
+            wordView.setText(translatedWord);
             debugFunctionSB.append("The function for this word is: ").append(word.getFunction());
             if(word.getStatus() == null || !word.getStatus().equals("checked")) {
                 explanationSB.append("This word has not been checked in its translation and may therefore be incorrect!");
                 explanationSB.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 81, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 explanationSB.append(System.getProperty("line.separator"));
             }
-            explanationSB.append("Explanation: ").append(word.getExplanation());
+            explanationSB.append(word.getExplanation());
             debugFunctionTextView.setText(debugFunctionSB);
             explanationTextView.setText(explanationSB);
             loadSynonymWordsForOneWord(word);
 
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                explanationHeader.setForegroundTintList(ContextCompat.getColorStateList(getContext(), R.color.explanation_colorstate));
+                synonymsHeader.setForegroundTintList(ContextCompat.getColorStateList(getContext(), R.color.synonyms_colorstate));
+                inflectionsHeader.setForegroundTintList(ContextCompat.getColorStateList(getContext(), R.color.inflections_colorstate));
+            }
+
             // TODO: maybe perhaps not write html like this?
             String html = model.inflect(lemma);
             webView.loadData(html, "text/html", "UTF-8");
-            webView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            webView.setBackgroundResource(R.drawable.content_background);
+            webView.setBackgroundColor(Color.TRANSPARENT);
 
+            webView.getSettings().setJavaScriptEnabled(true);
+            webView.setWebViewClient(new WebViewClient(){
                 @Override
-                public void onLayoutChange(View v, int left, int top, int right,int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                    webView.setBackgroundColor(getResources().getColor(R.color.colorLight));
+                public void onPageFinished(WebView web, String url) {
+                    web.loadUrl("javascript:(function(){ document.body.style.padding = '10px'})();");
                 }
             });
         }
@@ -118,8 +135,6 @@ public class LexiconDetailsFragment extends BaseFragment {
 
     private void loadSynonymWordsForOneWord(LexiconWord lexiconWord){
         StringBuilder synonymSB = new StringBuilder();
-
-        synonymSB.append("Synonyms: ");
 
         model.getWNSynonyms().observe(getViewLifecycleOwner(), wnSynonyms ->{
             for (WNExplanation synonym : wnSynonyms){
@@ -135,9 +150,11 @@ public class LexiconDetailsFragment extends BaseFragment {
                     if(hasSynonyms){
                         synonymTextView.setText(synonymSB);
                         synonymTextView.setVisibility(View.VISIBLE);
+                        synonymsHeader.setVisibility(View.VISIBLE);
                         debugFunctionTextView.setVisibility(View.GONE);
                     } else {
                         synonymTextView.setVisibility(View.GONE);
+                        synonymsHeader.setVisibility(View.GONE);
                         foundSynonymList.clear();
                         debugFunctionTextView.setVisibility(View.GONE);
                     }
@@ -147,12 +164,10 @@ public class LexiconDetailsFragment extends BaseFragment {
         });
     }
 
-    private String constructSynonymWordsString(String synonymCode, StringBuilder synonymSB){
-        if(!(synonymSB.length() == 10)){
-            synonymSB.append(",").append(" ");
+    private void constructSynonymWordsString(String synonymCode, StringBuilder synonymSB){
+        if(synonymSB.length() != 0) {
+            synonymSB.append(", ");
         }
         synonymSB.append(synonymCode);
-        return synonymSB.toString();
     }
-
 }

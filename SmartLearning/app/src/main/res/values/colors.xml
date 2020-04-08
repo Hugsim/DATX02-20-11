@@ -3,9 +3,14 @@
     <color name="colorPrimary">#4E2F28</color>
     <color name="colorPrimaryDark">#281E1C</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="ColorAccent2">#604233</color>
-    <color name="colorLight">#F8EFDC</color>
-    <color name="colorLine">#B68148</color>
+    <color name="colorAccentSecondary">#604233</color>
+    <color name="colorXLight">#F6F3EF</color>
+    <color name="colorLight">#EFE7D6</color>
+    <color name="colorLine">#B8A691</color>
+    <color name="colorHeader">#F6F0E7</color>
+    <color name="explanationColor">#97955A</color>
+    <color name="synonymsColor">#5A8097</color>
+    <color name="inflectionColor">#975A5A</color>
 
     <color name="green">#32CD32</color>
     <color name="transparent">@android:color/transparent</color>

@@ -62,19 +62,48 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="8dp">
 
-            <TextView
-                android:id="@+id/explanationTextView"
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:text="ExplanationText"
-                android:textSize="18sp" />
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/explanationTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:background="@drawable/content_background"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="24dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="16dp"
+                    android:text="ExplanationText"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/explanationHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="false"
+                    android:layout_marginTop="3dp"
+                    android:background="@drawable/ic_headerbg"
+                    android:fontFamily="@font/cantata_one"
+                    android:foreground="@drawable/ic_headerfg"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:text="Explanation"
+                    android:textSize="16sp"
+                    android:translationX="24dp"
+                    app:layout_anchor="@+id/explanationTextView"
+                    app:layout_anchorGravity="start|top" />
+
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
             <TextView
                 android:id="@+id/debugFunctionTextView"
@@ -90,28 +119,79 @@
                 android:scrollbarAlwaysDrawVerticalTrack="false"
                 android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/synonymTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:text="SynonymsText"
-                android:textSize="18sp" />
 
-            <WebView
-                android:id="@+id/web_view"
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp">
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp">
 
-            </WebView>
+                <TextView
+                    android:id="@+id/synonymTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:background="@drawable/content_background"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="24dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="16dp"
+                    android:text="SynonymsText"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/synonymsHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_headerbg"
+                    android:fontFamily="@font/cantata_one"
+                    android:foreground="@drawable/ic_headerfg"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:text="Synonyms"
+                    android:textSize="16sp"
+                    android:translationX="25dp"
+                    app:layout_anchor="@+id/synonymTextView"
+                    app:layout_anchorGravity="start|top" />
+
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp">
+
+                <WebView
+                    android:id="@+id/web_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="8dp">
+
+                </WebView>
+
+                <TextView
+                    android:id="@+id/inflectionsHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_headerbg"
+                    android:fontFamily="@font/cantata_one"
+                    android:foreground="@drawable/ic_headerfg"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:text="Inflections"
+                    android:textSize="16sp"
+                    android:translationX="25dp"
+                    app:layout_anchor="@id/web_view"
+                    app:layout_anchorGravity="start|top|center_vertical" />
+
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
         </LinearLayout>
 
     </ScrollView>
