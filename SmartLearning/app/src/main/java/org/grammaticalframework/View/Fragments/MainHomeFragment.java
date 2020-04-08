@@ -24,7 +24,6 @@ public class MainHomeFragment extends BaseFragment {
     private Spinner toSpinner;
     HomeViewModel homeVM;
     private boolean updateVM;
-    private List<String> triviaList;
     private TextView triviaTextView;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,8 +34,7 @@ public class MainHomeFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_main_home, container, false);
-        triviaList = new ArrayList<>();
-        fillTriviaList();
+        homeVM.fillTriviaList();
         triviaTextView = v.findViewById(R.id.home_page_trivia);
         setTriviaText();
         fromSpinner =  v.findViewById(R.id.homeFromSpinner);
@@ -93,17 +91,11 @@ public class MainHomeFragment extends BaseFragment {
         return v;
 
     }
-    private void fillTriviaList(){
-        triviaList.add("Krasimir is the lord and saviour");
-        triviaList.add("The lexicon tells you if the translation of a word is confident or not!");
-        triviaList.add("43% of the worlds population is considered bilingual!");
-        triviaList.add("13% of the worlds population is considered trilingual!");
-    }
 
     private void setTriviaText(){
         Random r = new Random();
-        int i = r.nextInt(4);
-        triviaTextView.setText(triviaList.get(i));
+        int i = r.nextInt(homeVM.getTriviaList().size());
+        triviaTextView.setText(homeVM.getTriviaList().get(i));
     }
 
 }
