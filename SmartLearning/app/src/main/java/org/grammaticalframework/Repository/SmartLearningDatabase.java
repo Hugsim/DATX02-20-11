@@ -43,10 +43,10 @@ public abstract class SmartLearningDatabase extends RoomDatabase {
                                     //Code for writing from the csv-files to the database.
                                     //Only needed when creating a new database, it should be quicker to load in the db that is already created.
 
-                                    /*
-                                    databaseWriteExecutor.execute(() -> INSTANCE.wordNetExplanationDao().insertAll(ParseUtils.parseExplanationCSV(context, "parsing/WordNet.csv")));
+
+                                    //databaseWriteExecutor.execute(() -> INSTANCE.wordNetExplanationDao().insertAll(ParseUtils.parseExplanationCSV(context, "parsing/WordNet.csv")));
                                     databaseWriteExecutor.execute(() -> INSTANCE.fillTheGapExerciseDao().insertAll(ParseUtils.parseFillTheGapExerciseCSV(context, "parsing/Exercises.csv")));
-                                    databaseWriteExecutor.execute(() -> INSTANCE.checkedFunctionDao().insertAll(ParseUtils.parseWordNetChecks(context, "parsing/WordNetChecked.csv")));*/
+                                    //databaseWriteExecutor.execute(() -> INSTANCE.checkedFunctionDao().insertAll(ParseUtils.parseWordNetChecks(context, "parsing/WordNetChecked.csv")));
                                     databaseWriteExecutor.execute(()-> INSTANCE.synonymExerciseDao().insertAll(ParseUtils.parseSynonymExerciseCSV(context, "parsing/SynonymExercises.csv")));
                                 }
                             })

@@ -1,6 +1,7 @@
 package org.grammaticalframework.ViewModel;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -149,6 +150,12 @@ public class FillTheGapViewModel extends AndroidViewModel {
                 linearizedSentence = android.text.TextUtils.join(" ", sentence);
             }
         }
+    }
+
+    public String getWordClass(){
+        String worcClass = mSmartLearning.getGrammar().getFunctionType(ftge.getFunctionToReplace()).getCategory();
+        Expr e = Expr.readExpr("Inflection" + worcClass + " " + ftge.getFunctionToReplace());
+        return mSmartLearning.getTargetConcr().linearize(e);
     }
 
 }

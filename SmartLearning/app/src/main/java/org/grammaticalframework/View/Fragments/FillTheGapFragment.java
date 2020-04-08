@@ -104,7 +104,7 @@ public class FillTheGapFragment extends Fragment{
                     }
                 });
             }
-            sentence.setText(model.getSentence());
+            sentence.setText(model.getSentence() + ",   Wordclass:" +model.getWordClass());
         });
 
     }
