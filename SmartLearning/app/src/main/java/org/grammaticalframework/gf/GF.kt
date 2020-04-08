@@ -1,12 +1,9 @@
 package org.grammaticalframework.gf
 
 import android.util.Log
-
 import org.grammaticalframework.SmartLearning
-import org.grammaticalframework.pgf.Concr
-import org.grammaticalframework.pgf.Expr
-import org.grammaticalframework.pgf.PGF
-import java.lang.IllegalArgumentException
+import org.grammaticalframework.ViewModel.FillTheGapViewModel
+import org.grammaticalframework.pgf.*
 
 const val TAG = "Kotl/GF"
 
@@ -75,6 +72,24 @@ class GF(val sl: SmartLearning) {
         Log.d(TAG, "Translated $sentence")
         return Sentence(parse(sentence, from), from)
     }
+
+    // Parses sentence and logs all possible linearizations for it
+    fun parseAllPossibilitiesAndLogThem(sentence: String, pgf: PGF, lang: Concr) {
+        try {
+            val iterable: Iterable<ExprProb> = lang.parse(pgf.getStartCat(), sentence)
+            val iter = iterable.iterator()
+            while (iter.hasNext()) {
+                val ep = iter.next()
+                val temp = ep.expr.toString()
+                Log.d(TAG, "Abstract syntax: $temp")
+                Log.d(TAG, "Linearized: " + lang.linearize(Expr.readExpr(temp)))
+                Log.d(TAG, " ")
+            }
+        } catch (parseError: ParseError) {
+            parseError.printStackTrace()
+        }
+    }
+
     
     companion object {
         @JvmStatic
