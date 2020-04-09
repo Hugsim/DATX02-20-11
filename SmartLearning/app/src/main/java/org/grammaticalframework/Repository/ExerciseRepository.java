@@ -30,6 +30,9 @@ public class ExerciseRepository {
             return Transformations.map(allFillTheGapExercises, exercises -> {
                 for(FillTheGapExercise exercise : exercises){
                     if(!solvedExercises.contains(exercise)){
+                        if(allFillTheGapExercises.getValue().size() - 1 == solvedExercises.size()){
+                            solvedExercises.clear();
+                        }
                         return exercise;
                     }
                 }
@@ -44,6 +47,9 @@ public class ExerciseRepository {
             return Transformations.map(allSynonymExercises, exercises -> {
                 for(SynonymExercise exercise : exercises){
                     if(!solvedExercises.contains(exercise)){
+                        if(allSynonymExercises.getValue().size() - 1 == solvedExercises.size()){
+                            solvedExercises.clear();
+                        }
                         return exercise;
                     }
                 }
