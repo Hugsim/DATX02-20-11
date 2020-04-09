@@ -186,8 +186,7 @@
                     android:layout_marginTop="24dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginRight="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:elevation="3dp">
+                    android:layout_marginBottom="8dp">
 
                 </WebView>
 
@@ -196,7 +195,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:background="@color/inflectionColor"
-                    android:elevation="3dp"
                     app:layout_anchor="@+id/web_view"
                     app:layout_anchorGravity="center|top" />
 
@@ -205,7 +203,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/ic_headerbg"
-                    android:elevation="3dp"
                     android:fontFamily="@font/cantata_one"
                     android:foreground="@drawable/ic_headerfg"
                     android:paddingLeft="16dp"

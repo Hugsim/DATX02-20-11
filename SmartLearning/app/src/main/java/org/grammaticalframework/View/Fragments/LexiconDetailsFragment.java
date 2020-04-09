@@ -50,7 +50,6 @@ public class LexiconDetailsFragment extends BaseFragment {
     private TextView explanationHeader;
     private TextView synonymsHeader;
     private TextView inflectionsHeader;
-    private TableRow inflectionRow;
     private TableRow synonymsRow;
     private static final String TAG = LexiconDetailsFragment.class.getSimpleName();
 
@@ -70,7 +69,6 @@ public class LexiconDetailsFragment extends BaseFragment {
         explanationHeader = fragmentView.findViewById(R.id.explanationHeader);
         synonymsHeader = fragmentView.findViewById(R.id.synonymsHeader);
         inflectionsHeader = fragmentView.findViewById(R.id.inflectionsHeader);
-        inflectionRow = fragmentView.findViewById(R.id.inflectionRow);
         synonymsRow = fragmentView.findViewById(R.id.synonymsRow);
 
         navController = Navigation.findNavController(getActivity().findViewById(R.id.nav_host_fragment));
@@ -94,9 +92,6 @@ public class LexiconDetailsFragment extends BaseFragment {
         synonymTextView.setVisibility(View.GONE);
         synonymsHeader.setVisibility(View.GONE);
         synonymsRow.setVisibility(View.GONE);
-        synonymsRow.setElevation(0);
-        inflectionRow.setElevation(0);
-        inflectionRow.bringToFront();
 
         if(getArguments() != null){
             SpannableStringBuilder explanationSB = new SpannableStringBuilder();
