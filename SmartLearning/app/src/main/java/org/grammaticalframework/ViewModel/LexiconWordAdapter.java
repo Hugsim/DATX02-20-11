@@ -66,7 +66,7 @@ public class LexiconWordAdapter extends RecyclerView.Adapter<LexiconWordAdapter.
         if(lexiconWord.getStatus() != null && lexiconWord.getStatus().equals("checked")){
             viewHolder.functionChecked.setText("✔️");
         } else {
-            viewHolder.functionChecked.setText("❌");
+            viewHolder.functionChecked.setText("❓");
         }
     }
 
