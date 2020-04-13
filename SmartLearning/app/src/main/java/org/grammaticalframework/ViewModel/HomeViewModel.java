@@ -3,7 +3,7 @@ package org.grammaticalframework.ViewModel;
 import android.app.Application;
 
 import org.grammaticalframework.Language;
-import org.grammaticalframework.SmartLearning;
+import org.grammaticalframework.Grammarlex;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
 public class HomeViewModel extends AndroidViewModel {
-    private SmartLearning sl;
+    private Grammarlex sl;
 
     public List<String> getTriviaList() {
         return triviaList;
@@ -22,7 +22,7 @@ public class HomeViewModel extends AndroidViewModel {
 
     public HomeViewModel(@NonNull Application application){
         super(application);
-        sl = (SmartLearning) getApplication().getApplicationContext();
+        sl = (Grammarlex) getApplication().getApplicationContext();
         triviaList = new ArrayList<>();
     }
 

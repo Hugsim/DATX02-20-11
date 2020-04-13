@@ -8,5 +8,5 @@
     android:drawableTint="@color/white"
     android:gravity="center"
     android:text="Catalan"
-    android:textColor="@color/black"
+    android:textColor="@color/colorLight"
     android:textSize="18sp" />
