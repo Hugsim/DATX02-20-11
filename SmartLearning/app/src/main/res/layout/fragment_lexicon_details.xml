@@ -150,7 +150,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:background="@color/synonymsColor"
-                    android:elevation="3dp"
                     app:layout_anchor="@+id/synonymTextView"
                     app:layout_anchorGravity="top|center" />
 
@@ -186,7 +185,8 @@
                     android:layout_marginTop="24dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginRight="8dp"
-                    android:layout_marginBottom="8dp">
+                    android:layout_marginBottom="8dp"
+                    android:elevation="3dp">
 
                 </WebView>
 
@@ -212,7 +212,8 @@
                     android:textSize="18sp"
                     android:translationX="25dp"
                     app:layout_anchor="@id/web_view"
-                    app:layout_anchorGravity="start|top|center_vertical" />
+                    app:layout_anchorGravity="start|top|center_vertical"
+                    android:elevation="3dp "/>
 
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
