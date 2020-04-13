@@ -3,11 +3,9 @@ package org.grammaticalframework.View.Fragments;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-<<<<<<< HEAD
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
-=======
->>>>>>> AppLayout
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
