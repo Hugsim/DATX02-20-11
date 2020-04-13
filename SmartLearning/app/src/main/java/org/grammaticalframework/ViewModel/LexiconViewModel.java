@@ -41,7 +41,6 @@ public class LexiconViewModel extends AndroidViewModel {
 
     private static final String TAG = LexiconViewModel.class.getSimpleName();
     private GF gfClass;
-    private PGF gr;
 
     //The functions that we are going to find in wordnet
     private List<String> functions = new ArrayList<>();
@@ -56,7 +55,6 @@ public class LexiconViewModel extends AndroidViewModel {
         lexiconWords = new ArrayList<>();
         sl = (Grammarlex) getApplication().getApplicationContext();
         gfClass = new GF(sl);
-        gr = sl.getGrammar();
         wnExplanationRepository = new WNExplanationRepository(application);
 
         wnExplanations = Transformations.switchMap(functionsToSearchFor, functions -> {
@@ -161,7 +159,7 @@ public class LexiconViewModel extends AndroidViewModel {
     }
 
     public String wordClass(String lemma){
-        return gr.getFunctionType(lemma).getCategory();
+        return sl.getGrammar().getFunctionType(lemma).getCategory();
     }
 
     public void switchLanguages() {
