@@ -11,6 +11,10 @@ public class LexiconWord implements Serializable {
     private String tag;
     private String synonymCode;
     private String synonymWords;
+    //The status of the linearization, i.e. if it has been checked or is guessed
+    private String status = null;
+    //The language code for the word
+    private String langcode = null;
 
     public LexiconWord(String lemma, String word, String explanation, String tag, String function, String synonymCode, String synonymWords) {
         this.lemma = lemma;
@@ -51,4 +55,20 @@ public class LexiconWord implements Serializable {
     public void setSynonymWords(String synonymWords){this.synonymWords = synonymWords;}
 
     public String getSynonymWords() {return synonymWords;}
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getLangcode() {
+        return langcode;
+    }
+
+    public void setLangcode(String langcode) {
+        this.langcode = langcode;
+    }
 }

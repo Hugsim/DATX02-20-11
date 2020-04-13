@@ -6,7 +6,8 @@ import android.util.Log;
 import org.grammaticalframework.Language;
 import org.grammaticalframework.Repository.WNExplanation;
 import org.grammaticalframework.Repository.WNExplanationRepository;
-import org.grammaticalframework.SmartLearning;
+import org.grammaticalframework.Repository.WNExplanationWithCheck;
+import org.grammaticalframework.Grammarlex;
 import org.grammaticalframework.gf.GF;
 import org.grammaticalframework.pgf.Concr;
 import org.grammaticalframework.pgf.Expr;
@@ -14,12 +15,11 @@ import org.grammaticalframework.pgf.MorphoAnalysis;
 import org.grammaticalframework.pgf.PGF;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.core.util.Pair;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
@@ -29,12 +29,15 @@ public class LexiconViewModel extends AndroidViewModel {
     private List<LexiconWord> lexiconWords;
 
     static private LiveData<List<WNExplanation>> wnExplanations;
+    static private LiveData<List<WNExplanationWithCheck>> wnExplanationsWithChecks;
     static private LiveData<List<WNExplanation>> wnSynonyms;
 
+    //functions both used for finding explanations
     private MutableLiveData<List<String>> functionsToSearchFor = new MutableLiveData<>();
+    private MutableLiveData<Pair<List<String>,String>> functionsToSearchForWithLangcode = new MutableLiveData<>();
     private MutableLiveData<List<String>> synonymsToSearchFor = new MutableLiveData<>();
 
-    private SmartLearning sl;
+    private Grammarlex sl;
 
     private static final String TAG = LexiconViewModel.class.getSimpleName();
     private GF gfClass;
@@ -51,7 +54,7 @@ public class LexiconViewModel extends AndroidViewModel {
         super(application);
         translatedWords = new ArrayList<>();
         lexiconWords = new ArrayList<>();
-        sl = (SmartLearning) getApplication().getApplicationContext();
+        sl = (Grammarlex) getApplication().getApplicationContext();
         gfClass = new GF(sl);
         gr = sl.getGrammar();
         wnExplanationRepository = new WNExplanationRepository(application);
@@ -61,10 +64,17 @@ public class LexiconViewModel extends AndroidViewModel {
            return wnExplanationRepository.getWNExplanations(functions);
         });
 
+        wnExplanationsWithChecks = Transformations.switchMap(functionsToSearchForWithLangcode, pair -> {
+            Log.d(TAG, "WNEXP with checks, pairFirst: " + pair.first.toString());
+            Log.d(TAG, "WNEXP with checks, pairFirst: " + pair.second);
+            return wnExplanationRepository.getWNExplanationsWithCheck(pair.first, pair.second);
+        });
+
         wnSynonyms = Transformations.switchMap(synonymsToSearchFor, synonyms -> {
             Log.d(TAG, "WNSYN");
             return wnExplanationRepository.getSynonyms(synonyms);
         });
+
     }
 
     public void wordTranslator(String word) {
@@ -102,6 +112,7 @@ public class LexiconViewModel extends AndroidViewModel {
         //Needs to be called, updates explanation livedata
         searchForFunctions(functions);
         searchForSynonyms(synonyms);
+        searchForFunctionsWithCheck(functions);
     }
 
 
@@ -112,6 +123,11 @@ public class LexiconViewModel extends AndroidViewModel {
 
     private void searchForSynonyms(List<String> synonyms){
         synonymsToSearchFor.setValue(synonyms);
+    }
+
+    private void searchForFunctionsWithCheck(List<String> functions){
+        Log.d(TAG, "TARGET LANGUAGE: " + sl.getTargetLanguage().getLangCode());
+        functionsToSearchForWithLangcode.setValue(new Pair<>(functions,sl.getTargetLanguage().getLangCode()));
     }
 
     public List<LexiconWord> getLexiconWords() {
@@ -131,6 +147,8 @@ public class LexiconViewModel extends AndroidViewModel {
     public LiveData<List<WNExplanation>> getWNSynonyms() {
         return wnSynonyms;
     }
+
+    public LiveData<List<WNExplanationWithCheck>> getWnExplanationsWithChecks() { return wnExplanationsWithChecks; }
 
     public String speechTag(String lemma){
         Expr e = Expr.readExpr("MkTag (Inflection" + wordClass(lemma) + " " + lemma + ")");

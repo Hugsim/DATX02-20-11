@@ -5,6 +5,14 @@
     app:startDestination="@id/mainHomeFragment">
 
     <fragment
+        android:id="@+id/synonymExerciseFragment"
+        android:name="org.grammaticalframework.View.Fragments.SynonymExerciseFragment"
+        android:label="synonymExerciseFragment" >
+        <action
+            android:id="@+id/action_synonymExerciseFragment_self"
+            app:destination="@id/synonymExerciseFragment" />
+    </fragment>
+    <fragment
         android:id="@+id/vocabularyFragment"
         android:name="org.grammaticalframework.View.Fragments.VocabularyFragment"
         android:label="VocabularyFragment"
@@ -70,4 +78,7 @@
             app:argType="string"
             android:defaultValue="default" />
     </fragment>
+    <action
+        android:id="@+id/action_vocabularyFragment_to_synonymExerciseFragment"
+        app:destination="@id/synonymExerciseFragment" />
 </navigation>

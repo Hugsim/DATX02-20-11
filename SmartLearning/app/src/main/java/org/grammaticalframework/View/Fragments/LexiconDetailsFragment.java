@@ -3,6 +3,9 @@ package org.grammaticalframework.View.Fragments;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -80,7 +83,7 @@ public class LexiconDetailsFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         if(getArguments() != null){
-            StringBuilder explanationSB = new StringBuilder();
+            SpannableStringBuilder explanationSB = new SpannableStringBuilder();
             StringBuilder debugFunctionSB = new StringBuilder();
             LexiconDetailsFragmentArgs args = LexiconDetailsFragmentArgs.fromBundle(getArguments());
             LexiconWord word = args.getMessage();
@@ -90,6 +93,11 @@ public class LexiconDetailsFragment extends BaseFragment {
             lemma = word.getLemma();
             wordView.setText(underlinedWord);
             debugFunctionSB.append("The function for this word is: ").append(word.getFunction());
+            if(word.getStatus() == null || !word.getStatus().equals("checked")) {
+                explanationSB.append("This word has not been checked in its translation and may therefore be incorrect!");
+                explanationSB.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 81, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                explanationSB.append(System.getProperty("line.separator"));
+            }
             explanationSB.append("Explanation: ").append(word.getExplanation());
             debugFunctionTextView.setText(debugFunctionSB);
             explanationTextView.setText(explanationSB);
@@ -123,8 +131,6 @@ public class LexiconDetailsFragment extends BaseFragment {
                             //lexiconWord.setSynonymWords(constructSynonymWordsString(synonym.getFunction(), synonymSB));
                             String temp = synonym.getFunction();
                             constructSynonymWordsString(GF.linearizeFunction(temp, model.getTargetConcr()), synonymSB);
-                            Log.d(TAG, "FOUND SYNONYMS");
-
                         }
                     if(hasSynonyms){
                         synonymTextView.setText(synonymSB);

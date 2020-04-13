@@ -1,17 +1,16 @@
 package org.grammaticalframework.View.Fragments;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,7 +20,6 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import org.grammaticalframework.R;
-import org.grammaticalframework.View.MainActivity;
 import org.grammaticalframework.ViewModel.FillTheGapViewModel;
 
 import java.util.ArrayList;
@@ -37,6 +35,7 @@ public class FillTheGapFragment extends Fragment{
     Button button4;
     Button button5;
     TextView sentence;
+    TextView instruction;
     private boolean isCorrect = false;
     private Handler handlerCorrect;
     private Handler handlerIncorrect;
@@ -59,6 +58,7 @@ public class FillTheGapFragment extends Fragment{
         return v;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -68,7 +68,8 @@ public class FillTheGapFragment extends Fragment{
         buttons.add(button3 = getView().findViewById(R.id.button3));
         buttons.add(button4 = getView().findViewById(R.id.button4));
         buttons.add(button5 = getView().findViewById(R.id.button5));
-        sentence = getView().findViewById(R.id.exerciseSentence);
+        sentence = getView().findViewById(R.id.fillTheGapExercise);
+        instruction = getView().findViewById(R.id.fillTheGapInstruction);
         navController = Navigation.findNavController(view);
         handlerCorrect = new Handler();
         handlerIncorrect = new Handler();
@@ -84,8 +85,8 @@ public class FillTheGapFragment extends Fragment{
                 Button btn = buttons.get(i);
                 buttons.get(i).setText(word);
                 buttons.get(i).setOnClickListener(v -> {
-                    Toast toast;
                     if(model.checkCorrectAnswer(word)){
+                        sentence.setText(model.getSentence());
                         btn.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
                         getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         handlerCorrect.postDelayed(new Runnable() {
@@ -109,6 +110,7 @@ public class FillTheGapFragment extends Fragment{
                 });
             }
             sentence.setText(model.getSentence());
+            instruction.setText(model.getTense());
         });
 
     }
