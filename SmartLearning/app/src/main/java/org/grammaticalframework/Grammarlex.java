@@ -71,10 +71,6 @@ public class Grammarlex extends Application {
         }
 
         otherLoader = null;
-
-        //init db
-        //WNExplanationDatabase.getInstance(getApplicationContext()).wordNetExplanationDao().insertAll(parseCsv(getApplicationContext()));
-
     }
 
     public PGF getPgf() {
@@ -86,7 +82,12 @@ public class Grammarlex extends Application {
     }
 
     public Language getSourceLanguage() {
-        return sourceLoader.getLanguage();
+        try {
+            sourceLoader.join();
+            return sourceLoader.getLanguage();
+        } catch (InterruptedException e) {
+            return null;
+        }
     }
 
     public Concr getSourceConcr() {
@@ -95,6 +96,15 @@ public class Grammarlex extends Application {
             return sourceLoader.concr;
         } catch (InterruptedException e) {
             return  null;
+        }
+    }
+
+    public Language getTargetLanguage() {
+        try {
+            targetLoader.join();
+            return targetLoader.getLanguage();
+        } catch (InterruptedException e) {
+            return null;
         }
     }
 
@@ -138,10 +148,6 @@ public class Grammarlex extends Application {
 
         sourceLoader = new ConcrLoader(language);
         sourceLoader.start();
-    }
-
-    public Language getTargetLanguage() {
-        return targetLoader.getLanguage();
     }
 
     public int getLanguageIndex(Language language) {

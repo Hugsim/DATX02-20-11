@@ -9,11 +9,7 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "FillTheGapExercise_table")
 public class FillTheGapExercise {
 
-    @PrimaryKey(autoGenerate = true)
-    @NonNull
-    @ColumnInfo(name = "id")
-    private int id;
-
+    @PrimaryKey
     @ColumnInfo(name = "abstractSyntaxTree")
     @NonNull
     private String abstractSyntaxTree;
@@ -29,14 +25,6 @@ public class FillTheGapExercise {
         this.abstractSyntaxTree = abstractSyntaxTree;
         this.functionToReplace = functionToReplace;
         this.tenseFunction = tenseFunction;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     @NonNull

@@ -35,21 +35,20 @@ public abstract class SmartLearningDatabase extends RoomDatabase {
                 if (INSTANCE == null){
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(), SmartLearningDatabase.class, "smartlearning.db")
                             .createFromAsset("databases/smartlearning.db")
-                            //TODO: create new db file with new schema and some synonymExercises
-                            .addCallback(new Callback() {
+                            /*.addCallback(new Callback() {
                                 @Override
                                 public void onCreate(@NonNull SupportSQLiteDatabase db) {
                                     super.onCreate(db);
                                     //Code for writing from the csv-files to the database.
                                     //Only needed when creating a new database, it should be quicker to load in the db that is already created.
-                                    /*
+
                                     databaseWriteExecutor.execute(() -> INSTANCE.wordNetExplanationDao().insertAll(ParseUtils.parseExplanationCSV(context, "parsing/WordNet.csv")));
                                     databaseWriteExecutor.execute(() -> INSTANCE.fillTheGapExerciseDao().insertAll(ParseUtils.parseFillTheGapExerciseCSV(context, "parsing/Exercises.csv")));
                                     databaseWriteExecutor.execute(() -> INSTANCE.checkedFunctionDao().insertAll(ParseUtils.parseWordNetChecks(context, "parsing/WordNetChecked.csv")));
                                     databaseWriteExecutor.execute(()-> INSTANCE.synonymExerciseDao().insertAll(ParseUtils.parseSynonymExerciseCSV(context, "parsing/SynonymExercises.csv")));
-                                     */
+
                                 }
-                            })
+                            })*/
                             .build();
 
                     //empty the database
