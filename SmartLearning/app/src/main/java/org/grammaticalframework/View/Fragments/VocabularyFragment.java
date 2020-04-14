@@ -39,6 +39,7 @@ public class VocabularyFragment extends BaseFragment implements View.OnClickList
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
         view.findViewById(R.id.vocabulary_button).setOnClickListener(this);
+        view.findViewById(R.id.translateExercise_button).setOnClickListener(this);
     }
 
     @Override
@@ -46,7 +47,10 @@ public class VocabularyFragment extends BaseFragment implements View.OnClickList
         switch (v.getId()){
             case R.id.vocabulary_button:
                 navController.navigate(R.id.action_vocabularyFragment_to_synonymExerciseFragment);
-
+                break;
+            case R.id.translateExercise_button:
+                navController.navigate(R.id.action_global_translateExerciseFragment);
+                break;
         }
     }
 
