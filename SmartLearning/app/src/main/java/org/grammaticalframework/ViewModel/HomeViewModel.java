@@ -51,7 +51,7 @@ public class HomeViewModel extends AndroidViewModel {
     }
 
     public void fillTriviaList(){
-        triviaList.add("Krasimir is the lord and saviour");
+        triviaList.add("Changing the languages in the lexicon also changes the exercises' languages.");
         triviaList.add("The lexicon tells you if the translation of a word is confident or not!");
         triviaList.add("43% of the worlds population is considered bilingual!");
         triviaList.add("13% of the worlds population is considered trilingual!");

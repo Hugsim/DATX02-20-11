@@ -5,8 +5,8 @@
     android:layout_height="wrap_content"
     android:drawableEnd="@drawable/ic_arrow_drop_down_24dp"
     android:drawableRight="@drawable/ic_arrow_drop_down_24dp"
-    android:drawableTint="@color/white"
-    android:gravity="center"
+    android:drawableTint="@color/black"
+    android:gravity="start|center_horizontal"
     android:text="Catalan"
-    android:textColor="@color/black"
-    android:textSize="30sp" />
+    android:textColor="@color/colorPrimaryDarker"
+    android:textSize="24sp" />

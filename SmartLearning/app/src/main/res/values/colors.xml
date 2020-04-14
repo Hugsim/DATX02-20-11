@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#513832</color>
-    <color name="colorPrimaryDark">#45312D</color>
+    <color name="colorPrimaryDark">#4C3531</color>
     <color name="colorPrimaryDarker">#332925</color>
     <color name="navigationDetailColor">#4A3B35</color>
     <color name="iconColor">#271B13</color>
@@ -9,12 +9,12 @@
     <color name="colorAccentSecondary">#5A4134</color>
     <color name="colorXLight">#FFFDFC</color>
     <color name="colorLight">#F4EFE5</color>
-    <color name="colorBackground">#EAE3D5</color>
+    <color name="colorBackground">#E8DCC6</color>
     <color name="colorToolbarTexture">#674A3E</color>
     <color name="colorLine">#B8A691</color>
     <color name="colorHeader">#ECE1D2</color>
     <color name="colorNavigationIcon">#E4D8C7</color>
-    <color name="explanationColor">#97955A</color>
+    <color name="explanationColor">#AE9139</color>
     <color name="synonymsColor">#5A8097</color>
     <color name="inflectionColor">#975A5A</color>
 
