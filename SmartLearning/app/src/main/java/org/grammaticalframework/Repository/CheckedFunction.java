@@ -9,12 +9,8 @@ import androidx.room.PrimaryKey;
  * A class which contains a function and whether or not it is checked in the WordNet port
  */
 
-@Entity(tableName = "CheckedFunction_table")
+@Entity(tableName = "CheckedFunction_table", primaryKeys = {"checked_function", "langcode"})
 public class CheckedFunction {
-    @PrimaryKey(autoGenerate = true)
-    @NonNull
-    @ColumnInfo(name = "checked_id")
-    private int id;
 
     @ColumnInfo(name = "checked_function")
     @NonNull
@@ -32,15 +28,6 @@ public class CheckedFunction {
         this.function = function;
         this.status = status;
         this.langcode = langcode;
-    }
-
-    @NonNull
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     @NonNull
