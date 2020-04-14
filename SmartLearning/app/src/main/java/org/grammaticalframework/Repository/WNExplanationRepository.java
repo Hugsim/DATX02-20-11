@@ -13,19 +13,19 @@ public class WNExplanationRepository {
     private LiveData<List<WNExplanation>> allWordNetExplanations;
 
     public WNExplanationRepository(Application application){
-        SmartLearningDatabase database = SmartLearningDatabase.getInstance(application);
+        GrammarlexDatabase database = GrammarlexDatabase.getInstance(application);
         mWNExplanationDao = database.wordNetExplanationDao();
         allWordNetExplanations = mWNExplanationDao.getAllWordNetExplanations();
     }
 
     public void insert (WNExplanation wne){
-        SmartLearningDatabase.databaseWriteExecutor.execute(()-> {
+        GrammarlexDatabase.databaseWriteExecutor.execute(()-> {
             mWNExplanationDao.insert(wne);
         });
     }
 
     public void insertAll (List<WNExplanation> wneList){
-        SmartLearningDatabase.databaseWriteExecutor.execute(()->{
+        GrammarlexDatabase.databaseWriteExecutor.execute(()->{
             mWNExplanationDao.insertAll(wneList);
         });
     }

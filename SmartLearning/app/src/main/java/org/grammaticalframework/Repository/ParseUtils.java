@@ -78,4 +78,21 @@ public class ParseUtils {
         }
         return synonymExerciseList;
     }
+
+    public static List<TranslateExercise> parseTranslateExerciseCSV(Context context, String fileName) {
+        LinkedList<TranslateExercise> translateExerciseList = new LinkedList<>();
+        try {
+            CSVReader csvReader = new CSVReader(new InputStreamReader(context.getAssets().open(fileName)),';', '"', 1);
+            String[] nextLine;
+
+            while ((nextLine = csvReader.readNext()) != null) {
+                if(nextLine.length < 2)
+                    continue;
+                translateExerciseList.add(new TranslateExercise(nextLine[0], Arrays.asList(nextLine[1].split(","))));
+            }
+        }catch (Exception e){
+            Log.d(TAG, e.getMessage());
+        }
+        return translateExerciseList;
+    }
 }
