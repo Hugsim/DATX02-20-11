@@ -28,12 +28,12 @@ public class LexiconViewModel extends AndroidViewModel {
     private List<String> translatedWords;
     private List<LexiconWord> lexiconWords;
 
-    static private LiveData<List<WNExplanation>> wnExplanations;
+    //static private LiveData<List<WNExplanation>> wnExplanations;
     static private LiveData<List<WNExplanationWithCheck>> wnExplanationsWithChecks;
     static private LiveData<List<WNExplanation>> wnSynonyms;
 
     //functions both used for finding explanations
-    private MutableLiveData<List<String>> functionsToSearchFor = new MutableLiveData<>();
+    //private MutableLiveData<List<String>> functionsToSearchFor = new MutableLiveData<>();
     private MutableLiveData<Pair<List<String>,String>> functionsToSearchForWithLangcode = new MutableLiveData<>();
     private MutableLiveData<List<String>> synonymsToSearchFor = new MutableLiveData<>();
 
@@ -57,19 +57,15 @@ public class LexiconViewModel extends AndroidViewModel {
         gfClass = new GF(sl);
         wnExplanationRepository = new WNExplanationRepository(application);
 
-        wnExplanations = Transformations.switchMap(functionsToSearchFor, functions -> {
-            Log.d(TAG, "WNEXP");
+        /*wnExplanations = Transformations.switchMap(functionsToSearchFor, functions -> {
            return wnExplanationRepository.getWNExplanations(functions);
-        });
+        });*/
 
         wnExplanationsWithChecks = Transformations.switchMap(functionsToSearchForWithLangcode, pair -> {
-            Log.d(TAG, "WNEXP with checks, pairFirst: " + pair.first.toString());
-            Log.d(TAG, "WNEXP with checks, pairFirst: " + pair.second);
             return wnExplanationRepository.getWNExplanationsWithCheck(pair.first, pair.second);
         });
 
         wnSynonyms = Transformations.switchMap(synonymsToSearchFor, synonyms -> {
-            Log.d(TAG, "WNSYN");
             return wnExplanationRepository.getSynonyms(synonyms);
         });
 
@@ -90,14 +86,11 @@ public class LexiconViewModel extends AndroidViewModel {
             synonyms.clear();
         }
 
-        Concr source = sl.getSourceConcr();
-        Concr target = sl.getTargetConcr();
-
-        for (MorphoAnalysis an : source.lookupMorpho(word)) {
-            if (target.hasLinearization(an.getLemma())) {
+        for (MorphoAnalysis an : sl.getSourceConcr().lookupMorpho(word)) {
+            if (sl.getTargetConcr().hasLinearization(an.getLemma())) {
                 Expr e = Expr.readExpr(an.getLemma());
                 String function = e.unApp().getFunction();
-                for (String s : target.linearizeAll(e)) {
+                for (String s : sl.getTargetConcr().linearizeAll(e)) {
                     if (!translatedWords.contains(s)) {
                         functions.add(function);
                         translatedWords.add(s);
@@ -108,23 +101,22 @@ public class LexiconViewModel extends AndroidViewModel {
         }
 
         //Needs to be called, updates explanation livedata
-        searchForFunctions(functions);
+       // searchForFunctions(functions);
         searchForSynonyms(synonyms);
         searchForFunctionsWithCheck(functions);
     }
 
 
 
-    private void searchForFunctions(List<String> functions){
+    /*private void searchForFunctions(List<String> functions){
         functionsToSearchFor.setValue(functions);
-    }
+    }*/
 
     private void searchForSynonyms(List<String> synonyms){
         synonymsToSearchFor.setValue(synonyms);
     }
 
     private void searchForFunctionsWithCheck(List<String> functions){
-        Log.d(TAG, "TARGET LANGUAGE: " + sl.getTargetLanguage().getLangCode());
         functionsToSearchForWithLangcode.setValue(new Pair<>(functions,sl.getTargetLanguage().getLangCode()));
     }
 
@@ -138,15 +130,17 @@ public class LexiconViewModel extends AndroidViewModel {
 
     public void setLexiconWords(List<LexiconWord> lexiconWords){this.lexiconWords = lexiconWords;}
 
-    public LiveData<List<WNExplanation>> getWNExplanations() {
+    /*public LiveData<List<WNExplanation>> getWNExplanations() {
         return wnExplanations;
-    }
+    }*/
 
     public LiveData<List<WNExplanation>> getWNSynonyms() {
         return wnSynonyms;
     }
 
-    public LiveData<List<WNExplanationWithCheck>> getWnExplanationsWithChecks() { return wnExplanationsWithChecks; }
+    public LiveData<List<WNExplanationWithCheck>> getWnExplanationsWithChecks() {
+        return wnExplanationsWithChecks;
+    }
 
     public String speechTag(String lemma){
         Expr e = Expr.readExpr("MkTag (Inflection" + wordClass(lemma) + " " + lemma + ")");

@@ -275,9 +275,8 @@ public class MainLexiconFragment extends BaseFragment implements AppBarLayout.On
                         return 1;
                     if(lhs.getStatus() == null && rhs.getStatus() == null)
                         return 0;
-                    if (lhs.getStatus().equals(rhs.getStatus())) {
+                    if (lhs.getStatus().equals(rhs.getStatus()))
                         return 0;
-                    }
                     if(lhs.getStatus().equals("checked"))
                         return -1;
                     if(rhs.getStatus().equals("checked"))
