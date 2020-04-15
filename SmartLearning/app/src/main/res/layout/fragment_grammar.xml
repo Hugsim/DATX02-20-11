@@ -5,18 +5,20 @@
     android:id="@+id/fragment_grammar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
     tools:context=".View.Fragments.GrammarFragment">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Grammar"
-        android:textSize="30sp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:gravity="center"/>
+        android:layout_marginTop="36dp"
+        android:gravity="center"
+        android:text="Grammar"
+        android:textColor="@color/colorToolbarTexture"
+        android:textSize="36sp" />
 
     <Button
         android:id="@+id/fillTheGap_Button"
@@ -28,7 +30,7 @@
         android:background="@drawable/buttons"
         android:text="Fill The Gap"
         android:textAllCaps="false"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/colorToolbarTexture"
         android:textSize="20sp" />
 
 

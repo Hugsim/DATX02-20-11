@@ -112,7 +112,7 @@ public class SynonymExerciseFragment  extends Fragment {
 
                 buttons.get(i).setOnClickListener(v -> {
                     if(model.checkCorrectAnswer(word)){
-                        btn.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+                        btn.setBackgroundResource(R.drawable.button_green);
                         model.setCorrectAnswers(model.getCorrectAnswers() + 1);
                         correctResult.setText("Correct attempts: " + " " + model.getCorrectAnswers());
                         getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
@@ -120,19 +120,19 @@ public class SynonymExerciseFragment  extends Fragment {
                             @Override
                             public void run() {
                                 getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                                btn.getBackground().clearColorFilter();
+                                btn.setBackgroundResource(R.drawable.buttons);
                                 navController.navigate(R.id.action_synonymExerciseFragment_self);
                                 model.getNewExercise();
                             }
                         }, 1500);
                     }else{
-                        btn.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
+                        btn.setBackgroundResource(R.drawable.button_red);
                         model.setIncorrectAnswers(model.getIncorrectAnswers() + 1);
                         incorrectResult.setText("Incorrect attempts: " + " " + model.getIncorrectAnswers());
                         handlerIncorrect.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                btn.getBackground().clearColorFilter();
+                                btn.setBackgroundResource(R.drawable.buttons);
                             }
                         }, 1500);
                     }

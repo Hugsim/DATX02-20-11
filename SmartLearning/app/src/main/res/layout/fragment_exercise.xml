@@ -5,18 +5,20 @@
     android:id="@+id/fragment_exercise"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
     tools:context=".View.Fragments.MainExerciseFragment">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Exercises"
-        android:textSize="30sp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:gravity="center"/>
+        android:layout_marginTop="32dp"
+        android:gravity="center"
+        android:text="Exercises"
+        android:textColor="@color/colorToolbarTexture"
+        android:textSize="36sp" />
 
     <Button
         android:id="@+id/vocabulary_button"
@@ -28,7 +30,7 @@
         android:background="@drawable/buttons"
         android:text="@string/vocabulary"
         android:textAllCaps="false"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/cardview_dark_background"
         android:textSize="20sp" />
 
     <Button
@@ -41,6 +43,6 @@
         android:background="@drawable/buttons"
         android:text="@string/grammar"
         android:textAllCaps="false"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/cardview_dark_background"
         android:textSize="20sp" />
 </RelativeLayout>
