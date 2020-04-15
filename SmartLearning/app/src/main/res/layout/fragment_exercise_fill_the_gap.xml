@@ -5,6 +5,9 @@
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:elevation="@dimen/cardview_default_elevation"
+    android:hardwareAccelerated="true"
     style="?android:attr/buttonBarStyle"
     >
 
@@ -20,30 +23,44 @@
 
 
         <Button
+            android:background="@drawable/buttons"
+            android:textColor="@color/colorPrimaryDarker"
             android:id="@+id/button1"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />
 
         <Button
+            android:layout_marginTop="5dp"
+            android:background="@drawable/buttons"
+            android:textColor="@color/colorPrimaryDarker"
             android:id="@+id/button2"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />
 
         <Button
+            android:layout_marginTop="5dp"
+            android:background="@drawable/buttons"
+            android:textColor="@color/colorPrimaryDarker"
             android:id="@+id/button3"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />
 
         <Button
+            android:layout_marginTop="5dp"
+            android:background="@drawable/buttons"
+            android:textColor="@color/colorPrimaryDarker"
             android:id="@+id/button4"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />
 
         <Button
+            android:layout_marginTop="5dp"
+            android:background="@drawable/buttons"
+            android:textColor="@color/colorPrimaryDarker"
             android:id="@+id/button5"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -62,6 +79,7 @@
         android:layout_marginBottom="100dp"
         android:gravity="center"
         android:textSize="24sp"
+        android:textColor="@color/colorPrimaryDarker"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -78,6 +96,7 @@
         android:layout_marginRight="120dp"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:textColor="@color/colorPrimaryDarker"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

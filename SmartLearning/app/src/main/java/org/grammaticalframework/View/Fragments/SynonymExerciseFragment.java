@@ -82,23 +82,23 @@ public class SynonymExerciseFragment  extends Fragment {
                 buttons.get(i).setText(word);
                 buttons.get(i).setOnClickListener(v -> {
                     if(model.checkCorrectAnswer(word)){
-                        btn.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+                        btn.setBackgroundResource(R.drawable.button_green);
                         getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         handlerCorrect.postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                                btn.getBackground().clearColorFilter();
+                                btn.setBackgroundResource(R.drawable.buttons);
                                 navController.navigate(R.id.action_synonymExerciseFragment_self);
                                 model.getNewExercise();
                             }
                         }, 1500);
                     }else{
-                        btn.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
+                        btn.setBackgroundResource(R.drawable.button_red);
                         handlerIncorrect.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                btn.getBackground().clearColorFilter();
+                                btn.setBackgroundResource(R.drawable.buttons);
                             }
                         }, 1500);
                     }

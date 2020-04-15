@@ -3,6 +3,8 @@ package org.grammaticalframework.View.Fragments;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -87,23 +89,23 @@ public class FillTheGapFragment extends Fragment{
                 buttons.get(i).setOnClickListener(v -> {
                     if(model.checkCorrectAnswer(word)){
                         sentence.setText(model.getSentence());
-                        btn.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+                        btn.setBackgroundResource(R.drawable.button_green);
                         getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         handlerCorrect.postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                                btn.getBackground().clearColorFilter();
+                                btn.setBackgroundResource(R.drawable.buttons);
                                 navController.navigate(R.id.action_fillTheGapFragment_self);
                                 model.getNewSentence();
                             }
                         }, 1500);
                     }else{
-                        btn.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
+                        btn.setBackgroundResource(R.drawable.button_red);
                         handlerIncorrect.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                btn.getBackground().clearColorFilter();
+                                btn.setBackgroundResource(R.drawable.buttons);
                             }
                         }, 1500);
                     }
