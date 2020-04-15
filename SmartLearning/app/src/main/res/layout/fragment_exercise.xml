@@ -5,7 +5,7 @@
     android:id="@+id/fragment_exercise"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="@drawable/gradient_bg"
     tools:context=".View.Fragments.MainExerciseFragment">
 
     <TextView
@@ -17,7 +17,7 @@
         android:layout_marginTop="32dp"
         android:gravity="center"
         android:text="Exercises"
-        android:textColor="@color/colorToolbarTexture"
+        android:textColor="@color/colorHeaderText"
         android:textSize="36sp" />
 
     <Button

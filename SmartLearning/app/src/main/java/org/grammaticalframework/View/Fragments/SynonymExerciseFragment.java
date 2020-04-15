@@ -1,10 +1,7 @@
 package org.grammaticalframework.View.Fragments;
 
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +34,7 @@ public class SynonymExerciseFragment  extends Fragment {
     TextView instruction;
 
     Button debugSkipButton;
+    Button resetButton;
 
     TextView correctResult;
     TextView incorrectResult;
@@ -77,6 +75,7 @@ public class SynonymExerciseFragment  extends Fragment {
 
         word = getView().findViewById(R.id.fillTheGapExercise);
         instruction = getView().findViewById(R.id.synonymInstruction);
+        resetButton = getView().findViewById(R.id.resetSynonymExercise);
 
         handlerCorrect = new Handler();
         handlerIncorrect = new Handler();
@@ -109,6 +108,11 @@ public class SynonymExerciseFragment  extends Fragment {
                     }, 500);
                 });
 */
+                resetButton.setOnClickListener(v ->{
+                    model.setCorrectAnswers(0);
+                    model.setIncorrectAnswers(0);
+                    navController.popBackStack(R.id.vocabularyFragment, false);
+                });
 
                 buttons.get(i).setOnClickListener(v -> {
                     if(model.checkCorrectAnswer(word)){
@@ -143,5 +147,6 @@ public class SynonymExerciseFragment  extends Fragment {
         instruction.setText("Choose the correct synonym");
         correctResult.setText("Correct attempts: " + " " + model.getCorrectAnswers());
         incorrectResult.setText("Incorrect attempts: " + " " + model.getIncorrectAnswers());
+        resetButton.setText("Finish");
     }
 }

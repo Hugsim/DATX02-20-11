@@ -1,13 +1,8 @@
 package org.grammaticalframework.View.Fragments;
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +13,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -39,12 +32,13 @@ public class FillTheGapFragment extends Fragment{
     Button button3;
     Button button4;
     Button button5;
-    Button reset;
     TextView sentence;
     TextView instruction;
     private boolean isCorrect = false;
     private Handler handlerCorrect;
     private Handler handlerIncorrect;
+
+    Button resetButton;
 
     TextView correctResult;
     TextView incorrectResult;
@@ -80,7 +74,7 @@ public class FillTheGapFragment extends Fragment{
         sentence = getView().findViewById(R.id.fillTheGapExercise);
         instruction = getView().findViewById(R.id.fillTheGapInstruction);
 
-        reset = getView().findViewById(R.id.resetExercise);
+        resetButton = getView().findViewById(R.id.resetFillTheGapExercise);
 
         correctResult = getView().findViewById(R.id.fillTheGapCorrect);
         incorrectResult = getView().findViewById(R.id.fillTheGapIncorrect);
@@ -99,6 +93,13 @@ public class FillTheGapFragment extends Fragment{
                 String word = inflections.get(i);
                 Button btn = buttons.get(i);
                 buttons.get(i).setText(word);
+
+                resetButton.setOnClickListener(v ->{
+                    model.setCorrectAnswers(0);
+                    model.setIncorrectAnswers(0);
+                    navController.popBackStack(R.id.grammarFragment, false);
+                });
+
                 buttons.get(i).setOnClickListener(v -> {
                     if(model.checkCorrectAnswer(word)){
                         sentence.setText(model.getSentence());
@@ -114,7 +115,7 @@ public class FillTheGapFragment extends Fragment{
                                 navController.navigate(R.id.action_fillTheGapFragment_self);
                                 model.getNewSentence();
                             }
-                        }, 1500);
+                        }, 2000);
                     }else{
                         btn.setBackgroundResource(R.drawable.button_red);
                         model.setIncorrectAnswers(model.getIncorrectAnswers() + 1);
@@ -130,13 +131,10 @@ public class FillTheGapFragment extends Fragment{
             }
             sentence.setText(model.getSentence());
             instruction.setText(model.getTense());
-            correctResult.setText("Correct attempts: " + " " + model.getCorrectAnswers());
-            incorrectResult.setText("Incorrect attempts: " + " " + model.getIncorrectAnswers());
         });
-
-        reset.setOnClickListener(e -> {
-
-        });
+        correctResult.setText("Correct attempts: " + " " + model.getCorrectAnswers());
+        incorrectResult.setText("Incorrect attempts: " + " " + model.getIncorrectAnswers());
+        resetButton.setText("Finish");
 
     }
 

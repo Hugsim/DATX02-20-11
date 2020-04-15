@@ -6,12 +6,22 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackground">
 
+    <Button
+        android:id="@+id/resetTranslateExercise"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="320dp"
+        android:layout_marginRight="320dp"
+        android:text="Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/translateCorrect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginLeft="50dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
         android:layout_marginBottom="40dp"
         android:text="TextView"
         android:textColor="@color/colorPrimaryDarker"
@@ -22,8 +32,8 @@
         android:id="@+id/translateIncorrect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="50dp"
-        android:layout_marginRight="50dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="40dp"
         android:layout_marginBottom="40dp"
         android:text="TextView"
         android:textColor="@color/colorPrimaryDarker"

@@ -23,12 +23,12 @@
 
 
         <Button
-            android:background="@drawable/buttons"
-            android:textColor="@color/colorPrimaryDarker"
             android:id="@+id/button1"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:background="@drawable/buttons"
+            android:textColor="@color/colorPrimaryDarker" />
 
         <Button
             android:layout_marginTop="5dp"
@@ -105,8 +105,8 @@
         android:id="@+id/fillTheGapCorrect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginLeft="50dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
         android:layout_marginBottom="40dp"
         android:text="TextView"
         android:textColor="@color/colorPrimaryDarker"
@@ -117,8 +117,8 @@
         android:id="@+id/fillTheGapIncorrect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="50dp"
-        android:layout_marginRight="50dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="40dp"
         android:layout_marginBottom="40dp"
         android:text="TextView"
         android:textColor="@color/colorPrimaryDarker"
@@ -126,9 +126,11 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
-        android:id="@+id/resetExercise"
+        android:id="@+id/resetFillTheGapExercise"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="320dp"
+        android:layout_marginRight="320dp"
         android:text="Button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
