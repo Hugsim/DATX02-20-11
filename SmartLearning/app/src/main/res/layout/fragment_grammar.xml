@@ -5,7 +5,7 @@
     android:id="@+id/fragment_grammar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="@drawable/gradient_bg"
     tools:context=".View.Fragments.GrammarFragment">
 
     <TextView
@@ -17,7 +17,7 @@
         android:layout_marginTop="36dp"
         android:gravity="center"
         android:text="Grammar"
-        android:textColor="@color/colorToolbarTexture"
+        android:textColor="@color/colorHeaderText"
         android:textSize="36sp" />
 
     <Button
@@ -30,7 +30,7 @@
         android:background="@drawable/buttons"
         android:text="Fill The Gap"
         android:textAllCaps="false"
-        android:textColor="@color/colorToolbarTexture"
+        android:textColor="@color/cardview_dark_background"
         android:textSize="20sp" />
 
 

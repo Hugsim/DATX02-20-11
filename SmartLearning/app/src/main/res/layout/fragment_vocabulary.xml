@@ -5,7 +5,7 @@
     android:id="@+id/fragment_vocabulary"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="@drawable/gradient_bg"
     tools:context=".View.Fragments.VocabularyFragment">
 
     <TextView
@@ -17,7 +17,7 @@
         android:layout_marginTop="36dp"
         android:gravity="center"
         android:text="Vocabulary"
-        android:textColor="@color/colorToolbarTexture"
+        android:textColor="@color/colorHeaderText"
         android:textSize="36sp" />
 
     <Button
@@ -31,7 +31,7 @@
         android:text="Synonym exercise"
         android:textAllCaps="false"
         android:textSize="20sp"
-        android:textColor="@color/colorToolbarTexture"/>
+        android:textColor="@color/cardview_dark_background"/>
 
     <Button
         android:id="@+id/translateExercise_button"
@@ -43,7 +43,7 @@
         android:background="@drawable/buttons"
         android:text="Translate exercise"
         android:textAllCaps="false"
-        android:textColor="@color/colorToolbarTexture"
+        android:textColor="@color/cardview_dark_background"
         android:textSize="20sp" />
 
 

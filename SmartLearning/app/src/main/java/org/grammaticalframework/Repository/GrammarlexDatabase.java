@@ -33,7 +33,7 @@ public abstract class GrammarlexDatabase extends RoomDatabase {
             synchronized (GrammarlexDatabase.class){
                 if (INSTANCE == null){
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(), GrammarlexDatabase.class, "grammarlex.db")
-                            //.createFromAsset("databases/grammarlex.db")
+                            .createFromAsset("databases/grammarlex.db")
                             //TODO: create new db file with new schema and some synonymExercises
                             .addCallback(new Callback() {
                                 @Override
@@ -41,11 +41,11 @@ public abstract class GrammarlexDatabase extends RoomDatabase {
                                     super.onCreate(db);
                                     //Code for writing from the csv-files to the database.
                                     //Only needed when creating a new database, it should be quicker to load in the db that is already created.
-                                    databaseWriteExecutor.execute(() -> INSTANCE.wordNetExplanationDao().insertAll(ParseUtils.parseExplanationCSV(context, "parsing/WordNet.csv")));
-                                    databaseWriteExecutor.execute(() -> INSTANCE.fillTheGapExerciseDao().insertAll(ParseUtils.parseFillTheGapExerciseCSV(context, "parsing/Exercises.csv")));
-                                    databaseWriteExecutor.execute(() -> INSTANCE.checkedFunctionDao().insertAll(ParseUtils.parseWordNetChecks(context, "parsing/WordNetChecked.csv")));
-                                    databaseWriteExecutor.execute(()-> INSTANCE.synonymExerciseDao().insertAll(ParseUtils.parseSynonymExerciseCSV(context, "parsing/SynonymExercises.csv")));
-                                    databaseWriteExecutor.execute(()-> INSTANCE.translateExerciseDao().insertAll(ParseUtils.parseTranslateExerciseCSV(context, "parsing/TranslateExercises.csv")));
+                                    //databaseWriteExecutor.execute(() -> INSTANCE.wordNetExplanationDao().insertAll(ParseUtils.parseExplanationCSV(context, "parsing/WordNet.csv")));
+                                    //databaseWriteExecutor.execute(() -> INSTANCE.fillTheGapExerciseDao().insertAll(ParseUtils.parseFillTheGapExerciseCSV(context, "parsing/Exercises.csv")));
+                                    //databaseWriteExecutor.execute(() -> INSTANCE.checkedFunctionDao().insertAll(ParseUtils.parseWordNetChecks(context, "parsing/WordNetChecked.csv")));
+                                    //databaseWriteExecutor.execute(()-> INSTANCE.synonymExerciseDao().insertAll(ParseUtils.parseSynonymExerciseCSV(context, "parsing/SynonymExercises.csv")));
+                                    //databaseWriteExecutor.execute(()-> INSTANCE.translateExerciseDao().insertAll(ParseUtils.parseTranslateExerciseCSV(context, "parsing/TranslateExercises.csv")));
                                 }
                             })
                             .build();

@@ -40,6 +40,8 @@ public class TranslateExerciseFragment extends Fragment {
     TextView correctResult;
     TextView incorrectResult;
 
+    Button resetButton;
+
     private TranslateExerciseViewModel model;
     private NavController navController;
 
@@ -72,6 +74,8 @@ public class TranslateExerciseFragment extends Fragment {
         word = getView().findViewById(R.id.translateExercise);
         instruction = getView().findViewById(R.id.translateInstruction);
 
+        resetButton = getView().findViewById(R.id.resetTranslateExercise);
+
         correctResult = getView().findViewById(R.id.translateCorrect);
         incorrectResult = getView().findViewById(R.id.translateIncorrect);
 
@@ -90,6 +94,13 @@ public class TranslateExerciseFragment extends Fragment {
                 String word = alternatives.get(i);
                 Button btn = buttons.get(i);
                 buttons.get(i).setText(word);
+
+                resetButton.setOnClickListener(v ->{
+                    model.setCorrectAnswers(0);
+                    model.setIncorrectAnswers(0);
+                    navController.popBackStack(R.id.vocabularyFragment, false);
+                });
+
                 buttons.get(i).setOnClickListener(v -> {
                     if(model.checkCorrectAnswer(word)){
                         btn.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
@@ -123,5 +134,6 @@ public class TranslateExerciseFragment extends Fragment {
         instruction.setText("Choose the correct translation");
         correctResult.setText("Correct attempts: " + " " + model.getCorrectAnswers());
         incorrectResult.setText("Incorrect attempts: " + " " + model.getIncorrectAnswers());
+        resetButton.setText("Finish");
     }
 }
