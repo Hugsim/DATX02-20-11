@@ -51,10 +51,10 @@ public class HomeViewModel extends AndroidViewModel {
     }
 
     public void fillTriviaList(){
-        triviaList.add("Krasimir is the lord and saviour");
+        triviaList.add("This application is created by Chalmers students for their bachelor thesis!");
         triviaList.add("The lexicon tells you if the translation of a word is confident or not!");
-        triviaList.add("43% of the worlds population is considered bilingual!");
-        triviaList.add("13% of the worlds population is considered trilingual!");
-        triviaList.add("Android can cause insanity with the error INSUFFICIENT_STORAGE");
+        triviaList.add("43% of the world's population are considered bilingual!");
+        triviaList.add("13% of the world's population are considered trilingual!");
+        triviaList.add("If available, the lexicon gives an explanation, synonyms and inflections for the word!");
     }
 }

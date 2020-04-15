@@ -76,7 +76,6 @@ public class MainLexiconFragment extends BaseFragment implements AppBarLayout.On
     private float switchOffsetX;
     private float switchOffsetY;
     private boolean updateVM;
-
     private static final String TAG = MainLexiconFragment.class.getSimpleName();
 
     @Override

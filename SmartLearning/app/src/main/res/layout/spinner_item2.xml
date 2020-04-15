@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:drawableEnd="@drawable/ic_arrow_drop_down_24dp"
     android:drawableRight="@drawable/ic_arrow_drop_down_24dp"
-    android:drawableTint="@color/white"
-    android:gravity="center"
+    android:drawableTint="@color/colorPrimaryDark"
+    android:gravity="start|center_horizontal"
     android:text="Catalan"
-    android:textColor="@color/black"
-    android:textSize="30sp" />
+    android:textColor="@color/colorPrimaryDark"
+    android:textSize="24sp"
+    app:autoSizeTextType="uniform"
+    app:layout_maxWidth="200dp" />
