@@ -22,8 +22,13 @@ public class ExerciseRepository {
     private LiveData<SynonymExercise> unsolvedSynonymExercise;
     private MutableLiveData<Set<SynonymExercise>> solvedSynonymExercises = new MutableLiveData<>(new ArraySet<>());
 
+    private TranslateExerciseDao translateExerciseDao;
+    private LiveData<List<TranslateExercise>> allTranslateExercises;
+    private LiveData<TranslateExercise> unsolvedTranslateExercises;
+    private MutableLiveData<Set<TranslateExercise>> solvedTranslateExercises = new MutableLiveData<>(new ArraySet<>());
+
     public ExerciseRepository(Application application) {
-        SmartLearningDatabase database = SmartLearningDatabase.getInstance(application);
+        GrammarlexDatabase database = GrammarlexDatabase.getInstance(application);
         fillTheGapExerciseDao = database.fillTheGapExerciseDao();
         allFillTheGapExercises = fillTheGapExerciseDao.getAllFillTheGapExercises();
         unsolvedFillTheGapExercise = Transformations.switchMap(solvedFillTheGapExercises, solvedExercises -> {
@@ -57,6 +62,22 @@ public class ExerciseRepository {
                 return null;
             });
         });
+
+        translateExerciseDao = database.translateExerciseDao();
+        allTranslateExercises = translateExerciseDao.getAllTranslateExercises();
+        unsolvedTranslateExercises = Transformations.switchMap(solvedTranslateExercises, solvedExercises -> {
+            return Transformations.map(allTranslateExercises, exercises -> {
+                for (TranslateExercise exercise : exercises){
+                    if(!solvedExercises.contains(exercise)){
+                        if (allTranslateExercises.getValue().size() - 1 == solvedExercises.size()){
+                            solvedExercises.clear();
+                        }
+                        return exercise;
+                    }
+                }
+                return null;
+            });
+        });
     }
 
     public LiveData<FillTheGapExercise> getUnsolvedFillTheGapExercise() {
@@ -72,13 +93,13 @@ public class ExerciseRepository {
     }
 
     public void insert(FillTheGapExercise fillTheGapExercise) {
-        SmartLearningDatabase.databaseWriteExecutor.execute(() -> {
+        GrammarlexDatabase.databaseWriteExecutor.execute(() -> {
             fillTheGapExerciseDao.insert(fillTheGapExercise);
         });
     }
 
     public void insertAll(List<FillTheGapExercise> fillTheGapExerciseList) {
-        SmartLearningDatabase.databaseWriteExecutor.execute(() -> {
+        GrammarlexDatabase.databaseWriteExecutor.execute(() -> {
             fillTheGapExerciseDao.insertAll(fillTheGapExerciseList);
         });
     }
@@ -109,4 +130,16 @@ public class ExerciseRepository {
         solvedSynonymExercises.setValue(temp);
     }
 
+    //Translate Exercises
+    public LiveData<TranslateExercise> getunsolvedTranslateExercise() {
+        return unsolvedTranslateExercises;
+    }
+
+    public void addSolvedTranslateExercise(TranslateExercise exercise){
+        Set<TranslateExercise> temp = solvedTranslateExercises.getValue();
+        if(temp == null)
+            return;
+        temp.add(exercise);
+        solvedTranslateExercises.setValue(temp);
+    }
 }

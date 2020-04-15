@@ -20,12 +20,12 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import org.grammaticalframework.R;
-import org.grammaticalframework.ViewModel.SynonymExerciseViewModel;
+import org.grammaticalframework.ViewModel.TranslateExerciseViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SynonymExerciseFragment  extends Fragment {
+public class TranslateExerciseFragment extends Fragment {
     final static private String TAG = SynonymExerciseFragment.class.getSimpleName();
 
     Button button1;
@@ -33,21 +33,20 @@ public class SynonymExerciseFragment  extends Fragment {
     Button button3;
     Button button4;
     Button button5;
+
     TextView word;
     TextView instruction;
-
-    Button debugSkipButton;
 
     TextView correctResult;
     TextView incorrectResult;
 
-    private SynonymExerciseViewModel model;
+    private TranslateExerciseViewModel model;
     private NavController navController;
 
     private Handler handlerCorrect;
     private Handler handlerIncorrect;
 
-    public SynonymExerciseFragment(){
+    public TranslateExerciseFragment(){
 
     }
 
@@ -55,7 +54,7 @@ public class SynonymExerciseFragment  extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View fragmentView = inflater.inflate(R.layout.fragment_exercise_synonym, container, false);
+        View fragmentView = inflater.inflate(R.layout.fragment_exercise_translate, container, false);
         return fragmentView;
     }
 
@@ -69,47 +68,28 @@ public class SynonymExerciseFragment  extends Fragment {
         buttons.add(button3 = getView().findViewById(R.id.button3));
         buttons.add(button4 = getView().findViewById(R.id.button4));
         buttons.add(button5 = getView().findViewById(R.id.button5));
-        debugSkipButton = getView().findViewById(R.id.debugSkipButton);
-        debugSkipButton.setText("Skip");
 
-        correctResult = getView().findViewById(R.id.synonymCorrect);
-        incorrectResult = getView().findViewById(R.id.synonymIncorrect);
+        word = getView().findViewById(R.id.translateExercise);
+        instruction = getView().findViewById(R.id.translateInstruction);
 
-        word = getView().findViewById(R.id.fillTheGapExercise);
-        instruction = getView().findViewById(R.id.synonymInstruction);
+        correctResult = getView().findViewById(R.id.translateCorrect);
+        incorrectResult = getView().findViewById(R.id.translateIncorrect);
 
         handlerCorrect = new Handler();
         handlerIncorrect = new Handler();
 
-        model = new ViewModelProvider(requireActivity()).get(SynonymExerciseViewModel.class);
+        model = new ViewModelProvider(requireActivity()).get(TranslateExerciseViewModel.class);
 
-        model.getUnsolvedExercise().observe(getViewLifecycleOwner(), synonymExercise -> {
-            if (synonymExercise == null)
+        model.getUnsolvedExercise().observe(getViewLifecycleOwner(), translateExercise -> {
+            if (translateExercise == null){
                 return;
-            model.loadWord(synonymExercise);
+            }
+            model.loadWord(translateExercise);
             List<String> alternatives = model.getAlternatives();
             for(int i = 0; i < buttons.size() && i < alternatives.size(); i++) {
                 String word = alternatives.get(i);
                 Button btn = buttons.get(i);
                 buttons.get(i).setText(word);
-
-                // By commenting following row a button will appear which you can use to skip exercises.
-                // You need to uncomment the code block beneath too.
-                debugSkipButton.setVisibility(View.GONE);
-                /*
-                debugSkipButton.setOnClickListener(v -> {
-                    handlerCorrect.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                            btn.getBackground().clearColorFilter();
-                            navController.navigate(R.id.action_synonymExerciseFragment_self);
-                            model.getNewExercise();
-                        }
-                    }, 500);
-                });
-*/
-
                 buttons.get(i).setOnClickListener(v -> {
                     if(model.checkCorrectAnswer(word)){
                         btn.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
@@ -121,7 +101,7 @@ public class SynonymExerciseFragment  extends Fragment {
                             public void run() {
                                 getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                                 btn.getBackground().clearColorFilter();
-                                navController.navigate(R.id.action_synonymExerciseFragment_self);
+                                navController.navigate(R.id.action_translateExerciseFragment_self);
                                 model.getNewExercise();
                             }
                         }, 1500);
@@ -140,7 +120,7 @@ public class SynonymExerciseFragment  extends Fragment {
             }
             word.setText(model.getWord());
         });
-        instruction.setText("Choose the correct synonym");
+        instruction.setText("Choose the correct translation");
         correctResult.setText("Correct attempts: " + " " + model.getCorrectAnswers());
         incorrectResult.setText("Incorrect attempts: " + " " + model.getIncorrectAnswers());
     }

@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -34,11 +37,15 @@ public class FillTheGapFragment extends Fragment{
     Button button3;
     Button button4;
     Button button5;
+    Button reset;
     TextView sentence;
     TextView instruction;
     private boolean isCorrect = false;
     private Handler handlerCorrect;
     private Handler handlerIncorrect;
+
+    TextView correctResult;
+    TextView incorrectResult;
 
     FillTheGapViewModel model;
     NavController navController;
@@ -70,6 +77,12 @@ public class FillTheGapFragment extends Fragment{
         buttons.add(button5 = getView().findViewById(R.id.button5));
         sentence = getView().findViewById(R.id.fillTheGapExercise);
         instruction = getView().findViewById(R.id.fillTheGapInstruction);
+
+        reset = getView().findViewById(R.id.resetExercise);
+
+        correctResult = getView().findViewById(R.id.fillTheGapCorrect);
+        incorrectResult = getView().findViewById(R.id.fillTheGapIncorrect);
+
         navController = Navigation.findNavController(view);
         handlerCorrect = new Handler();
         handlerIncorrect = new Handler();
@@ -88,6 +101,10 @@ public class FillTheGapFragment extends Fragment{
                     if(model.checkCorrectAnswer(word)){
                         sentence.setText(model.getSentence());
                         btn.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+
+                        model.setCorrectAnswers(model.getCorrectAnswers() + 1);
+                        correctResult.setText("Correct attempts: " + " " + model.getCorrectAnswers());
+
                         getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         handlerCorrect.postDelayed(new Runnable() {
                             @Override
@@ -100,6 +117,8 @@ public class FillTheGapFragment extends Fragment{
                         }, 1500);
                     }else{
                         btn.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
+                        model.setIncorrectAnswers(model.getIncorrectAnswers() + 1);
+                        incorrectResult.setText("Incorrect attempts: " + " " + model.getIncorrectAnswers());
                         handlerIncorrect.postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -111,6 +130,12 @@ public class FillTheGapFragment extends Fragment{
             }
             sentence.setText(model.getSentence());
             instruction.setText(model.getTense());
+            correctResult.setText("Correct attempts: " + " " + model.getCorrectAnswers());
+            incorrectResult.setText("Incorrect attempts: " + " " + model.getIncorrectAnswers());
+        });
+
+        reset.setOnClickListener(e -> {
+
         });
 
     }

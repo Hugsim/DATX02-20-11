@@ -6,9 +6,10 @@ import android.util.Log;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import org.grammaticalframework.Grammarlex;
 import org.grammaticalframework.Repository.ExerciseRepository;
 import org.grammaticalframework.Repository.SynonymExercise;
-import org.grammaticalframework.Grammarlex;
+import org.grammaticalframework.Repository.TranslateExercise;
 import org.grammaticalframework.gf.GF;
 import org.grammaticalframework.pgf.Expr;
 
@@ -16,15 +17,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class SynonymExerciseViewModel extends AndroidViewModel {
+public class TranslateExerciseViewModel extends AndroidViewModel {
 
-    private static final String TAG = SynonymExerciseViewModel.class.getSimpleName();
+    private static final String TAG = TranslateExerciseViewModel.class.getSimpleName();
 
     private Grammarlex mGrammarlex;
     private GF gf;
-    private SynonymExercise synonymExercise;
+    private TranslateExercise translateExercise;
 
-    private String linearizedSynonym;
+    private String linearizedTranslateWord;
     private List<String> linearizedAlternatives;
 
     private ExerciseRepository exerciseRepository;
@@ -32,35 +33,36 @@ public class SynonymExerciseViewModel extends AndroidViewModel {
     private int correctAnswers = 0;
     private int incorrectAnswers = 0;
 
-    private LiveData<SynonymExercise> unsolvedExercise;
+
+    private LiveData<TranslateExercise> unsolvedExercise;
 
 
-    public SynonymExerciseViewModel(Application application){
+    public TranslateExerciseViewModel(Application application){
         super(application);
         mGrammarlex = (Grammarlex) getApplication().getApplicationContext();
         gf = new GF(mGrammarlex);
 
         exerciseRepository = new ExerciseRepository(application);
-        unsolvedExercise = exerciseRepository.getunsolvedSynonymExercise();
+        unsolvedExercise = exerciseRepository.getunsolvedTranslateExercise();
         linearizedAlternatives = new ArrayList<>();
 
     }
 
-    public void loadWord(SynonymExercise se) {
-        this.synonymExercise = se;
-        Expr e = Expr.readExpr(se.getSynonymFunction());
-        linearizedSynonym = mGrammarlex.getTargetConcr().linearize(e);
+    public void loadWord(TranslateExercise te) {
+        this.translateExercise = te;
+        Expr e = Expr.readExpr(te.getTranslateFunction());
+        linearizedTranslateWord = mGrammarlex.getSourceConcr().linearize(e);
         linearizedAlternatives.clear();
-        for (String s : se.getAlternativeFunctions()) {
+        for (String s : te.getAlternativeFunctions()) {
             e = Expr.readExpr(s);
             linearizedAlternatives.add(mGrammarlex.getTargetConcr().linearize(e));
         }
-        e = Expr.readExpr(se.getAnswerFunction());
+        e = Expr.readExpr(te.getTranslateFunction());
         linearizedAlternatives.add(mGrammarlex.getTargetConcr().linearize(e));
     }
 
     public String getWord() {
-        return linearizedSynonym;
+        return linearizedTranslateWord;
     }
 
     public int getCorrectAnswers() {
@@ -83,18 +85,18 @@ public class SynonymExerciseViewModel extends AndroidViewModel {
         Collections.shuffle(linearizedAlternatives);
         return linearizedAlternatives;
     }
-    
+
     public boolean checkCorrectAnswer(String answer) {
-        Expr e = Expr.readExpr(synonymExercise.getAnswerFunction());
+        Expr e = Expr.readExpr(translateExercise.getTranslateFunction());
         String correct = mGrammarlex.getTargetConcr().linearize(e);
         return correct.equals(answer);
     }
 
     public void getNewExercise() {
-        exerciseRepository.addSolvedSynonymExercise(synonymExercise);
+        exerciseRepository.addSolvedTranslateExercise(translateExercise);
     }
 
-    public LiveData<SynonymExercise> getUnsolvedExercise() {
+    public LiveData<TranslateExercise> getUnsolvedExercise() {
         return unsolvedExercise;
     }
 }
