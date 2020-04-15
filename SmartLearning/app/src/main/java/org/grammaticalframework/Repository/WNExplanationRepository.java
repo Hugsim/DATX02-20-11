@@ -10,28 +10,22 @@ import java.util.List;
 public class WNExplanationRepository {
     
     private WNExplanationDao mWNExplanationDao;
-    private LiveData<List<WNExplanation>> allWordNetExplanations;
 
     public WNExplanationRepository(Application application){
-        SmartLearningDatabase database = SmartLearningDatabase.getInstance(application);
+        GrammarlexDatabase database = GrammarlexDatabase.getInstance(application);
         mWNExplanationDao = database.wordNetExplanationDao();
-        allWordNetExplanations = mWNExplanationDao.getAllWordNetExplanations();
     }
 
     public void insert (WNExplanation wne){
-        SmartLearningDatabase.databaseWriteExecutor.execute(()-> {
+        GrammarlexDatabase.databaseWriteExecutor.execute(()-> {
             mWNExplanationDao.insert(wne);
         });
     }
 
     public void insertAll (List<WNExplanation> wneList){
-        SmartLearningDatabase.databaseWriteExecutor.execute(()->{
+        GrammarlexDatabase.databaseWriteExecutor.execute(()->{
             mWNExplanationDao.insertAll(wneList);
         });
-    }
-
-    public LiveData<List<WNExplanation>> getAllWordNetExplanations(){
-        return allWordNetExplanations;
     }
 
     public LiveData<List<WNExplanation>> getWNExplanations(List<String> functions){
@@ -40,10 +34,6 @@ public class WNExplanationRepository {
 
     public LiveData<List<WNExplanationWithCheck>> getWNExplanationsWithCheck(List<String> functions, String langcode) {
         return mWNExplanationDao.getAllWordNetExplanationsWithCheck(functions, langcode);
-    }
-
-    public WNExplanation getWNExplanationSync(String function){
-        return mWNExplanationDao.getWNExplanation(function);
     }
 
     public LiveData<List<WNExplanation>> getSynonyms (List<String> functions){

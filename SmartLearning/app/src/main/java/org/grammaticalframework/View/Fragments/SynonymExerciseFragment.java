@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,11 @@ public class SynonymExerciseFragment  extends Fragment {
     TextView word;
     TextView instruction;
 
+    Button debugSkipButton;
+
+    TextView correctResult;
+    TextView incorrectResult;
+
     private SynonymExerciseViewModel model;
     private NavController navController;
 
@@ -63,6 +69,12 @@ public class SynonymExerciseFragment  extends Fragment {
         buttons.add(button3 = getView().findViewById(R.id.button3));
         buttons.add(button4 = getView().findViewById(R.id.button4));
         buttons.add(button5 = getView().findViewById(R.id.button5));
+        debugSkipButton = getView().findViewById(R.id.debugSkipButton);
+        debugSkipButton.setText("Skip");
+
+        correctResult = getView().findViewById(R.id.synonymCorrect);
+        incorrectResult = getView().findViewById(R.id.synonymIncorrect);
+
         word = getView().findViewById(R.id.fillTheGapExercise);
         instruction = getView().findViewById(R.id.synonymInstruction);
 
@@ -80,9 +92,29 @@ public class SynonymExerciseFragment  extends Fragment {
                 String word = alternatives.get(i);
                 Button btn = buttons.get(i);
                 buttons.get(i).setText(word);
+
+                // By commenting following row a button will appear which you can use to skip exercises.
+                // You need to uncomment the code block beneath too.
+                debugSkipButton.setVisibility(View.GONE);
+                /*
+                debugSkipButton.setOnClickListener(v -> {
+                    handlerCorrect.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                            btn.getBackground().clearColorFilter();
+                            navController.navigate(R.id.action_synonymExerciseFragment_self);
+                            model.getNewExercise();
+                        }
+                    }, 500);
+                });
+*/
+
                 buttons.get(i).setOnClickListener(v -> {
                     if(model.checkCorrectAnswer(word)){
                         btn.setBackgroundResource(R.drawable.button_green);
+                        model.setCorrectAnswers(model.getCorrectAnswers() + 1);
+                        correctResult.setText("Correct attempts: " + " " + model.getCorrectAnswers());
                         getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         handlerCorrect.postDelayed(new Runnable() {
                             @Override
@@ -95,6 +127,8 @@ public class SynonymExerciseFragment  extends Fragment {
                         }, 1500);
                     }else{
                         btn.setBackgroundResource(R.drawable.button_red);
+                        model.setIncorrectAnswers(model.getIncorrectAnswers() + 1);
+                        incorrectResult.setText("Incorrect attempts: " + " " + model.getIncorrectAnswers());
                         handlerIncorrect.postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -105,8 +139,9 @@ public class SynonymExerciseFragment  extends Fragment {
                 });
             }
             word.setText(model.getWord());
-            instruction.setText("Choose the correct synonym");
         });
-
+        instruction.setText("Choose the correct synonym");
+        correctResult.setText("Correct attempts: " + " " + model.getCorrectAnswers());
+        incorrectResult.setText("Incorrect attempts: " + " " + model.getIncorrectAnswers());
     }
 }

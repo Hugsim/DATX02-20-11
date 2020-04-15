@@ -1,6 +1,7 @@
 package org.grammaticalframework.ViewModel;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -27,6 +28,9 @@ public class SynonymExerciseViewModel extends AndroidViewModel {
     private List<String> linearizedAlternatives;
 
     private ExerciseRepository exerciseRepository;
+
+    private int correctAnswers = 0;
+    private int incorrectAnswers = 0;
 
     private LiveData<SynonymExercise> unsolvedExercise;
 
@@ -57,6 +61,22 @@ public class SynonymExerciseViewModel extends AndroidViewModel {
 
     public String getWord() {
         return linearizedSynonym;
+    }
+
+    public int getCorrectAnswers() {
+        return correctAnswers;
+    }
+
+    public void setCorrectAnswers(int correctAnswers) {
+        this.correctAnswers = correctAnswers;
+    }
+
+    public int getIncorrectAnswers() {
+        return incorrectAnswers;
+    }
+
+    public void setIncorrectAnswers(int incorrectAnswers) {
+        this.incorrectAnswers = incorrectAnswers;
     }
 
     public List<String> getAlternatives() {

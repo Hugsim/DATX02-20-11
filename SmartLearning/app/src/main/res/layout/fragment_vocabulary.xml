@@ -24,14 +24,27 @@
         android:id="@+id/vocabulary_button"
         android:layout_width="250dp"
         android:layout_height="60dp"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="32dp"
         android:background="@drawable/buttons"
-        android:text="Vocabulary exercise"
+        android:text="Synonym exercise"
         android:textAllCaps="false"
         android:textSize="20sp"
-        android:layout_below="@+id/textView"
+        android:textColor="@color/colorToolbarTexture"/>
+
+    <Button
+        android:id="@+id/translateExercise_button"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_below="@+id/vocabulary_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/buttons"
+        android:text="Translate exercise"
+        android:textAllCaps="false"
         android:textColor="@color/colorToolbarTexture"
-        android:layout_centerHorizontal="true"/>
+        android:textSize="20sp" />
 
 
 </RelativeLayout>

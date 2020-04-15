@@ -55,19 +55,4 @@ public class SynonymExercise {
         return alternativeFunctions;
     }
 
-
-    public static class Converter {
-
-        @TypeConverter
-        public String fromList(List<String> strings) {
-            StringBuilder string = new StringBuilder();
-            for(String s : strings) string.append(s).append(",");
-            return string.toString();
-        }
-
-        @TypeConverter
-        public List<String> toList(String concatenatedStrings) {
-            return new ArrayList<>(Arrays.asList(concatenatedStrings.split(",")));
-        }
-    }
 }

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/exercises_nav_graph"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/exercises_nav_graph"
     app:startDestination="@id/mainHomeFragment">
 
     <fragment
         android:id="@+id/synonymExerciseFragment"
         android:name="org.grammaticalframework.View.Fragments.SynonymExerciseFragment"
-        android:label="synonymExerciseFragment" >
+        android:label="synonymExerciseFragment">
         <action
             android:id="@+id/action_synonymExerciseFragment_self"
             app:destination="@id/synonymExerciseFragment" />
@@ -16,20 +17,20 @@
         android:id="@+id/vocabularyFragment"
         android:name="org.grammaticalframework.View.Fragments.VocabularyFragment"
         android:label="VocabularyFragment"
-        tools:layout="@layout/fragment_vocabulary"/>
+        tools:layout="@layout/fragment_vocabulary" />
     <fragment
         android:id="@+id/grammarFragment"
         android:name="org.grammaticalframework.View.Fragments.GrammarFragment"
         android:label="GrammarFragment"
-        tools:layout="@layout/fragment_grammar"/>
-        <action
-            android:id="@+id/action_grammarFragment_to_fillTheGapFragment"
-            app:destination="@+id/fillTheGapFragment" />
+        tools:layout="@layout/fragment_grammar" />
+    <action
+        android:id="@+id/action_grammarFragment_to_fillTheGapFragment"
+        app:destination="@+id/fillTheGapFragment" />
     <fragment
         android:id="@+id/fillTheGapFragment"
         android:name="org.grammaticalframework.View.Fragments.FillTheGapFragment"
         android:label="fillTheGapFragment"
-        tools:layout="@layout/fragment_exercise_fill_the_gap" >
+        tools:layout="@layout/fragment_exercise_fill_the_gap">
         <action
             android:id="@+id/action_fillTheGapFragment_self"
             app:destination="@id/fillTheGapFragment" />
@@ -38,7 +39,7 @@
         android:id="@+id/mainExerciseFragment"
         android:name="org.grammaticalframework.View.Fragments.MainExerciseFragment"
         android:label="fragment_exercise"
-        tools:layout="@layout/fragment_exercise" >
+        tools:layout="@layout/fragment_exercise">
         <action
             android:id="@+id/action_mainExerciseFragment_to_vocabularyFragment"
             app:destination="@id/vocabularyFragment" />
@@ -55,7 +56,7 @@
         android:id="@+id/lexiconFragment"
         android:name="org.grammaticalframework.View.Fragments.MainLexiconFragment"
         android:label="fragment_lexicon"
-        tools:layout="@layout/fragment_lexicon" >
+        tools:layout="@layout/fragment_lexicon">
         <action
             android:id="@+id/action_lexiconFragment_to_lexiconDetailsFragment"
             app:destination="@id/lexiconDetailsFragment" />
@@ -64,21 +65,32 @@
         android:id="@+id/lexiconDetailsFragment"
         android:name="org.grammaticalframework.View.Fragments.LexiconDetailsFragment"
         android:label="fragment_lexicon_details"
-        tools:layout="@layout/fragment_lexicon_details" >
+        tools:layout="@layout/fragment_lexicon_details">
         <argument
             android:id="@+id/first_message"
             android:name="message"
             app:argType="org.grammaticalframework.ViewModel.LexiconWord" />
         <action
             android:id="@+id/action_lexiconDetailsFragment_to_lexiconFragment"
-            app:destination="@id/lexiconFragment"/>
+            app:destination="@id/lexiconFragment" />
         <argument
             android:id="@+id/second_message"
             android:name="message2"
-            app:argType="string"
-            android:defaultValue="default" />
+            android:defaultValue="default"
+            app:argType="string" />
     </fragment>
     <action
         android:id="@+id/action_vocabularyFragment_to_synonymExerciseFragment"
         app:destination="@id/synonymExerciseFragment" />
+    <fragment
+        android:id="@+id/translateExerciseFragment"
+        android:name="org.grammaticalframework.View.Fragments.TranslateExerciseFragment"
+        android:label="TranslateExerciseFragment">
+        <action
+            android:id="@+id/action_translateExerciseFragment_self"
+            app:destination="@id/translateExerciseFragment" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_translateExerciseFragment"
+        app:destination="@id/translateExerciseFragment" />
 </navigation>

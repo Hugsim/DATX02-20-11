@@ -38,11 +38,10 @@ public interface WNExplanationDao {
 
     //@Query("SELECT * FROM WordNetExplanation_table LEFT OUTER JOIN CheckedFunction_table ON WordNetExplanation_table.function=CheckedFunction_table.checked_function WHERE function IN (:functions) AND (langcode = :langcode OR langcode IS NULL)")
     @Query("SELECT * FROM " +
-            "(SELECT * FROM WordNetExplanation_table) t1 " +
+            "WordNetExplanation_table AS t1 " +
             "LEFT OUTER JOIN " +
-            "(SELECT * FROM CheckedFunction_table WHERE langcode = :langcode) t2 " +
-            "ON (t1.function = t2.checked_function) " +
-            "WHERE function IN (:functions)")
+            "CheckedFunction_table AS t2 " +
+            "ON (t1.function = t2.checked_function)  WHERE function IN (:functions) AND langcode = :langcode")
     LiveData<List<WNExplanationWithCheck>> getAllWordNetExplanationsWithCheck(List<String> functions, String langcode);
 
 }
