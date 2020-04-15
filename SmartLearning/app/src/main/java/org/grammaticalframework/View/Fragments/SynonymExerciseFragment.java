@@ -38,6 +38,9 @@ public class SynonymExerciseFragment  extends Fragment {
 
     Button debugSkipButton;
 
+    TextView correctResult;
+    TextView incorrectResult;
+
     private SynonymExerciseViewModel model;
     private NavController navController;
 
@@ -68,6 +71,10 @@ public class SynonymExerciseFragment  extends Fragment {
         buttons.add(button5 = getView().findViewById(R.id.button5));
         debugSkipButton = getView().findViewById(R.id.debugSkipButton);
         debugSkipButton.setText("Skip");
+
+        correctResult = getView().findViewById(R.id.synonymCorrect);
+        incorrectResult = getView().findViewById(R.id.synonymIncorrect);
+
         word = getView().findViewById(R.id.fillTheGapExercise);
         instruction = getView().findViewById(R.id.synonymInstruction);
 
@@ -106,6 +113,8 @@ public class SynonymExerciseFragment  extends Fragment {
                 buttons.get(i).setOnClickListener(v -> {
                     if(model.checkCorrectAnswer(word)){
                         btn.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+                        model.setCorrectAnswers(model.getCorrectAnswers() + 1);
+                        correctResult.setText("Correct attempts: " + " " + model.getCorrectAnswers());
                         getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         handlerCorrect.postDelayed(new Runnable() {
                             @Override
@@ -118,6 +127,8 @@ public class SynonymExerciseFragment  extends Fragment {
                         }, 1500);
                     }else{
                         btn.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
+                        model.setIncorrectAnswers(model.getIncorrectAnswers() + 1);
+                        incorrectResult.setText("Incorrect attempts: " + " " + model.getIncorrectAnswers());
                         handlerIncorrect.postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -128,8 +139,9 @@ public class SynonymExerciseFragment  extends Fragment {
                 });
             }
             word.setText(model.getWord());
-            instruction.setText("Choose the correct synonym");
         });
-
+        instruction.setText("Choose the correct synonym");
+        correctResult.setText("Correct attempts: " + " " + model.getCorrectAnswers());
+        incorrectResult.setText("Incorrect attempts: " + " " + model.getIncorrectAnswers());
     }
 }
