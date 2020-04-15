@@ -36,6 +36,9 @@ public class FillTheGapViewModel extends AndroidViewModel {
 
     private Grammarlex mGrammarlex;
 
+    private int correctAnswers = 0;
+    private int incorrectAnswers = 0;
+
     public FillTheGapViewModel(Application application){
         super(application);
 
@@ -58,6 +61,22 @@ public class FillTheGapViewModel extends AndroidViewModel {
 
     public LiveData<FillTheGapExercise> getUnsolvedExercise() {
         return unsolvedExercise;
+    }
+
+    public int getCorrectAnswers() {
+        return correctAnswers;
+    }
+
+    public void setCorrectAnswers(int correctAnswers) {
+        this.correctAnswers = correctAnswers;
+    }
+
+    public int getIncorrectAnswers() {
+        return incorrectAnswers;
+    }
+
+    public void setIncorrectAnswers(int incorrectAnswers) {
+        this.incorrectAnswers = incorrectAnswers;
     }
 
     public String getSentence() {

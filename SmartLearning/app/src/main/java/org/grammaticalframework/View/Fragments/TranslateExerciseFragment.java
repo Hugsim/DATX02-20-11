@@ -37,6 +37,9 @@ public class TranslateExerciseFragment extends Fragment {
     TextView word;
     TextView instruction;
 
+    TextView correctResult;
+    TextView incorrectResult;
+
     private TranslateExerciseViewModel model;
     private NavController navController;
 
@@ -69,6 +72,9 @@ public class TranslateExerciseFragment extends Fragment {
         word = getView().findViewById(R.id.translateExercise);
         instruction = getView().findViewById(R.id.translateInstruction);
 
+        correctResult = getView().findViewById(R.id.translateCorrect);
+        incorrectResult = getView().findViewById(R.id.translateIncorrect);
+
         handlerCorrect = new Handler();
         handlerIncorrect = new Handler();
 
@@ -76,7 +82,6 @@ public class TranslateExerciseFragment extends Fragment {
 
         model.getUnsolvedExercise().observe(getViewLifecycleOwner(), translateExercise -> {
             if (translateExercise == null){
-                Log.d(TAG, "Bug found");
                 return;
             }
             model.loadWord(translateExercise);
@@ -88,6 +93,8 @@ public class TranslateExerciseFragment extends Fragment {
                 buttons.get(i).setOnClickListener(v -> {
                     if(model.checkCorrectAnswer(word)){
                         btn.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+                        model.setCorrectAnswers(model.getCorrectAnswers() + 1);
+                        correctResult.setText("Correct attempts: " + " " + model.getCorrectAnswers());
                         getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         handlerCorrect.postDelayed(new Runnable() {
                             @Override
@@ -100,6 +107,8 @@ public class TranslateExerciseFragment extends Fragment {
                         }, 1500);
                     }else{
                         btn.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
+                        model.setIncorrectAnswers(model.getIncorrectAnswers() + 1);
+                        incorrectResult.setText("Incorrect attempts: " + " " + model.getIncorrectAnswers());
                         handlerIncorrect.postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -112,5 +121,7 @@ public class TranslateExerciseFragment extends Fragment {
             word.setText(model.getWord());
         });
         instruction.setText("Choose the correct translation");
+        correctResult.setText("Correct attempts: " + " " + model.getCorrectAnswers());
+        incorrectResult.setText("Incorrect attempts: " + " " + model.getIncorrectAnswers());
     }
 }
