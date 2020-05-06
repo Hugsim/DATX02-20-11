@@ -42,6 +42,7 @@ public class FillTheGapFragment extends Fragment{
 
     TextView correctResult;
     TextView incorrectResult;
+    TextView resultMessage;
 
     FillTheGapViewModel model;
     NavController navController;
@@ -78,6 +79,7 @@ public class FillTheGapFragment extends Fragment{
 
         correctResult = getView().findViewById(R.id.fillTheGapCorrect);
         incorrectResult = getView().findViewById(R.id.fillTheGapIncorrect);
+        resultMessage = getView().findViewById(R.id.resultMessage);
 
         navController = Navigation.findNavController(view);
         handlerCorrect = new Handler();
@@ -106,10 +108,13 @@ public class FillTheGapFragment extends Fragment{
                         btn.setBackgroundResource(R.drawable.button_green);
                         model.setCorrectAnswers(model.getCorrectAnswers() + 1);
                         correctResult.setText("Correct attempts: " + " " + model.getCorrectAnswers());
+                        resultMessage.setText("Great!");
+                        resultMessage.setVisibility(View.VISIBLE);
                         getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         handlerCorrect.postDelayed(new Runnable() {
                             @Override
                             public void run() {
+                                resultMessage.setVisibility(View.INVISIBLE);
                                 getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                                 btn.setBackgroundResource(R.drawable.buttons);
                                 navController.navigate(R.id.action_fillTheGapFragment_self);
@@ -117,12 +122,15 @@ public class FillTheGapFragment extends Fragment{
                             }
                         }, 2000);
                     }else{
+                        resultMessage.setText("Try again!");
+                        resultMessage.setVisibility(View.VISIBLE);
                         btn.setBackgroundResource(R.drawable.button_red);
                         model.setIncorrectAnswers(model.getIncorrectAnswers() + 1);
                         incorrectResult.setText("Incorrect attempts: " + " " + model.getIncorrectAnswers());
                         handlerIncorrect.postDelayed(new Runnable() {
                             @Override
                             public void run() {
+                                resultMessage.setVisibility(View.INVISIBLE);
                                 btn.setBackgroundResource(R.drawable.buttons);
                             }
                         }, 1500);

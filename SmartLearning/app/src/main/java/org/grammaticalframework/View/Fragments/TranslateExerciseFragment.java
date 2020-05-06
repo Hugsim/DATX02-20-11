@@ -39,6 +39,7 @@ public class TranslateExerciseFragment extends Fragment {
 
     TextView correctResult;
     TextView incorrectResult;
+    TextView resultMessage;
 
     Button resetButton;
 
@@ -78,6 +79,7 @@ public class TranslateExerciseFragment extends Fragment {
 
         correctResult = getView().findViewById(R.id.translateCorrect);
         incorrectResult = getView().findViewById(R.id.translateIncorrect);
+        resultMessage = getView().findViewById(R.id.resultMessage);
 
         handlerCorrect = new Handler();
         handlerIncorrect = new Handler();
@@ -106,10 +108,13 @@ public class TranslateExerciseFragment extends Fragment {
                         btn.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
                         model.setCorrectAnswers(model.getCorrectAnswers() + 1);
                         correctResult.setText("Correct attempts: " + " " + model.getCorrectAnswers());
+                        resultMessage.setText("Great!");
+                        resultMessage.setVisibility(View.VISIBLE);
                         getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         handlerCorrect.postDelayed(new Runnable() {
                             @Override
                             public void run() {
+                                resultMessage.setVisibility(View.INVISIBLE);
                                 getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                                 btn.getBackground().clearColorFilter();
                                 navController.navigate(R.id.action_translateExerciseFragment_self);
@@ -117,12 +122,15 @@ public class TranslateExerciseFragment extends Fragment {
                             }
                         }, 1500);
                     }else{
+                        resultMessage.setText("Try again!");
+                        resultMessage.setVisibility(View.VISIBLE);
                         btn.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
                         model.setIncorrectAnswers(model.getIncorrectAnswers() + 1);
                         incorrectResult.setText("Incorrect attempts: " + " " + model.getIncorrectAnswers());
                         handlerIncorrect.postDelayed(new Runnable() {
                             @Override
                             public void run() {
+                                resultMessage.setVisibility(View.INVISIBLE);
                                 btn.getBackground().clearColorFilter();
                             }
                         }, 1500);
