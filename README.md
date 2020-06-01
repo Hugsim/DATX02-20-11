@@ -4,6 +4,8 @@ It is an application called Grammarlex, and it is meant for teaching grammar thr
 Grammarlex utilises [Grammatical Framework](http://www.grammaticalframework.org/) (GF) in order for it to be multilingual, so the exercises in the application should be able to work with all available languages. However our aim was to teach Swedish to non-native speakers.
 It also utilises [GF WordNet](https://github.com/GrammaticalFramework/gf-wordnet) which is a WordNet port to GF.
 
+The pattern on the lexicon toolbar is designed by GarryKillian at freepik.com, thus if you intend to release the application on the market, an attribution to freepik is required. Do this by adding the attribution line "Designed by Freepik" in a credit page in the application, and in the description of the application in the market/website where the application is released.
+
 ## Structure of the application
 We will not go in-depth here, so if you have any questions feel free to contact the contributors of this project.
 
